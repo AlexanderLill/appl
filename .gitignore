@@ -1,0 +1,9 @@
+*.o
+libappl.a
+polgraph
+pomdpconvert
+pomdpeval
+pomdpsim
+pomdpsol
+testControllerTiger
+coffeeController
