@@ -383,9 +383,9 @@ OBJS_APPL	      = $(OBJS_APPL_CC:.cpp=.o)  # C++ object targets
 #
 # target: controller
 #
-TARGET_CTRL		= testControllerTiger
+TARGET_CTRL		= coffeeController
 HDRS_CTRL		=
-SRCS_CTRL		= ./Controller/testControllerTiger.cpp
+SRCS_CTRL		= ./Controller/coffeeController.cpp
 OBJS_CTRL		= $(SRCS_CTRL:.cpp=.o) # C++ object targets
 
 
