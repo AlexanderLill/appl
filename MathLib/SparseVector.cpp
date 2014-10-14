@@ -482,22 +482,25 @@ main_loop_done:
     string SparseVector::ToString() const
     {
 	stringstream out;
-	out << "size: "<< logicalSize <<",\n data: [";
-	printf("this: %X\n", this);
-	cout << "size: "<< logicalSize <<",\n data: [";
-
-	for(std::vector<SparseVector_Entry>::const_iterator iter = data.begin();	iter != data.end(); iter++)
+	//out << "size: "<< logicalSize <<",\n data: [";
+	//printf("this: %X\n", this);
+	//cout << "size: "<< logicalSize <<",\n data: (size="<< sizeof(data) / sizeof(data[0]) << ") [";
+	
+	for(std::vector<SparseVector_Entry>::const_iterator iter = data.begin(); iter != data.end(); iter++)
 	{
-	    printf("Iter: %X\n", iter);
+		if(iter->index == 0) {
+			out << "[";
+		}
+
+	    //printf("Iter: %X\n", iter);
 	    out << iter->index << "= "<< iter->value;
+
 	    if(iter < data.end()-1){
-		out <<", ";
-	    }
-	    else{
-		out << "]";
+			out <<", ";
+	    } else {
+			out << "]";
 	    }
 	}
-
 	out.flush();
 	return out.str();
     }
