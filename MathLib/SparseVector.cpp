@@ -488,10 +488,6 @@ main_loop_done:
 	
 	for(std::vector<SparseVector_Entry>::const_iterator iter = data.begin(); iter != data.end(); iter++)
 	{
-		if(iter->index == 0) {
-			out << "[";
-		}
-
 	    //printf("Iter: %X\n", iter);
 	    out << iter->index << "= "<< iter->value;
 
