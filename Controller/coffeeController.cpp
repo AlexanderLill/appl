@@ -52,6 +52,9 @@ int main(int argc, char **argv)
 
     int num, nitems, firstAction, action;
 
+    // Give first observation as dummy observation - to begin the process
+    control.nextAction(0, 0);
+
     while (true) {
 
         cout << "Observation: ";
