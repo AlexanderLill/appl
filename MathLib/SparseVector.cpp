@@ -497,8 +497,6 @@ main_loop_done:
 
 	    if(iter < data.end()-1){
 			out <<", ";
-	    } else {
-			out << "]";
 	    }
 	}
 	out.flush();
