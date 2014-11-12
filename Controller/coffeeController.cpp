@@ -43,19 +43,14 @@ int main(int argc, char **argv) {
     Controller control(problem, policy, p, -1);
 
     cout<<"\nInitialized the controller\n";
-
-
-
     cout<<"\nEnter number of the observation or any character to exit."<<endl<<endl;
 
-    // nextAction(ObsDefine currObservation, int nextStateX)
-
-    cout<<"Belief: " << (*(control.currBelief())->bvec).ToString()<<endl<<endl;
-
+    cout << "Initial belief: " << (*(control.currBelief())->bvec).ToString() << endl << endl;
 
     int num, nitems, firstAction, action;
 
     // Give first observation as dummy observation - to begin the process
+    // Signature: nextAction(ObsDefine currObservation, int nextStateX)
     control.nextAction(0, 0);
 
     while (true) {
