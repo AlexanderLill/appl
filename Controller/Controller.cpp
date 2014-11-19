@@ -12,11 +12,11 @@ namespace momdp
                            SharedPointer<AlphaVectorPolicy> policy,
                            SolverParams* solverParams,
                            int initialBeliefStvalX):
-            problem(problem),
-            policy(policy),
-            solverParams(solverParams),
-            currBelSt(new BeliefWithState()),
-            firstAction(true)
+                                problem(problem),
+                                policy(policy),
+                                solverParams(solverParams),
+                                currBelSt(new BeliefWithState()),
+                                firstAction(true)
     {
         // Initialize the starting state of X
         currBelSt->sval = initialBeliefStvalX == -1 ?
@@ -58,6 +58,8 @@ namespace momdp
 
         // Belief conditioning on X. May not be used.
         DenseVector currBelX;
+
+        cout << "BELIEF with O: " << (*currBelSt->bvec).ToString() << endl;
 
         int currAction;
         if (solverParams->useLookahead)
