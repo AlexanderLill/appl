@@ -918,9 +918,9 @@ void SARSOP::writeToFile(const std::string& outFileName, string problemName)
 
 }
 
-int SARSOP::getPolicy()
+AlphaPlanePoolSet* SARSOP::getPolicy()
 {
-    return 4;
+    return lowerBoundSet;
 }
 
 

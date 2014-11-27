@@ -2,6 +2,7 @@
 #define PointBasedAlgorithm_H
 
 #include <vector>
+#include "AlphaVectorPolicy.h"
 #include "Const.h"
 #include "solverUtils.h"
 #include "MOMDP.h"
@@ -35,7 +36,7 @@ namespace momdp
 
 		virtual void writePolicy(string fileName, string problemName) = 0;
 		virtual void solve(SharedPointer<MOMDP> problem) = 0;
-		virtual int getPolicy() = 0;
+		virtual AlphaPlanePoolSet* getPolicy() = 0;
 
 		// TODO use factory method to dynamically produce solver specific data tuple
 		virtual void* getSolverData()

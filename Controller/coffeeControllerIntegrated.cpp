@@ -212,28 +212,9 @@ int main(int argc, char **argv) {
     //solve the problem
     solver->solve(problem);
 
-    // CUT
-
-    /* NEED:
-        problem CHECK
-        policy
-
-    */
-
+    //load calculated policy
     SharedPointer<AlphaVectorPolicy> policy = new AlphaVectorPolicy(problem);
-
-    cout << solver->getPolicy() << endl;
-
-    //policy->alphaPlanePoolSet = solver->getPolicy();
-
-    /*
-
-    SharedPointer<AlphaVectorPolicy> policy = new AlphaVectorPolicy(problem);
-
-    cout<<"\nLoading the policy ... input file : "<<p->policyFile<<"\n";
-    bool policyRead = policy->readFromFile(p->policyFile);
-
-    */
+    policy->load(solver->getPolicy());
 
     if (p->useLookahead) {
         cout<<"   action selection : one-step look ahead\n";

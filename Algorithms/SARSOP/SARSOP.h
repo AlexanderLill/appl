@@ -69,7 +69,7 @@ namespace momdp
 		virtual void solve(SharedPointer<MOMDP> problem);
 		virtual void writePolicy(string fileName, string problemName);
 		void writeToFile(const std::string& outFileName, string problemName);
-		int getPolicy();
+		AlphaPlanePoolSet* getPolicy();
 
 		BeliefTreeNode* sample();
 		void backup(BeliefTreeNode* node);
