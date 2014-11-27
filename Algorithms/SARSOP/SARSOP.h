@@ -22,7 +22,7 @@
 
 
 using namespace std;
-namespace momdp 
+namespace momdp
 {
 	class BinManager;
 	class SARSOPPrune;
@@ -33,7 +33,7 @@ namespace momdp
 	class SARSOPAlphaPlaneTuple :public Tuple
 	{
 	public:
-		int certed;//for recording the usage as max plane at some belief points 
+		int certed;//for recording the usage as max plane at some belief points
 		vector<BeliefTreeNode*> certifiedBeliefs;	// only non-fringe nodes
 		vector<int> certifiedBeliefTimeStamps;
 		vector<AlphaPlaneMaxMeta*> maxMeta; // all nodes
@@ -69,6 +69,7 @@ namespace momdp
 		virtual void solve(SharedPointer<MOMDP> problem);
 		virtual void writePolicy(string fileName, string problemName);
 		void writeToFile(const std::string& outFileName, string problemName);
+		int getPolicy();
 
 		BeliefTreeNode* sample();
 		void backup(BeliefTreeNode* node);
@@ -95,7 +96,7 @@ namespace momdp
 
 			// TODO: fix this bug, UB_ACTION is set by backup, but if a node is allocated and sampled before backup, UB_ACTION is not defined
 			sarsopSolver->upperBoundSet->set[stateidx]->dataTable->set(row).UB_ACTION = 0;
-			
+
 
 			list<SharedPointer<AlphaPlane> >* alphas = new list<SharedPointer<AlphaPlane> >();
 			sarsopSolver->lowerBoundSet->set[stateidx]->dataTable->set(row).ALPHA_PLANES= alphas;

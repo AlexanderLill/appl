@@ -221,6 +221,9 @@ int main(int argc, char **argv) {
     */
 
     SharedPointer<AlphaVectorPolicy> policy = new AlphaVectorPolicy(problem);
+
+    cout << solver->getPolicy() << endl;
+
     //policy->alphaPlanePoolSet = solver->getPolicy();
 
     /*

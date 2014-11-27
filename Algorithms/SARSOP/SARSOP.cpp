@@ -28,13 +28,13 @@ void printSampleBelief(list<cacherow_stval>& beliefNStates)
 
 void SARSOP::progressiveIncreasePolicyInteval(int& numPolicies)
 {
-	if (numPolicies == 0) 
+	if (numPolicies == 0)
 	{
-		this->solverParams->interval *= 10; 
+		this->solverParams->interval *= 10;
 		numPolicies++;
 
-	} 
-	else 
+	}
+	else
 	{
 		if (numPolicies == 5)
 		{
@@ -57,7 +57,7 @@ SARSOP::SARSOP(SharedPointer<MOMDP> problem, SolverParams * solverParams)
 {
 	this->problem = problem;
 	this->solverParams = solverParams;
-	beliefForest = new BeliefForest(); 
+	beliefForest = new BeliefForest();
 	sampleEngine = new SampleBP();
 	((SampleBP*)sampleEngine)->setup(problem, this);
 	beliefForest->setup(problem, this->sampleEngine, &this->beliefCacheSet);
@@ -123,7 +123,7 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 
 		//cout << "finished calling initialize() in SARSOP::solve()" << endl;
 
-		//initialize parameters 
+		//initialize parameters
 		stop = false;
 
 		//ADD SYLTAG - need to expand global root and all the roots for sampling
@@ -133,7 +133,7 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 		// cycle through all the roots and do preparation work
 		FOR(r, globalroot.sampleRootEdges.size()) {
 			//		FOR(r, sampleEngine->globalRoot->sampleRootEdges.size()) {
-			if (NULL != globalroot.sampleRootEdges[r]) 
+			if (NULL != globalroot.sampleRootEdges[r])
 			{
 				BeliefTreeNode& thisRoot = *(globalroot.sampleRootEdges[r]->sampleRoot);
 				sampleEngine->samplePrepare(thisRoot.cacheIndex);//do preparation work for this root
@@ -161,8 +161,8 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 
 		DEBUG_LOG(writeIntermediatePolicyTraceToFile(0, 0.0, this->solverParams->outPolicyFileName, this->solverParams->problemName ); );
 		DEBUG_LOG(cout << "Initial policy written" << endl;);
-		
-		printHeader();	
+
+		printHeader();
 
 		lapTimer.resume();
 		runtimeTimer.resume();
@@ -193,19 +193,19 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 				break;
 			}
 
-			//0. IF this is the start of a new trial, 
-			// backup the list of nodes in sampledBeliefs, then 
+			//0. IF this is the start of a new trial,
+			// backup the list of nodes in sampledBeliefs, then
 			// decide on which root to sample from
 			//	(choose the root which has the largest weighted excess uncertainty)
 			//   ELSE, do a regular backup of just one node
 
-			if (activeRoot == -1) 
+			if (activeRoot == -1)
 			{
-				FOR (r, globalroot.getGlobalRootNumSampleroots()) 
+				FOR (r, globalroot.getGlobalRootNumSampleroots())
 				{
 					SampleRootEdge* eR = globalroot.sampleRootEdges[r];
 
-					if (NULL != eR) 
+					if (NULL != eR)
 					{
 						BeliefTreeNode & sn = *eR->sampleRoot;
 						sampledBeliefs.clear();
@@ -218,11 +218,11 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 				}
 				sampledBeliefs.clear();
 
-			} 
-			else  
+			}
+			else
 			{
 
-				if (((SampleBP *)sampleEngine)->newTrialFlagArr[activeRoot] == 1) 
+				if (((SampleBP *)sampleEngine)->newTrialFlagArr[activeRoot] == 1)
 				{
 					// backup the list of nodes in sampledBeliefs
 					DEBUG_TRACE( printSampleBelief(sampledBeliefs); );
@@ -230,7 +230,7 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 					lastRootBeliefIndex = currentBeliefIndexArr[activeRoot];
 					sampledBeliefs.clear();
 					// backup at all root nodes except for the root node that we had just backedup
-					FOR (r, globalroot.getGlobalRootNumSampleroots()) 
+					FOR (r, globalroot.getGlobalRootNumSampleroots())
 					{
 						SampleRootEdge* eR = globalroot.sampleRootEdges[r];
 
@@ -244,7 +244,7 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 								double lbVal = beliefCacheSet[sn.cacheIndex.sval]->getRow(sn.cacheIndex.row)->LB;
 								double ubVal = beliefCacheSet[sn.cacheIndex.sval]->getRow(sn.cacheIndex.row)->UB;
 
-								if (!((ubVal - lbVal) <= 0)) 
+								if (!((ubVal - lbVal) <= 0))
 								{
 									// else, do backup at this root
 									sampledBeliefs.clear();
@@ -255,7 +255,7 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 
 									backupLBonly(sampledBeliefs);
 									//ofsol1710d: backup(sampledBeliefs);
-								} 
+								}
 							}
 						}
 					}
@@ -263,45 +263,45 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 
 					((SampleBP *)sampleEngine)->newTrialFlagArr[activeRoot]  = 0;
 
-				} 
-				else 
+				}
+				else
 				{
 					DEBUG_TRACE( printSampleBelief(sampledBeliefs); );
 					currentBeliefIndexArr[activeRoot] = backup(sampledBeliefs);
 
 				}
 
-			}	
+			}
 
 			// go to next valid activeRoot here
 			if (activeRoot == -1) // set to the first valid root
 			{
 				// cycle through all roots till we find a valid one
-				FOR (r, globalroot.getGlobalRootNumSampleroots()) 
+				FOR (r, globalroot.getGlobalRootNumSampleroots())
 				{
 					SampleRootEdge* eR = globalroot.sampleRootEdges[r];
-					if (NULL != eR) 
+					if (NULL != eR)
 					{
 						activeRoot = r;
 						break;
 					}
-				} 
-			} 
+				}
+			}
 			else			// set to the next valid root
 			{
-				int currActiveRoot = activeRoot; 	// ADDED_24042009  
-				bool passedcurrActiveRoot = false;	// ADDED_24042009 
+				int currActiveRoot = activeRoot; 	// ADDED_24042009
+				bool passedcurrActiveRoot = false;	// ADDED_24042009
 				while(true){
 
 					// ADDED_24042009
 					if ((activeRoot == currActiveRoot) && passedcurrActiveRoot) // i.e. this is the second time that activeRoot == currActiveRoot, the while loop has cycled through all roots and not found one that passes the tests below
 					{	skipSample = true;		// flag to indicate dont call sample()
 					break;
-					} 
+					}
 
 					if (activeRoot == currActiveRoot) passedcurrActiveRoot = true;
 
-					if (activeRoot == (globalroot.getGlobalRootNumSampleroots()-1)) 
+					if (activeRoot == (globalroot.getGlobalRootNumSampleroots()-1))
 						activeRoot = 0;
 					else activeRoot++;
 
@@ -324,8 +324,8 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 			//  samples the next belief to do backup
 			//  a. if haven't reached target depth, search further
 			//  b. if target depth has been reached, go back to root
-			if (!skipSample) 
-			{		
+			if (!skipSample)
+			{
 				// ADDED_24042009
 				sampledBeliefs = sampleEngine->sample(currentBeliefIndexArr[activeRoot], activeRoot);
 			}
@@ -335,7 +335,7 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 
 			//DEBUG_TRACE (beliefForest->print(););
 
-			pruneEngine->prune(); 
+			pruneEngine->prune();
 
 			//4. write out policy file if interval time reached
 			// check time every CHECK_INTERVAL backups
@@ -384,7 +384,7 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 						double currentElapsed = runtimeTimer.elapsed();
 						elapsed = currentElapsed;
 					}
-				}//end check periodically for policy write out and elapsed time update 
+				}//end check periodically for policy write out and elapsed time update
 			}
 
 			//5. do printing for current precision
@@ -466,8 +466,8 @@ void SARSOP::alwaysPrint()
 	//print current trial number, num of backups
 	int numTrials = ((SampleBP*)sampleEngine)->numTrials;
 	//printf("#Trial %d ",numTrials);
-	cout.width(7);cout << left  <<numTrials << " "; 
-	//printf("#Backup %d ", numBackups); 
+	cout.width(7);cout << left  <<numTrials << " ";
+	//printf("#Backup %d ", numBackups);
 	cout.width(8);cout << left << numBackups << " ";
 	//print #alpha vectors
 	//print precision
@@ -478,10 +478,10 @@ void SARSOP::alwaysPrint()
 	double lb = 0, ub = 0, width = 0;
 
 	BeliefForest& globalRoot  = *(sampleEngine->getGlobalNode());
-	FOR (r, globalRoot.getGlobalRootNumSampleroots()) 
+	FOR (r, globalRoot.getGlobalRootNumSampleroots())
 	{
 		SampleRootEdge* eR = globalRoot.sampleRootEdges[r];
-		if (NULL != eR) 
+		if (NULL != eR)
 		{
 			BeliefTreeNode & sn = *eR->sampleRoot;
 			double lbVal =	beliefCacheSet[sn.cacheIndex.sval]->getRow(sn.cacheIndex.row)->LB;
@@ -500,14 +500,14 @@ void SARSOP::alwaysPrint()
 	//printf("[%f,%f],", lb, ub);
 	cout.width(10); cout << left << lb<< " ";
 	cout.width(10); cout << left << ub<< " ";
-	
+
 	//print precision
 	double precision = width; // ub - lb;   //MOD SYLTAG
 	//printf("%f, ", precision);
-	cout.width(11);	
+	cout.width(11);
 	cout << left << precision << " ";
 	int numAlphas = 0;
-	FOR (setIdx, beliefCacheSet.size()) 
+	FOR (setIdx, beliefCacheSet.size())
 	{
 		numAlphas += (int)lowerBoundSet->set[setIdx]->planes.size();
 	}
@@ -520,7 +520,7 @@ void SARSOP::alwaysPrint()
 	cout.width(9);cout << left << sampleEngine->numStatesExpanded;
 
 	//printf("#alphas %d", (int)bounds->alphaPlanePool->planes.size());
-	printf("\n"); 
+	printf("\n");
 
 }
 
@@ -552,11 +552,11 @@ void SARSOP::logFilePrint(int index)
 	int numTrials = ((SampleBP*)sampleEngine)->numTrials;
 	//int numBackups = numBackups;
 	fprintf(fp,"%d ",numTrials); 			//SYLTEMP FOR EXPTS
-	//printf("#Trial %d, #Backup %d ",numTrials, numBackups); 
+	//printf("#Trial %d, #Backup %d ",numTrials, numBackups);
 
 	//print #alpha vectors
 	int numAlphas = 0;
-	FOR (setIdx, beliefCacheSet.size()) 
+	FOR (setIdx, beliefCacheSet.size())
 	{
 		//cout << " p : " << setIdx << " : " << 	 (int)bounds->boundsSet[setIdx]->alphaPlanePool->planes.size();
 		numAlphas += (int)lowerBoundSet->set[setIdx]->planes.size();
@@ -580,10 +580,10 @@ void SARSOP::logFilePrint(int index)
 		//currentTime = utime+stime;
 		currentTime = runtimeTimer.elapsed();
 		fprintf(fp, "%.2f ", currentTime);		//SYLTEMP FOR EXPTS
-		//printf("<%.2fs> ", currentTime);	
+		//printf("<%.2fs> ", currentTime);
 	}
 
-	fprintf(fp,"\n"); 
+	fprintf(fp,"\n");
 
 	fclose(fp);
 }
@@ -597,7 +597,7 @@ bool SARSOP::stopNow(){
 
 	//find the weighted excess uncertainty at the global root
 	//cycle through all the roots to find their bounds
-	FOR (r, globalRoot.getGlobalRootNumSampleroots()) 
+	FOR (r, globalRoot.getGlobalRootNumSampleroots())
 	{
 		SampleRootEdge* eR = globalRoot.sampleRootEdges[r];
 		if (NULL != eR) {
@@ -614,7 +614,7 @@ bool SARSOP::stopNow(){
 	}
 
 	if ((width) < this->solverParams->targetPrecision)
-	{      
+	{
 		alwaysPrint();
 		printDivider();
 		printf("\nSARSOP finishing ...\n");
@@ -656,7 +656,7 @@ if(GlobalResource::getInstance()->userTerminatedG)
 {
 stop = true;
 }
-if ((ub-lb)<targetPrecision){      
+if ((ub-lb)<targetPrecision){
 alwaysPrint();
 printf("Target precision reached: %f (%f)\n\n", ub-lb, targetPrecision);
 stop = true;
@@ -682,7 +682,7 @@ void SARSOP::writeIntermediatePolicyTraceToFile(int trial, double time, const st
 }
 
 
-BeliefTreeNode& SARSOP::getMaxExcessUncRoot(BeliefForest& globalroot) 
+BeliefTreeNode& SARSOP::getMaxExcessUncRoot(BeliefForest& globalroot)
 {
 
 	double maxExcessUnc = -99e+20;
@@ -789,12 +789,12 @@ void SARSOP::initializeBounds(double _targetPrecision)
 	DEBUG_LOG( cout << fixed << setprecision(2) << elapsed << "s blb.initialize(targetPrecision) done" << endl; );
 
 	heurTimer.restart();
-	FastInfUBInitializer fib(problem, upperBoundSet); 
+	FastInfUBInitializer fib(problem, upperBoundSet);
 	fib.initialize(targetPrecision);
 	elapsed = heurTimer.elapsed();
 	DEBUG_LOG(cout << fixed << setprecision(2) << elapsed << "s fib.initialize(targetPrecision) done" << endl;);
 
-	FOR (state_idx, problem->XStates->size()) 
+	FOR (state_idx, problem->XStates->size())
 	{
 		upperBoundSet->set[state_idx]->cornerPointsVersion++;	// advance the version by one so that next time get value will calculate rather than skip
 	}
@@ -806,12 +806,12 @@ void SARSOP::initializeBounds(double _targetPrecision)
 
 cacherow_stval SARSOP::backup(list<cacherow_stval> beliefNStates)
 {
-	//decide the order of backups 
+	//decide the order of backups
 	cacherow_stval rowNState, nextRowNState;
 	nextRowNState.row = -1;
 
 	//for each belief given, we perform backup for it
-	LISTFOREACH(cacherow_stval, beliefNState,  beliefNStates) 
+	LISTFOREACH(cacherow_stval, beliefNState,  beliefNStates)
 	{
 		//get belief
 		rowNState = *beliefNState;
@@ -838,7 +838,7 @@ cacherow_stval SARSOP::backup(list<cacherow_stval> beliefNStates)
 
 
 cacherow_stval SARSOP::backupLBonly(list<cacherow_stval> beliefNStates){
-	//decide the order of backups 
+	//decide the order of backups
 	cacherow_stval rowNState, nextRowNState;
 	nextRowNState.row = -1;
 
@@ -877,9 +877,9 @@ cacherow_stval SARSOP::backup(cacherow_stval beliefNState)
 	//should we use BeliefTreeNode or should we use row index?
 	// TEMP, should move all the time stamp code to Global Resource
 
-	//SYL220210 the very first backup should have timestamp of 1, so we increment the timestamp first 
+	//SYL220210 the very first backup should have timestamp of 1, so we increment the timestamp first
 	numBackups++;
-	
+
 	GlobalResource::getInstance()->setTimeStamp(numBackups);
 	lowerBoundSet->backup(cn);
 	upperBoundSet->backup(cn);
@@ -912,11 +912,17 @@ void SARSOP::writePolicy(string fileName, string problemName)
 	writeToFile(fileName, problemName);
 }
 
-void SARSOP::writeToFile(const std::string& outFileName, string problemName) 
+void SARSOP::writeToFile(const std::string& outFileName, string problemName)
 {
 	lowerBoundSet->writeToFile(outFileName, problemName);
 
 }
+
+int SARSOP::getPolicy()
+{
+    return 4;
+}
+
 
 void SARSOP::printHeader(){
     cout << endl;

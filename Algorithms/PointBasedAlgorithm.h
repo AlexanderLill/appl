@@ -8,7 +8,7 @@
 
 using namespace std;
 using namespace momdp;
-namespace momdp 
+namespace momdp
 {
 	class BeliefForest;
 	class BeliefCache;
@@ -35,7 +35,8 @@ namespace momdp
 
 		virtual void writePolicy(string fileName, string problemName) = 0;
 		virtual void solve(SharedPointer<MOMDP> problem) = 0;
-		
+		virtual int getPolicy() = 0;
+
 		// TODO use factory method to dynamically produce solver specific data tuple
 		virtual void* getSolverData()
 		{
