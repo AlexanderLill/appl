@@ -138,83 +138,31 @@ int main(int argc, char **argv) {
     printf("  loading time : %.2fs \n", pomdpLoadTime);
     GlobalResource::getInstance()->problem = problem;
 
-//    //Getting a MDP solutions
-//    if(p->MDPSolution == true)
-//    {
-//        MDPSolution(problem, p);
-//        return 0;
-//    }
-//
-//    if(p->QMDPSolution == true)
-//    {
-//        QMDPSolution(problem, p);
-//        return 0;
-//    }
-//
-//    if(p->FIBSolution == true)
-//    {
-//        FIBSolution(problem, p);
-//        return 0;
-//    }
+//    //decide which solver to create
+//    PointBasedAlgorithm* solver;
 
-    if(GlobalResource::getInstance()->benchmarkMode)
-    {
-        srand(GlobalResource::getInstance()->randSeed);
-        GlobalResource::getInstance()->expRewardRecord.resize(GlobalResource::getInstance()->simNum);
-    }
-    //decide which solver to create
-    PointBasedAlgorithm* solver;
 
-    switch (p->strategy)
-    {
-    case S_SARSOP:
-        {
-            SARSOP* sarsopSolver = NULL;
-            BackupAlphaPlaneMOMDP* lbBackup = new BackupAlphaPlaneMOMDP();
-            BackupBeliefValuePairMOMDP* ubBackup = new BackupBeliefValuePairMOMDP();
+    SARSOP* sarsopSolver = NULL;
+    BackupAlphaPlaneMOMDP* lbBackup = new BackupAlphaPlaneMOMDP();
+    BackupBeliefValuePairMOMDP* ubBackup = new BackupBeliefValuePairMOMDP();
 
-            sarsopSolver = new SARSOP(problem, p);
+    sarsopSolver = new SARSOP(problem, p);
 
-            lbBackup->problem = problem;
-            sarsopSolver->lowerBoundBackup = lbBackup;
+    lbBackup->problem = problem;
+    sarsopSolver->lowerBoundBackup = lbBackup;
 
-            ((BackupAlphaPlaneMOMDP* )(sarsopSolver->lowerBoundBackup))->solver = sarsopSolver;
+    ((BackupAlphaPlaneMOMDP* )(sarsopSolver->lowerBoundBackup))->solver = sarsopSolver;
 
-            ubBackup->problem = problem;
-            sarsopSolver->upperBoundBackup = ubBackup;
-            solver = sarsopSolver;
-        }
-        break;
+    ubBackup->problem = problem;
+    sarsopSolver->upperBoundBackup = ubBackup;
 
-        //case S_FSVI:
-        //	solver = new FSVI(problem, p);
-        //	break;
-
-        //case S_GES:
-        //	if(GlobalResource::getInstance()->migsPathFile != NULL)
-        //	{
-        //		if(GlobalResource::getInstance()->migsPathFileNum < 0 )
-        //		{
-        //			GlobalResource::getInstance()->migsPathFileNum = 10;
-        //		}
-        //		solver = new GES(problem, p, true);
-        //	}
-        //	else
-        //	{
-        //		solver = new GES(problem, p);
-        //	}
-        //	break;
-
-    default:
-        assert(0);// should never reach this point
-    };
 
     //solve the problem
-    solver->solve(problem);
+    sarsopSolver->solve(problem);
 
     //load calculated policy
     SharedPointer<AlphaVectorPolicy> policy = new AlphaVectorPolicy(problem);
-    policy->load(solver->getPolicy());
+    policy->load(sarsopSolver->getPolicy());
 
     if (p->useLookahead) {
         cout<<"   action selection : one-step look ahead\n";
@@ -246,33 +194,27 @@ int main(int argc, char **argv) {
         } else {
             cout << endl << "OBSERVATION  : " << lookupObservation(num) << endl;
             if (num == 7) {
-                // Negative feedback - to something with it!
+                // Negative feedback - do something with it!
                 int state = (*(control.currBelief())->bvec).argmax();
 
                 cout << "Last action:   " << lookupAction(action) << endl;
                 cout << "Beliefs:       " << (*(control.currBelief())->bvec).ToString() << endl;
                 cout << "Belief (max):  " << state << endl;
 
-                //cout << "Given reward:  " << problem->rewards->matrix[*(control.currBelief())->sval)]
-                SparseCol s = problem->rewards->getMatrix(0)->col(action);
-
-                REAL_VALUE reward = 0;
-
-                vector<SparseVector_Entry>::const_iterator  di;
-                for (di = s.begin(); di != s.end(); di++) {
-                    if (di->index == state) {
-                        reward = di->value;
-                    }
-                }
-
-                cout << "Original reward:  " << reward << endl;
+                int original_reward = (*(problem->rewards->getMatrix(0)))(state, action);
 
                 //SharedPointer<SparseMatrix> sm = (*(problem->rewards->getMatrix(0))(state, action)
-                cout << "testo" << (*(problem->rewards->getMatrix(0)))(state, action) << endl;
+                cout << "Original reward" << original_reward << endl;
 
+                int new_reward = original_reward - 5;
 
+                (problem->rewards->getMatrix(0))->changeReward(state, action, new_reward);
 
-                //SharedPointer<SparseMatrix> getMatrix
+                cout << "New reward     " << (*(problem->rewards->getMatrix(0)))(state, action) << endl;
+
+                //solve the problem
+                sarsopSolver->solve(problem);
+                policy->load(sarsopSolver->getPolicy());
 
             } else {
                 // Normal observation ... continue as usual

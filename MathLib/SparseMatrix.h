@@ -12,90 +12,105 @@
 
 using namespace std;
 using namespace momdp;
-namespace momdp 
+namespace momdp
 {
 
-	class DenseVector;
+class DenseVector;
 
-        class SparseCol 
-        {
-        public:
-            typedef vector<SparseVector_Entry>::const_iterator iterator;
-            inline SparseCol(): _begin(NULL), _end(NULL) {}
-            inline SparseCol(iterator b, iterator e): _begin(b), _end(e) {}
-            inline iterator begin() { return _begin; }
-            inline iterator end() { return _end; }
-            inline bool empty() { return _begin == _end; }
-        private:
-            iterator _begin;
-            iterator _end;
-        };
+class SparseCol
+{
+public:
+    typedef vector<SparseVector_Entry>::const_iterator iterator;
+    inline SparseCol(): _begin(NULL), _end(NULL) {}
+    inline SparseCol(iterator b, iterator e): _begin(b), _end(e) {}
+    inline iterator begin() { return _begin; }
+    inline iterator end() { return _end; }
+    inline bool empty() { return _begin == _end; }
 
-	class SparseMatrix : public MObject
-	{
-		friend class SparseVector;
-		friend class DenseVector;
-	public:
-		vector< SparseVector_Entry > data;
-		int size1_, size2_;
-                vector< int > cols_start;
-                vector< int > cols;
+private:
+    iterator _begin;
+    iterator _end;
+};
 
-	private:
-                int colEnd(int index) const;
+class SparseMatrix : public MObject
+{
+    friend class SparseVector;
+    friend class DenseVector;
+public:
+    vector< SparseVector_Entry > data;
+    int size1_, size2_;
+    vector< int > cols_start;
+    vector< int > cols;
+
+private:
+    int colEnd(int index) const;
 
 
 
-	public:
-		SparseMatrix(void) : size1_(0), size2_(0) 
-		{}
+public:
+    SparseMatrix(void) : size1_(0), size2_(0)
+    {}
 
-		SparseMatrix(int _size1, int _size2) 
-		{
-			resize(_size1,_size2); 
-		}
-		virtual ~SparseMatrix(void)
-		{
-		}
+    SparseMatrix(int _size1, int _size2)
+    {
+        resize(_size1,_size2);
+    }
 
-                REAL_VALUE operator()(int r, int c) const;
+    virtual ~SparseMatrix(void)
+    {
+    }
 
-                SparseCol col(int c) const;
+    REAL_VALUE operator()(int r, int c) const;
 
-		int size1(void) const { return size1_; }
-		int size2(void) const { return size2_; }
-		int filled(void) const { return data.size(); }
+    SparseCol col(int c) const;
 
-		void resize(int _size1, int _size2);
+    int size1(void) const
+    {
+        return size1_;
+    }
 
-		void push_back(int row, int col, REAL_VALUE value);
+    int size2(void) const
+    {
+        return size2_;
+    }
 
-		// if resize()/push_back() are used to initialize, you must call
-		// canonicalize() before performing any operations with the matrix
+    int filled(void) const
+    {
+        return data.size();
+    }
 
-		void canonicalize(void);
+    void resize(int _size1, int _size2);
 
-                const vector<int>& nonEmptyColumns() const;
-		bool isColumnEmpty(int c) const;
+    void push_back(int row, int col, REAL_VALUE value);
 
-		// Arithmetic
-		REAL_VALUE getMaxValue();
+    bool changeReward(int state, int action, REAL_VALUE reward);
 
-		// result = A * x
-                void mult(const DenseVector& x, DenseVector& result) const;
-	        void mult(const SparseVector& x, DenseVector& result) const;
-		DenseVector* mult(const SparseVector& x) const;
-		DenseVector* mult(const DenseVector& x) const;
+    // if resize()/push_back() are used to initialize, you must call
+    // canonicalize() before performing any operations with the matrix
 
-                // result = x * A
-	        void leftMult(const DenseVector& x, DenseVector& result) const;
-                void leftMult(const SparseVector& x, DenseVector& result) const;
+    void canonicalize(void);
 
-		// IO
-		void read(std::istream& in);
-		ostream& write(std::ostream& out) const;
+    const vector<int>& nonEmptyColumns() const;
+    bool isColumnEmpty(int c) const;
 
-	};
+    // Arithmetic
+    REAL_VALUE getMaxValue();
+
+    // result = A * x
+    void mult(const DenseVector& x, DenseVector& result) const;
+    void mult(const SparseVector& x, DenseVector& result) const;
+    DenseVector* mult(const SparseVector& x) const;
+    DenseVector* mult(const DenseVector& x) const;
+
+    // result = x * A
+    void leftMult(const DenseVector& x, DenseVector& result) const;
+    void leftMult(const SparseVector& x, DenseVector& result) const;
+
+    // IO
+    void read(std::istream& in);
+    ostream& write(std::ostream& out) const;
+
+};
 }
 
 #endif

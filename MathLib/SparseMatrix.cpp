@@ -93,7 +93,7 @@ namespace momdp
 
                 int mycolIndex = 0;
 
-		FOREACH(SparseVector_Entry, xi,  x.data) 
+		FOREACH(SparseVector_Entry, xi,  x.data)
                 {
                     xind = xi->index;
                     xval = xi->value;
@@ -151,23 +151,32 @@ namespace momdp
 	}
 
 	void SparseMatrix::push_back(int r, int c, REAL_VALUE value)
-        {
-            // XXX we implicitly assume rows are push_back with increasing order in each column
+    {
+        // XXX we implicitly assume rows are push_back with increasing order in each column
 
-            data.push_back( SparseVector_Entry( r, value ) );
+        data.push_back( SparseVector_Entry( r, value ) );
 
-            if (cols.empty() or cols.back() < c) {
-                // new column starts at the data we just added
-                cols.push_back(c);
-                cols_start.push_back(data.size()-1);
-            } else {
-                assert(cols.back() == c);
-            }
+        if (cols.empty() or cols.back() < c) {
+            // new column starts at the data we just added
+            cols.push_back(c);
+            cols_start.push_back(data.size()-1);
+        } else {
+            assert(cols.back() == c);
         }
+    }
+
+    bool SparseMatrix::changeReward(int state, int action, REAL_VALUE reward)
+    {
+
+        // calculate index in reward-matrix: actionX+all states, then actionX+1 and all states...
+        int index = cols_start[action] + state;
+
+        data[index].value = reward;
+    }
 
 	void SparseMatrix::canonicalize(void)
 	{
-		//FOR (i, size2_) 
+		//FOR (i, size2_)
 		//{
 			//if (col_starts[i] > col_starts[i+1])
 			//{
@@ -178,7 +187,7 @@ namespace momdp
 
 	void SparseMatrix::read(std::istream& in)
 	{
-		// Need to be tested		
+		// Need to be tested
 		int rows, cols;
 		int num_entries;
 		int r, c;
@@ -188,7 +197,7 @@ namespace momdp
 		resize( rows, cols );
 
 		in >> num_entries;
-		FOR (i, num_entries) 
+		FOR (i, num_entries)
 		{
 			in >> r >> c >> value;
 			push_back( r, c, value );
@@ -214,7 +223,7 @@ namespace momdp
 	{
 		REAL_VALUE maxVal = data.begin()->value;
 		REAL_VALUE val;
-		FOREACH(SparseVector_Entry, entry,  data) 
+		FOREACH(SparseVector_Entry, entry,  data)
 		{
 			val = entry->value;
 			if(val>maxVal){
@@ -228,7 +237,7 @@ namespace momdp
             return cols;
         }
 
-	bool SparseMatrix::isColumnEmpty(int c) const 
+	bool SparseMatrix::isColumnEmpty(int c) const
 	{
 		return !binary_search(cols.begin(), cols.end(), c);
 	}
