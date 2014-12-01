@@ -63,7 +63,7 @@ CXX           = g++
 
 CXXFLAGS      = $(CFLAGS)
 
-INCDIR	      = -I./MathLib -I./Algorithms -I./Algorithms/HSVI -I./Algorithms/SARSOP -I./Models/MOMDP/ -I./Models/MOMDP/CoLoc/ -I./OfflineSolver/ -I./Bounds/ -I./Core/ -I./Parser/Cassandra/ -I./Parser/Cassandra/include -I./Parser/ -I./Parser/POMDPX/ -I./Utils/ -I./Simulator/ -I./Evaluator/ -I./Controller/ $(CYGWIN_INCDIR)
+INCDIR	      = -I./MathLib -I./Algorithms -I./Algorithms/HSVI -I./Algorithms/SARSOP -I./Models/MOMDP/ -I./Models/MOMDP/CoLoc/ -I./OfflineSolver/ -I./Bounds/ -I./Core/ -I./Parser/Cassandra/ -I./Parser/Cassandra/include -I./Parser/ -I./Parser/POMDPX/ -I./Utils/ -I./Simulator/ -I./Evaluator/ -I./Controller/ -I./PomdpConvertor/ $(CYGWIN_INCDIR)
 
 
 # ----------------------------------------------------------------------
@@ -162,7 +162,7 @@ OBJS_GRAPH	      = $(SRCS_GRAPH:.cpp=.o) # C++ object targets
 #
 TARGET_CONVERT	      = pomdpconvert
 
-HDRS_CONVERT      =
+HDRS_CONVERT          = ./PomdpConvertor/convertor.hpp 
 
 SRCS_CONVERT	      = ./PomdpConvertor/convertor.cpp
 
@@ -383,9 +383,9 @@ OBJS_APPL	      = $(OBJS_APPL_CC:.cpp=.o)  # C++ object targets
 #
 # target: controller
 #
-TARGET_CTRL		= coffeeController
+TARGET_CTRL		= coffeeControllerIntegrated
 HDRS_CTRL		=
-SRCS_CTRL		= ./Controller/coffeeController.cpp
+SRCS_CTRL		= ./Controller/coffeeControllerIntegrated.cpp
 OBJS_CTRL		= $(SRCS_CTRL:.cpp=.o) # C++ object targets
 
 
