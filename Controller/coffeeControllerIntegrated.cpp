@@ -48,6 +48,8 @@
 #include "FullObsUBInitializer.h"
 #include "FastInfUBInitializer.h"
 
+#include "convertor.hpp"
+
 #include <string.h>
 
 using namespace std;
@@ -176,6 +178,9 @@ int main(int argc, char **argv) {
     cout << "Initial belief: " << (*(control.currBelief())->bvec).ToString() << endl << endl;
 
     int num, nitems, firstAction, action;
+    bool rewardsChanged = false;
+
+    vector<string> history;
 
     // Give first observation as dummy observation - to begin the process
     // Signature: nextAction(ObsDefine currObservation, int nextStateX)
@@ -210,6 +215,14 @@ int main(int argc, char **argv) {
 
                 (problem->rewards->getMatrix(0))->changeReward(state, action, new_reward);
 
+                std::ostringstream ostr;
+
+                ostr << "State: " << state << " Action: " << action;
+                ostr << " Reward: " << original_reward << " -> " << new_reward;
+
+                history.push_back(ostr.str());
+                rewardsChanged = true;
+
                 cout << "New reward     " << (*(problem->rewards->getMatrix(0)))(state, action) << endl;
 
                 //solve the problem
@@ -225,6 +238,17 @@ int main(int argc, char **argv) {
 
         }
 
+    }
+
+    if (rewardsChanged) {
+
+        cout << "History of changed rewards:" << endl;
+
+        for(std::vector<string>::iterator it = history.begin(); it != history.end(); ++it) {
+            cout << *it << endl;
+
+
+        }
     }
 
     return 0;
