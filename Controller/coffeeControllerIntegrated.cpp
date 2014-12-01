@@ -247,9 +247,32 @@ int main(int argc, char **argv) {
             cout << endl << "OBSERVATION  : " << lookupObservation(num) << endl;
             if (num == 7) {
                 // Negative feedback - to something with it!
+                int state = (*(control.currBelief())->bvec).argmax();
+
                 cout << "Last action:   " << lookupAction(action) << endl;
                 cout << "Beliefs:       " << (*(control.currBelief())->bvec).ToString() << endl;
-                cout << "Belief (max):  " << (*(control.currBelief())->bvec).argmax() << endl;
+                cout << "Belief (max):  " << state << endl;
+
+                //cout << "Given reward:  " << problem->rewards->matrix[*(control.currBelief())->sval)]
+                SparseCol s = problem->rewards->getMatrix(0)->col(action);
+
+                REAL_VALUE reward = 0;
+
+                vector<SparseVector_Entry>::const_iterator  di;
+                for (di = s.begin(); di != s.end(); di++) {
+                    if (di->index == state) {
+                        reward = di->value;
+                    }
+                }
+
+                cout << "Original reward:  " << reward << endl;
+
+                //SharedPointer<SparseMatrix> sm = (*(problem->rewards->getMatrix(0))(state, action)
+                cout << "testo" << (*(problem->rewards->getMatrix(0)))(state, action) << endl;
+
+
+
+                //SharedPointer<SparseMatrix> getMatrix
 
             } else {
                 // Normal observation ... continue as usual
