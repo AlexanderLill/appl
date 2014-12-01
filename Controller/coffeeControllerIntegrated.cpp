@@ -138,13 +138,13 @@ int main(int argc, char **argv) {
     printf("  loading time : %.2fs \n", pomdpLoadTime);
     GlobalResource::getInstance()->problem = problem;
 
-    //Getting a MDP solutions
-    if(p->MDPSolution == true)
-    {
-        MDPSolution(problem, p);
-        return 0;
-    }
-
+//    //Getting a MDP solutions
+//    if(p->MDPSolution == true)
+//    {
+//        MDPSolution(problem, p);
+//        return 0;
+//    }
+//
 //    if(p->QMDPSolution == true)
 //    {
 //        QMDPSolution(problem, p);
@@ -245,114 +245,23 @@ int main(int argc, char **argv) {
             break;
         } else {
             cout << endl << "OBSERVATION  : " << lookupObservation(num) << endl;
-            cout << "BELIEF BEFORE: " << (*(control.currBelief())->bvec).ToString() << endl;
-            action = control.nextAction(num, 0);
-            cout << "BELIEF AFTER : " << (*(control.currBelief())->bvec).ToString() << endl;
-            cout << "CHOSEN ACTION: " << lookupAction(action) << endl << endl;
+            if (num == 7) {
+                // Negative feedback - to something with it!
+                cout << "Last action:   " << lookupAction(action) << endl;
+                cout << "Beliefs:       " << (*(control.currBelief())->bvec).ToString() << endl;
+                cout << "Belief (max):  " << (*(control.currBelief())->bvec).argmax() << endl;
+
+            } else {
+                // Normal observation ... continue as usual
+                cout << "BELIEF BEFORE: " << (*(control.currBelief())->bvec).ToString() << endl;
+                action = control.nextAction(num, 0);
+                cout << "CHOSEN ACTION: " << lookupAction(action) << endl << endl;
+            }
 
         }
 
     }
 
-    return 0;
-}
-
-int MDPSolution(SharedPointer<MOMDP> problem, SolverParams* p)
-{
-    cout << "Generate MDP Policy" << endl;
-    double targetPrecision = MDP_RESIDUAL;
-    // no need to invoke POMDP solver
-    // solve MDP
-    FullObsUBInitializer m;
-    if(problem->XStates->size() != 1 && problem->hasPOMDPMatrices())
-    {
-	// un-factored
-	// only does this if convert fast is called to produce pomdp version of the matrices
-	// need pomdp matrix
-	m.alphaByState.resize(problem->XStates->size());
-	DEBUG_LOG(cout << "Calling FullObsUBInitialize::valueIteration_unfac()" << endl;);
-	m.valueIteration_unfac(problem, targetPrecision);
-	m.UnfacPostProcessing(m.alpha, m.alphaByState);
-    }
-    else
-    {
-	// factored
-	DEBUG_LOG(cout << "Calling FullObsUBInitialize::valueIteration()" << endl;);
-	m.valueIteration(problem, targetPrecision);
-	m.FacPostProcessing(m.alphaByState);
-    }
-
-    AlphaPlanePoolSet alphaPlanePoolSet(NULL);
-    alphaPlanePoolSet.setProblem(problem);
-    alphaPlanePoolSet.setSolver(NULL);
-    alphaPlanePoolSet.initialize();
-    //addAlphaPlane(alphaPlane);
-
-
-    //do one step lookahead if problem is pure MDP
-    if(problem->YStates->size() == 1)
-    {
-	for(int stateidx = 0; stateidx < alphaPlanePoolSet.set.size() ; stateidx ++)
-	{
-	    SharedPointer<AlphaPlane> plane (new AlphaPlane());
-	    int maxAction = 0;
-	    double maxActionLB = -DBL_MAX;
-
-	    //search for the best action for this state
-	    SharedPointer<BeliefWithState> b = SharedPointer<BeliefWithState>(new BeliefWithState);
-	    b->bvec = new SparseVector(); b->bvec->resize(1);
-	    b->bvec->push_back(0,1.0); b->sval=stateidx;
-	    //initialise the MDP belief to current state
-	    obsState_prob_vector spv;  // outcome probability for values of observed state
-	    for(Actions::iterator aIter = problem->actions->begin(); aIter != problem->actions->end(); aIter ++)
-	    {
-		int a = aIter.index();
-
-		double sum = 0.0;
-		double immediateReward = problem->rewards->getReward(*b, a);
-		problem->getObsStateProbVector(spv, *b, a);
-
-		FOR(Xn, spv.size())
-		{
-		    double sprob = spv(Xn);
-		    if (sprob > OBS_IS_ZERO_EPS)
-		    {
-			double childLB =  m.alphaByState[Xn](0);
-			sum += childLB * sprob;
-		    }
-		}
-		sum *= problem->getDiscount();
-		sum += immediateReward;
-
-		if(sum > maxActionLB)
-		{
-		    maxActionLB = sum;
-		    maxAction = a;
-		}
-		assert(maxActionLB !=  -DBL_MAX);
-	    }
-
-	    copy(*plane->alpha, m.alphaByState[stateidx]);
-	    plane->action = maxAction;
-	    plane->sval = stateidx;
-
-	    alphaPlanePoolSet.set[stateidx]->addAlphaPlane(plane);
-	}
-    }
-    else{
-	for(int stateidx = 0; stateidx < alphaPlanePoolSet.set.size() ; stateidx ++)
-	{
-		SharedPointer<AlphaPlane> plane (new AlphaPlane());
-		copy(*plane->alpha, m.alphaByState[stateidx]);
-		plane->action = -1;
-		plane->sval = stateidx;
-
-		alphaPlanePoolSet.set[stateidx]->addAlphaPlane(plane);
-	}
-    }
-
-    string outFileName (p->outPolicyFileName);
-    alphaPlanePoolSet.writeToFile(outFileName, p->problemName);
     return 0;
 }
 
@@ -412,6 +321,7 @@ string lookupObservation(int observation) {
     putbackCoff     #4
     putbackCup      #5
     done            #6
+    NEGATIVE        #7
     */
 
     switch (observation) {
@@ -436,6 +346,9 @@ string lookupObservation(int observation) {
            break;
         case 6:
            returnval = "done";
+           break;
+        case 7:
+           returnval = "NEGATIVE";
            break;
         default:
            returnval = "Invalid observation number!";
