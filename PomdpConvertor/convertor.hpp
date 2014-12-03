@@ -1,3 +1,5 @@
+#include "MOMDP.h"
+
 using namespace momdp;
 
 namespace momdp {
