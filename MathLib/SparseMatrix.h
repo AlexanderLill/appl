@@ -83,7 +83,7 @@ public:
 
     void push_back(int row, int col, REAL_VALUE value);
 
-    bool changeReward(int state, int action, REAL_VALUE reward);
+    void changeValue(int row, int column, REAL_VALUE value);
 
     // if resize()/push_back() are used to initialize, you must call
     // canonicalize() before performing any operations with the matrix

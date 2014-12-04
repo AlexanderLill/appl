@@ -918,6 +918,7 @@ void SARSOP::writeToFile(const std::string& outFileName, string problemName)
 
 }
 
+// Added by Alex: Load policy from solver instead of file
 AlphaPlanePoolSet* SARSOP::getPolicy()
 {
     return lowerBoundSet;

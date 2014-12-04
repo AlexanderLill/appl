@@ -48,7 +48,6 @@
 #include "FullObsUBInitializer.h"
 #include "FastInfUBInitializer.h"
 
-#include "convertor.hpp"
 #include "tinyxml.h"
 
 #include <string.h>
@@ -238,7 +237,7 @@ int main(int argc, char **argv) {
                 int new_reward = original_reward - 5;
 
                 // Change reward in the problem matrix (used for policy calulation)
-                (problem->rewards->getMatrix(0))->changeReward(state, action, new_reward);
+                (problem->rewards->getMatrix(0))->changeValue(state, action, new_reward);
 
                 RewardChange* rc = new RewardChange(state, action, original_reward, new_reward);
                 rewardChangeHistory.push_back(*rc);

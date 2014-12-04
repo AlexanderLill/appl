@@ -42,7 +42,8 @@ int AlphaVectorPolicy::getValueAction() {
     return this->valueAction;
 }
 
-bool AlphaVectorPolicy::load(AlphaPlanePoolSet* apps)
+// Added by Alex: Load policy from solver instead of file
+void AlphaVectorPolicy::load(AlphaPlanePoolSet* apps)
 {
     alphaPlanePoolSet = apps;
 }

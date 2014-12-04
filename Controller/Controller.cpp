@@ -59,6 +59,7 @@ namespace momdp
         // Belief conditioning on X. May not be used.
         DenseVector currBelX;
 
+        // Added by Alex: Debug output
         cout << "BELIEF with O: " << (*currBelSt->bvec).ToString() << endl;
 
         int currAction;

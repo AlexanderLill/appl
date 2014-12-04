@@ -165,13 +165,13 @@ namespace momdp
         }
     }
 
-    bool SparseMatrix::changeReward(int state, int action, REAL_VALUE reward)
+    // Added by Alex: Change reward in reward-matrix:
+    // calculate index: actionX+all states, then actionX+1 and all states
+    // former function signature: changeReward(int state, int action, REAL_VALUE reward)
+    void SparseMatrix::changeValue(int row, int column, REAL_VALUE value)
     {
-
-        // calculate index in reward-matrix: actionX+all states, then actionX+1 and all states...
-        int index = cols_start[action] + state;
-
-        data[index].value = reward;
+        int index = cols_start[column] + row;
+        data[index].value = value;
     }
 
 	void SparseMatrix::canonicalize(void)
