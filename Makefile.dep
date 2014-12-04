@@ -1323,6 +1323,54 @@ SARSOPPrune.o: Algorithms/SARSOP/SARSOPPrune.h \
  Utils/CPTimer.h OfflineSolver/solverUtils.h
 getopt.o: miniposix/getopt.h
 getopt_int.o: miniposix/getopt_int.h
+MOMDPLite.o: Models/MOMDP/MOMDPLite.h Models/MOMDP/MOMDP.h \
+ Core/Observations.h Core/SymbolSet.h Core/SymbolSetIterator.h \
+ Core/Const.h Models/MOMDP/IVariableValue.h Core/MObject.h \
+ Utils/boost/smart_ptr/intrusive_ptr.hpp Utils/boost/config.hpp \
+ Utils/boost/config/user.hpp \
+ Utils/boost/config/select_compiler_config.hpp \
+ Utils/boost/config/compiler/gcc.hpp \
+ Utils/boost/config/select_stdlib_config.hpp \
+ Utils/boost/config/no_tr1/utility.hpp \
+ Utils/boost/config/stdlib/libstdcpp3.hpp \
+ Utils/boost/config/select_platform_config.hpp \
+ Utils/boost/config/platform/linux.hpp \
+ Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
+ Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
+ Utils/boost/smart_ptr/detail/sp_convertible.hpp \
+ Utils/boost/config/no_tr1/functional.hpp \
+ Utils/boost/smart_ptr/detail/operator_bool.hpp \
+ Utils/boost/smart_ptr/shared_ptr.hpp \
+ Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
+ Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
+ Utils/boost/current_function.hpp \
+ Utils/boost/smart_ptr/detail/shared_count.hpp \
+ Utils/boost/smart_ptr/bad_weak_ptr.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
+ Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
+ Utils/boost/detail/sp_typeinfo.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
+ Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
+ Utils/boost/smart_ptr/detail/spinlock.hpp \
+ Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
+ Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp \
+ Models/MOMDP/IVariable.h Models/MOMDP/IVariableValue.h \
+ Core/VariableContainer.h Core/MObject.h MathLib/MathLib.h \
+ Parser/Cassandra/mdpCassandra.h Parser/Cassandra/sparse-matrix.h \
+ Core/Const.h Parser/Cassandra/pomdpCassandraWrapper.h \
+ MathLib/SparseVector.h Utils/md5wrapper.h MathLib/SparseVector.h \
+ Utils/md5.h MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
+ Core/States.h Models/MOMDP/Rewards.h Core/BeliefWithState.h \
+ Core/Belief.h Models/MOMDP/IVariable.h Models/MOMDP/VariableRelation.h \
+ Models/MOMDP/VariableValue.h Models/MOMDP/ObservationProbabilities.h \
+ Models/MOMDP/StateTransitionX.h Models/MOMDP/StateTransitionXY.h \
+ Models/MOMDP/StateTransitionY.h Models/MOMDP/StateTransitionXXpY.h \
+ Core/Belief.h Core/BeliefTransition.h Core/Observations.h Core/Actions.h \
+ Core/States.h Core/BeliefWithState.h Parser/Cassandra/POMDP.h \
+ Parser/Cassandra/MDP.h MathLib/DenseVector.h MathLib/SparseMatrix.h \
+ Core/FacmodelStructs.h Parser/POMDPX/POMDPLayer.h Parser/POMDPX/State.h \
+ Parser/POMDPX/StateObsAct.h Parser/POMDPX/ObsAct.h Utils/Cache.h
 MOMDP.o: Models/MOMDP/MOMDP.h Core/Observations.h Core/SymbolSet.h \
  Core/SymbolSetIterator.h Core/Const.h Models/MOMDP/IVariableValue.h \
  Core/MObject.h Utils/boost/smart_ptr/intrusive_ptr.hpp \
@@ -1401,7 +1449,7 @@ VariableValue.o: Models/MOMDP/VariableValue.h \
  Utils/boost/smart_ptr/detail/spinlock.hpp \
  Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
  Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp
-StateTransitionXY.o: Models/MOMDP/StateTransitionXY.h Core/Const.h \
+Variable.o: Models/MOMDP/Variable.h Models/MOMDP/MOMDP.h \
  Core/Observations.h Core/SymbolSet.h Core/SymbolSetIterator.h \
  Core/Const.h Models/MOMDP/IVariableValue.h Core/MObject.h \
  Utils/boost/smart_ptr/intrusive_ptr.hpp Utils/boost/config.hpp \
@@ -1436,12 +1484,19 @@ StateTransitionXY.o: Models/MOMDP/StateTransitionXY.h Core/Const.h \
  Models/MOMDP/IVariable.h Models/MOMDP/IVariableValue.h \
  Core/VariableContainer.h Core/MObject.h MathLib/MathLib.h \
  Parser/Cassandra/mdpCassandra.h Parser/Cassandra/sparse-matrix.h \
- Parser/Cassandra/pomdpCassandraWrapper.h MathLib/SparseVector.h \
- Utils/md5wrapper.h MathLib/SparseVector.h Utils/md5.h \
- MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
- Core/States.h Models/MOMDP/VariableRelation.h \
- Models/MOMDP/VariableValue.h Models/MOMDP/IVariable.h \
- Models/MOMDP/StateTransitionY.h
+ Core/Const.h Parser/Cassandra/pomdpCassandraWrapper.h \
+ MathLib/SparseVector.h Utils/md5wrapper.h MathLib/SparseVector.h \
+ Utils/md5.h MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
+ Core/States.h Models/MOMDP/Rewards.h Core/BeliefWithState.h \
+ Core/Belief.h Models/MOMDP/IVariable.h Models/MOMDP/VariableRelation.h \
+ Models/MOMDP/VariableValue.h Models/MOMDP/ObservationProbabilities.h \
+ Models/MOMDP/StateTransitionX.h Models/MOMDP/StateTransitionXY.h \
+ Models/MOMDP/StateTransitionY.h Models/MOMDP/StateTransitionXXpY.h \
+ Core/Belief.h Core/BeliefTransition.h Core/Observations.h Core/Actions.h \
+ Core/States.h Core/BeliefWithState.h Parser/Cassandra/POMDP.h \
+ Parser/Cassandra/MDP.h MathLib/DenseVector.h MathLib/SparseMatrix.h \
+ Core/FacmodelStructs.h Parser/POMDPX/POMDPLayer.h Parser/POMDPX/State.h \
+ Parser/POMDPX/StateObsAct.h Parser/POMDPX/ObsAct.h Utils/Cache.h
 StateTransitionXXpY.o: Models/MOMDP/StateTransitionXXpY.h Core/Const.h \
  Core/Observations.h Core/SymbolSet.h Core/SymbolSetIterator.h \
  Core/Const.h Models/MOMDP/IVariableValue.h Core/MObject.h \
@@ -1801,6 +1856,46 @@ BeliefTransitionMOMDP.o: Models/MOMDP/BeliefTransitionMOMDP.h \
  Utils/md5.h MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
  Core/States.h Core/BeliefWithState.h Core/Belief.h \
  Core/BeliefWithState.h
+ObservationProbabilities.o: Models/MOMDP/ObservationProbabilities.h \
+ Core/Const.h Core/Observations.h Core/SymbolSet.h \
+ Core/SymbolSetIterator.h Core/Const.h Models/MOMDP/IVariableValue.h \
+ Core/MObject.h Utils/boost/smart_ptr/intrusive_ptr.hpp \
+ Utils/boost/config.hpp Utils/boost/config/user.hpp \
+ Utils/boost/config/select_compiler_config.hpp \
+ Utils/boost/config/compiler/gcc.hpp \
+ Utils/boost/config/select_stdlib_config.hpp \
+ Utils/boost/config/no_tr1/utility.hpp \
+ Utils/boost/config/stdlib/libstdcpp3.hpp \
+ Utils/boost/config/select_platform_config.hpp \
+ Utils/boost/config/platform/linux.hpp \
+ Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
+ Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
+ Utils/boost/smart_ptr/detail/sp_convertible.hpp \
+ Utils/boost/config/no_tr1/functional.hpp \
+ Utils/boost/smart_ptr/detail/operator_bool.hpp \
+ Utils/boost/smart_ptr/shared_ptr.hpp \
+ Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
+ Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
+ Utils/boost/current_function.hpp \
+ Utils/boost/smart_ptr/detail/shared_count.hpp \
+ Utils/boost/smart_ptr/bad_weak_ptr.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
+ Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
+ Utils/boost/detail/sp_typeinfo.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
+ Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
+ Utils/boost/smart_ptr/detail/spinlock.hpp \
+ Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
+ Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp \
+ Models/MOMDP/IVariable.h Models/MOMDP/IVariableValue.h \
+ Core/VariableContainer.h Core/MObject.h MathLib/MathLib.h \
+ Parser/Cassandra/mdpCassandra.h Parser/Cassandra/sparse-matrix.h \
+ Parser/Cassandra/pomdpCassandraWrapper.h MathLib/SparseVector.h \
+ Utils/md5wrapper.h MathLib/SparseVector.h Utils/md5.h \
+ MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
+ Core/States.h Models/MOMDP/VariableRelation.h \
+ Models/MOMDP/VariableValue.h Models/MOMDP/IVariable.h
 VariableRelation.o: Models/MOMDP/VariableRelation.h Core/MObject.h \
  Utils/boost/smart_ptr/intrusive_ptr.hpp Utils/boost/config.hpp \
  Utils/boost/config/user.hpp \
@@ -1873,107 +1968,11 @@ StateTransitionX.o: Models/MOMDP/StateTransitionX.h Core/Const.h \
  MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
  Core/States.h Models/MOMDP/VariableRelation.h \
  Models/MOMDP/VariableValue.h Models/MOMDP/IVariable.h
-Variable.o: Models/MOMDP/Variable.h Models/MOMDP/MOMDP.h \
+StateTransitionXY.o: Models/MOMDP/StateTransitionXY.h Core/Const.h \
  Core/Observations.h Core/SymbolSet.h Core/SymbolSetIterator.h \
  Core/Const.h Models/MOMDP/IVariableValue.h Core/MObject.h \
  Utils/boost/smart_ptr/intrusive_ptr.hpp Utils/boost/config.hpp \
  Utils/boost/config/user.hpp \
- Utils/boost/config/select_compiler_config.hpp \
- Utils/boost/config/compiler/gcc.hpp \
- Utils/boost/config/select_stdlib_config.hpp \
- Utils/boost/config/no_tr1/utility.hpp \
- Utils/boost/config/stdlib/libstdcpp3.hpp \
- Utils/boost/config/select_platform_config.hpp \
- Utils/boost/config/platform/linux.hpp \
- Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
- Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
- Utils/boost/smart_ptr/detail/sp_convertible.hpp \
- Utils/boost/config/no_tr1/functional.hpp \
- Utils/boost/smart_ptr/detail/operator_bool.hpp \
- Utils/boost/smart_ptr/shared_ptr.hpp \
- Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
- Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
- Utils/boost/current_function.hpp \
- Utils/boost/smart_ptr/detail/shared_count.hpp \
- Utils/boost/smart_ptr/bad_weak_ptr.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
- Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
- Utils/boost/detail/sp_typeinfo.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
- Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
- Utils/boost/smart_ptr/detail/spinlock.hpp \
- Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
- Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp \
- Models/MOMDP/IVariable.h Models/MOMDP/IVariableValue.h \
- Core/VariableContainer.h Core/MObject.h MathLib/MathLib.h \
- Parser/Cassandra/mdpCassandra.h Parser/Cassandra/sparse-matrix.h \
- Core/Const.h Parser/Cassandra/pomdpCassandraWrapper.h \
- MathLib/SparseVector.h Utils/md5wrapper.h MathLib/SparseVector.h \
- Utils/md5.h MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
- Core/States.h Models/MOMDP/Rewards.h Core/BeliefWithState.h \
- Core/Belief.h Models/MOMDP/IVariable.h Models/MOMDP/VariableRelation.h \
- Models/MOMDP/VariableValue.h Models/MOMDP/ObservationProbabilities.h \
- Models/MOMDP/StateTransitionX.h Models/MOMDP/StateTransitionXY.h \
- Models/MOMDP/StateTransitionY.h Models/MOMDP/StateTransitionXXpY.h \
- Core/Belief.h Core/BeliefTransition.h Core/Observations.h Core/Actions.h \
- Core/States.h Core/BeliefWithState.h Parser/Cassandra/POMDP.h \
- Parser/Cassandra/MDP.h MathLib/DenseVector.h MathLib/SparseMatrix.h \
- Core/FacmodelStructs.h Parser/POMDPX/POMDPLayer.h Parser/POMDPX/State.h \
- Parser/POMDPX/StateObsAct.h Parser/POMDPX/ObsAct.h Utils/Cache.h
-MOMDPLite.o: Models/MOMDP/MOMDPLite.h Models/MOMDP/MOMDP.h \
- Core/Observations.h Core/SymbolSet.h Core/SymbolSetIterator.h \
- Core/Const.h Models/MOMDP/IVariableValue.h Core/MObject.h \
- Utils/boost/smart_ptr/intrusive_ptr.hpp Utils/boost/config.hpp \
- Utils/boost/config/user.hpp \
- Utils/boost/config/select_compiler_config.hpp \
- Utils/boost/config/compiler/gcc.hpp \
- Utils/boost/config/select_stdlib_config.hpp \
- Utils/boost/config/no_tr1/utility.hpp \
- Utils/boost/config/stdlib/libstdcpp3.hpp \
- Utils/boost/config/select_platform_config.hpp \
- Utils/boost/config/platform/linux.hpp \
- Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
- Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
- Utils/boost/smart_ptr/detail/sp_convertible.hpp \
- Utils/boost/config/no_tr1/functional.hpp \
- Utils/boost/smart_ptr/detail/operator_bool.hpp \
- Utils/boost/smart_ptr/shared_ptr.hpp \
- Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
- Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
- Utils/boost/current_function.hpp \
- Utils/boost/smart_ptr/detail/shared_count.hpp \
- Utils/boost/smart_ptr/bad_weak_ptr.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
- Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
- Utils/boost/detail/sp_typeinfo.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
- Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
- Utils/boost/smart_ptr/detail/spinlock.hpp \
- Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
- Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp \
- Models/MOMDP/IVariable.h Models/MOMDP/IVariableValue.h \
- Core/VariableContainer.h Core/MObject.h MathLib/MathLib.h \
- Parser/Cassandra/mdpCassandra.h Parser/Cassandra/sparse-matrix.h \
- Core/Const.h Parser/Cassandra/pomdpCassandraWrapper.h \
- MathLib/SparseVector.h Utils/md5wrapper.h MathLib/SparseVector.h \
- Utils/md5.h MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
- Core/States.h Models/MOMDP/Rewards.h Core/BeliefWithState.h \
- Core/Belief.h Models/MOMDP/IVariable.h Models/MOMDP/VariableRelation.h \
- Models/MOMDP/VariableValue.h Models/MOMDP/ObservationProbabilities.h \
- Models/MOMDP/StateTransitionX.h Models/MOMDP/StateTransitionXY.h \
- Models/MOMDP/StateTransitionY.h Models/MOMDP/StateTransitionXXpY.h \
- Core/Belief.h Core/BeliefTransition.h Core/Observations.h Core/Actions.h \
- Core/States.h Core/BeliefWithState.h Parser/Cassandra/POMDP.h \
- Parser/Cassandra/MDP.h MathLib/DenseVector.h MathLib/SparseMatrix.h \
- Core/FacmodelStructs.h Parser/POMDPX/POMDPLayer.h Parser/POMDPX/State.h \
- Parser/POMDPX/StateObsAct.h Parser/POMDPX/ObsAct.h Utils/Cache.h
-ObservationProbabilities.o: Models/MOMDP/ObservationProbabilities.h \
- Core/Const.h Core/Observations.h Core/SymbolSet.h \
- Core/SymbolSetIterator.h Core/Const.h Models/MOMDP/IVariableValue.h \
- Core/MObject.h Utils/boost/smart_ptr/intrusive_ptr.hpp \
- Utils/boost/config.hpp Utils/boost/config/user.hpp \
  Utils/boost/config/select_compiler_config.hpp \
  Utils/boost/config/compiler/gcc.hpp \
  Utils/boost/config/select_stdlib_config.hpp \
@@ -2008,7 +2007,8 @@ ObservationProbabilities.o: Models/MOMDP/ObservationProbabilities.h \
  Utils/md5wrapper.h MathLib/SparseVector.h Utils/md5.h \
  MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
  Core/States.h Models/MOMDP/VariableRelation.h \
- Models/MOMDP/VariableValue.h Models/MOMDP/IVariable.h
+ Models/MOMDP/VariableValue.h Models/MOMDP/IVariable.h \
+ Models/MOMDP/StateTransitionY.h
 GlobalResource.o: OfflineSolver/GlobalResource.h Core/BeliefCache.h \
  Core/MObjectManager.h Core/MObjectUser.h Core/Const.h Core/Belief.h \
  MathLib/SparseVector.h Core/MObject.h \
@@ -3939,54 +3939,6 @@ StateObsAct.o: Parser/POMDPX/StateObsAct.h
 tinystr.o: Parser/POMDPX/tinystr.h
 tinyxml.o: Parser/POMDPX/tinyxml.h Parser/POMDPX/tinystr.h
 UniqueIndex.o: Parser/POMDPX/UniqueIndex.h
-convertor.o: PomdpConvertor/convertor.hpp Models/MOMDP/MOMDP.h \
- Core/Observations.h Core/SymbolSet.h Core/SymbolSetIterator.h \
- Core/Const.h Models/MOMDP/IVariableValue.h Core/MObject.h \
- Utils/boost/smart_ptr/intrusive_ptr.hpp Utils/boost/config.hpp \
- Utils/boost/config/user.hpp \
- Utils/boost/config/select_compiler_config.hpp \
- Utils/boost/config/compiler/gcc.hpp \
- Utils/boost/config/select_stdlib_config.hpp \
- Utils/boost/config/no_tr1/utility.hpp \
- Utils/boost/config/stdlib/libstdcpp3.hpp \
- Utils/boost/config/select_platform_config.hpp \
- Utils/boost/config/platform/linux.hpp \
- Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
- Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
- Utils/boost/smart_ptr/detail/sp_convertible.hpp \
- Utils/boost/config/no_tr1/functional.hpp \
- Utils/boost/smart_ptr/detail/operator_bool.hpp \
- Utils/boost/smart_ptr/shared_ptr.hpp \
- Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
- Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
- Utils/boost/current_function.hpp \
- Utils/boost/smart_ptr/detail/shared_count.hpp \
- Utils/boost/smart_ptr/bad_weak_ptr.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
- Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
- Utils/boost/detail/sp_typeinfo.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
- Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
- Utils/boost/smart_ptr/detail/spinlock.hpp \
- Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
- Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp \
- Models/MOMDP/IVariable.h Models/MOMDP/IVariableValue.h \
- Core/VariableContainer.h Core/MObject.h MathLib/MathLib.h \
- Parser/Cassandra/mdpCassandra.h Parser/Cassandra/sparse-matrix.h \
- Core/Const.h Parser/Cassandra/pomdpCassandraWrapper.h \
- MathLib/SparseVector.h Utils/md5wrapper.h MathLib/SparseVector.h \
- Utils/md5.h MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
- Core/States.h Models/MOMDP/Rewards.h Core/BeliefWithState.h \
- Core/Belief.h Models/MOMDP/IVariable.h Models/MOMDP/VariableRelation.h \
- Models/MOMDP/VariableValue.h Models/MOMDP/ObservationProbabilities.h \
- Models/MOMDP/StateTransitionX.h Models/MOMDP/StateTransitionXY.h \
- Models/MOMDP/StateTransitionY.h Models/MOMDP/StateTransitionXXpY.h \
- Core/Belief.h Core/BeliefTransition.h Core/Observations.h Core/Actions.h \
- Core/States.h Core/BeliefWithState.h Parser/Cassandra/POMDP.h \
- Parser/Cassandra/MDP.h MathLib/DenseVector.h MathLib/SparseMatrix.h \
- Core/FacmodelStructs.h Parser/POMDPX/POMDPLayer.h Parser/POMDPX/State.h \
- Parser/POMDPX/StateObsAct.h Parser/POMDPX/ObsAct.h Utils/Cache.h
 CPMemUtils.o: Utils/CPMemUtils.h
 CPTimer.o: Utils/CPTimer.h
 Cache.o: Utils/Cache.h
@@ -4109,6 +4061,7 @@ Controller.o: Controller/Controller.h Models/MOMDP/MOMDP.h \
  Core/FacmodelStructs.h Parser/POMDPX/POMDPLayer.h Parser/POMDPX/State.h \
  Parser/POMDPX/StateObsAct.h Parser/POMDPX/ObsAct.h Utils/Cache.h \
  Controller/ControllerInterface.h
+convertor.o: PomdpConvertor/convertor.hpp
 PolicyGraph.o: PolicyGraph/PolicyGraph.cpp Models/MOMDP/MOMDP.h \
  Core/Observations.h Core/SymbolSet.h Core/SymbolSetIterator.h \
  Core/Const.h Models/MOMDP/IVariableValue.h Core/MObject.h \
@@ -4950,39 +4903,10 @@ BeliefTransitionMOMDP.o: Models/MOMDP/BeliefTransitionMOMDP.cpp \
  MathLib/DenseVector.h MathLib/SparseMatrix.h Core/FacmodelStructs.h \
  Parser/POMDPX/POMDPLayer.h Parser/POMDPX/State.h \
  Parser/POMDPX/StateObsAct.h Parser/POMDPX/ObsAct.h Utils/Cache.h
-IVariable.o: Models/MOMDP/IVariable.cpp Models/MOMDP/IVariable.h \
- Core/MObject.h Utils/boost/smart_ptr/intrusive_ptr.hpp \
- Utils/boost/config.hpp Utils/boost/config/user.hpp \
- Utils/boost/config/select_compiler_config.hpp \
- Utils/boost/config/compiler/gcc.hpp \
- Utils/boost/config/select_stdlib_config.hpp \
- Utils/boost/config/no_tr1/utility.hpp \
- Utils/boost/config/stdlib/libstdcpp3.hpp \
- Utils/boost/config/select_platform_config.hpp \
- Utils/boost/config/platform/linux.hpp \
- Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
- Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
- Utils/boost/smart_ptr/detail/sp_convertible.hpp \
- Utils/boost/config/no_tr1/functional.hpp \
- Utils/boost/smart_ptr/detail/operator_bool.hpp \
- Utils/boost/smart_ptr/shared_ptr.hpp \
- Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
- Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
- Utils/boost/current_function.hpp \
- Utils/boost/smart_ptr/detail/shared_count.hpp \
- Utils/boost/smart_ptr/bad_weak_ptr.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
- Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
- Utils/boost/detail/sp_typeinfo.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
- Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
- Utils/boost/smart_ptr/detail/spinlock.hpp \
- Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
- Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp \
- Models/MOMDP/IVariableValue.h
-VariableRelation.o: Models/MOMDP/VariableRelation.cpp \
- Models/MOMDP/VariableRelation.h Core/MObject.h \
+BooleanVariable.o: Models/MOMDP/BooleanVariable.cpp \
+ Models/MOMDP/BooleanVariable.h Models/MOMDP/MOMDP.h Core/Observations.h \
+ Core/SymbolSet.h Core/SymbolSetIterator.h Core/Const.h \
+ Models/MOMDP/IVariableValue.h Core/MObject.h \
  Utils/boost/smart_ptr/intrusive_ptr.hpp Utils/boost/config.hpp \
  Utils/boost/config/user.hpp \
  Utils/boost/config/select_compiler_config.hpp \
@@ -5012,8 +4936,22 @@ VariableRelation.o: Models/MOMDP/VariableRelation.cpp \
  Utils/boost/smart_ptr/detail/spinlock.hpp \
  Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
  Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp \
- Models/MOMDP/IVariableValue.h Models/MOMDP/VariableValue.h \
- Models/MOMDP/IVariable.h
+ Models/MOMDP/IVariable.h Models/MOMDP/IVariableValue.h \
+ Core/VariableContainer.h Core/MObject.h MathLib/MathLib.h \
+ Parser/Cassandra/mdpCassandra.h Parser/Cassandra/sparse-matrix.h \
+ Core/Const.h Parser/Cassandra/pomdpCassandraWrapper.h \
+ MathLib/SparseVector.h Utils/md5wrapper.h MathLib/SparseVector.h \
+ Utils/md5.h MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
+ Core/States.h Models/MOMDP/Rewards.h Core/BeliefWithState.h \
+ Core/Belief.h Models/MOMDP/IVariable.h Models/MOMDP/VariableRelation.h \
+ Models/MOMDP/VariableValue.h Models/MOMDP/ObservationProbabilities.h \
+ Models/MOMDP/StateTransitionX.h Models/MOMDP/StateTransitionXY.h \
+ Models/MOMDP/StateTransitionY.h Models/MOMDP/StateTransitionXXpY.h \
+ Core/Belief.h Core/BeliefTransition.h Core/Observations.h Core/Actions.h \
+ Core/States.h Core/BeliefWithState.h Parser/Cassandra/POMDP.h \
+ Parser/Cassandra/MDP.h MathLib/DenseVector.h MathLib/SparseMatrix.h \
+ Core/FacmodelStructs.h Parser/POMDPX/POMDPLayer.h Parser/POMDPX/State.h \
+ Parser/POMDPX/StateObsAct.h Parser/POMDPX/ObsAct.h Utils/Cache.h
 ObservationProbabilities.o: Models/MOMDP/ObservationProbabilities.cpp \
  Models/MOMDP/ObservationProbabilities.h Core/Const.h Core/Observations.h \
  Core/SymbolSet.h Core/SymbolSetIterator.h Core/Const.h \
@@ -5055,8 +4993,387 @@ ObservationProbabilities.o: Models/MOMDP/ObservationProbabilities.cpp \
  MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
  Core/States.h Models/MOMDP/VariableRelation.h \
  Models/MOMDP/VariableValue.h Models/MOMDP/IVariable.h
+VariableRelation.o: Models/MOMDP/VariableRelation.cpp \
+ Models/MOMDP/VariableRelation.h Core/MObject.h \
+ Utils/boost/smart_ptr/intrusive_ptr.hpp Utils/boost/config.hpp \
+ Utils/boost/config/user.hpp \
+ Utils/boost/config/select_compiler_config.hpp \
+ Utils/boost/config/compiler/gcc.hpp \
+ Utils/boost/config/select_stdlib_config.hpp \
+ Utils/boost/config/no_tr1/utility.hpp \
+ Utils/boost/config/stdlib/libstdcpp3.hpp \
+ Utils/boost/config/select_platform_config.hpp \
+ Utils/boost/config/platform/linux.hpp \
+ Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
+ Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
+ Utils/boost/smart_ptr/detail/sp_convertible.hpp \
+ Utils/boost/config/no_tr1/functional.hpp \
+ Utils/boost/smart_ptr/detail/operator_bool.hpp \
+ Utils/boost/smart_ptr/shared_ptr.hpp \
+ Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
+ Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
+ Utils/boost/current_function.hpp \
+ Utils/boost/smart_ptr/detail/shared_count.hpp \
+ Utils/boost/smart_ptr/bad_weak_ptr.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
+ Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
+ Utils/boost/detail/sp_typeinfo.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
+ Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
+ Utils/boost/smart_ptr/detail/spinlock.hpp \
+ Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
+ Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp \
+ Models/MOMDP/IVariableValue.h Models/MOMDP/VariableValue.h \
+ Models/MOMDP/IVariable.h
 StateTransitionXY.o: Models/MOMDP/StateTransitionXY.cpp \
  Models/MOMDP/StateTransitionXY.h Core/Const.h Core/Observations.h \
+ Core/SymbolSet.h Core/SymbolSetIterator.h Core/Const.h \
+ Models/MOMDP/IVariableValue.h Core/MObject.h \
+ Utils/boost/smart_ptr/intrusive_ptr.hpp Utils/boost/config.hpp \
+ Utils/boost/config/user.hpp \
+ Utils/boost/config/select_compiler_config.hpp \
+ Utils/boost/config/compiler/gcc.hpp \
+ Utils/boost/config/select_stdlib_config.hpp \
+ Utils/boost/config/no_tr1/utility.hpp \
+ Utils/boost/config/stdlib/libstdcpp3.hpp \
+ Utils/boost/config/select_platform_config.hpp \
+ Utils/boost/config/platform/linux.hpp \
+ Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
+ Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
+ Utils/boost/smart_ptr/detail/sp_convertible.hpp \
+ Utils/boost/config/no_tr1/functional.hpp \
+ Utils/boost/smart_ptr/detail/operator_bool.hpp \
+ Utils/boost/smart_ptr/shared_ptr.hpp \
+ Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
+ Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
+ Utils/boost/current_function.hpp \
+ Utils/boost/smart_ptr/detail/shared_count.hpp \
+ Utils/boost/smart_ptr/bad_weak_ptr.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
+ Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
+ Utils/boost/detail/sp_typeinfo.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
+ Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
+ Utils/boost/smart_ptr/detail/spinlock.hpp \
+ Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
+ Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp \
+ Models/MOMDP/IVariable.h Models/MOMDP/IVariableValue.h \
+ Core/VariableContainer.h Core/MObject.h MathLib/MathLib.h \
+ Parser/Cassandra/mdpCassandra.h Parser/Cassandra/sparse-matrix.h \
+ Parser/Cassandra/pomdpCassandraWrapper.h MathLib/SparseVector.h \
+ Utils/md5wrapper.h MathLib/SparseVector.h Utils/md5.h \
+ MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
+ Core/States.h Models/MOMDP/VariableRelation.h \
+ Models/MOMDP/VariableValue.h Models/MOMDP/IVariable.h \
+ Models/MOMDP/StateTransitionY.h
+StateTransitionY.o: Models/MOMDP/StateTransitionY.cpp \
+ Models/MOMDP/StateTransitionY.h Core/Const.h Core/Observations.h \
+ Core/SymbolSet.h Core/SymbolSetIterator.h Core/Const.h \
+ Models/MOMDP/IVariableValue.h Core/MObject.h \
+ Utils/boost/smart_ptr/intrusive_ptr.hpp Utils/boost/config.hpp \
+ Utils/boost/config/user.hpp \
+ Utils/boost/config/select_compiler_config.hpp \
+ Utils/boost/config/compiler/gcc.hpp \
+ Utils/boost/config/select_stdlib_config.hpp \
+ Utils/boost/config/no_tr1/utility.hpp \
+ Utils/boost/config/stdlib/libstdcpp3.hpp \
+ Utils/boost/config/select_platform_config.hpp \
+ Utils/boost/config/platform/linux.hpp \
+ Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
+ Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
+ Utils/boost/smart_ptr/detail/sp_convertible.hpp \
+ Utils/boost/config/no_tr1/functional.hpp \
+ Utils/boost/smart_ptr/detail/operator_bool.hpp \
+ Utils/boost/smart_ptr/shared_ptr.hpp \
+ Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
+ Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
+ Utils/boost/current_function.hpp \
+ Utils/boost/smart_ptr/detail/shared_count.hpp \
+ Utils/boost/smart_ptr/bad_weak_ptr.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
+ Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
+ Utils/boost/detail/sp_typeinfo.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
+ Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
+ Utils/boost/smart_ptr/detail/spinlock.hpp \
+ Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
+ Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp \
+ Models/MOMDP/IVariable.h Models/MOMDP/IVariableValue.h \
+ Core/VariableContainer.h Core/MObject.h MathLib/MathLib.h \
+ Parser/Cassandra/mdpCassandra.h Parser/Cassandra/sparse-matrix.h \
+ Parser/Cassandra/pomdpCassandraWrapper.h MathLib/SparseVector.h \
+ Utils/md5wrapper.h MathLib/SparseVector.h Utils/md5.h \
+ MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
+ Core/States.h
+MOMDPLite.o: Models/MOMDP/MOMDPLite.cpp Models/MOMDP/MOMDPLite.h \
+ Models/MOMDP/MOMDP.h Core/Observations.h Core/SymbolSet.h \
+ Core/SymbolSetIterator.h Core/Const.h Models/MOMDP/IVariableValue.h \
+ Core/MObject.h Utils/boost/smart_ptr/intrusive_ptr.hpp \
+ Utils/boost/config.hpp Utils/boost/config/user.hpp \
+ Utils/boost/config/select_compiler_config.hpp \
+ Utils/boost/config/compiler/gcc.hpp \
+ Utils/boost/config/select_stdlib_config.hpp \
+ Utils/boost/config/no_tr1/utility.hpp \
+ Utils/boost/config/stdlib/libstdcpp3.hpp \
+ Utils/boost/config/select_platform_config.hpp \
+ Utils/boost/config/platform/linux.hpp \
+ Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
+ Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
+ Utils/boost/smart_ptr/detail/sp_convertible.hpp \
+ Utils/boost/config/no_tr1/functional.hpp \
+ Utils/boost/smart_ptr/detail/operator_bool.hpp \
+ Utils/boost/smart_ptr/shared_ptr.hpp \
+ Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
+ Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
+ Utils/boost/current_function.hpp \
+ Utils/boost/smart_ptr/detail/shared_count.hpp \
+ Utils/boost/smart_ptr/bad_weak_ptr.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
+ Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
+ Utils/boost/detail/sp_typeinfo.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
+ Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
+ Utils/boost/smart_ptr/detail/spinlock.hpp \
+ Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
+ Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp \
+ Models/MOMDP/IVariable.h Models/MOMDP/IVariableValue.h \
+ Core/VariableContainer.h Core/MObject.h MathLib/MathLib.h \
+ Parser/Cassandra/mdpCassandra.h Parser/Cassandra/sparse-matrix.h \
+ Core/Const.h Parser/Cassandra/pomdpCassandraWrapper.h \
+ MathLib/SparseVector.h Utils/md5wrapper.h MathLib/SparseVector.h \
+ Utils/md5.h MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
+ Core/States.h Models/MOMDP/Rewards.h Core/BeliefWithState.h \
+ Core/Belief.h Models/MOMDP/IVariable.h Models/MOMDP/VariableRelation.h \
+ Models/MOMDP/VariableValue.h Models/MOMDP/ObservationProbabilities.h \
+ Models/MOMDP/StateTransitionX.h Models/MOMDP/StateTransitionXY.h \
+ Models/MOMDP/StateTransitionY.h Models/MOMDP/StateTransitionXXpY.h \
+ Core/Belief.h Core/BeliefTransition.h Core/Observations.h Core/Actions.h \
+ Core/States.h Core/BeliefWithState.h Parser/Cassandra/POMDP.h \
+ Parser/Cassandra/MDP.h MathLib/DenseVector.h MathLib/SparseMatrix.h \
+ Core/FacmodelStructs.h Parser/POMDPX/POMDPLayer.h Parser/POMDPX/State.h \
+ Parser/POMDPX/StateObsAct.h Parser/POMDPX/ObsAct.h Utils/Cache.h \
+ Models/MOMDP/BeliefTransitionMOMDPLite.h
+VariableValue.o: Models/MOMDP/VariableValue.cpp \
+ Models/MOMDP/VariableValue.h Models/MOMDP/IVariableValue.h \
+ Core/MObject.h Utils/boost/smart_ptr/intrusive_ptr.hpp \
+ Utils/boost/config.hpp Utils/boost/config/user.hpp \
+ Utils/boost/config/select_compiler_config.hpp \
+ Utils/boost/config/compiler/gcc.hpp \
+ Utils/boost/config/select_stdlib_config.hpp \
+ Utils/boost/config/no_tr1/utility.hpp \
+ Utils/boost/config/stdlib/libstdcpp3.hpp \
+ Utils/boost/config/select_platform_config.hpp \
+ Utils/boost/config/platform/linux.hpp \
+ Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
+ Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
+ Utils/boost/smart_ptr/detail/sp_convertible.hpp \
+ Utils/boost/config/no_tr1/functional.hpp \
+ Utils/boost/smart_ptr/detail/operator_bool.hpp \
+ Utils/boost/smart_ptr/shared_ptr.hpp \
+ Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
+ Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
+ Utils/boost/current_function.hpp \
+ Utils/boost/smart_ptr/detail/shared_count.hpp \
+ Utils/boost/smart_ptr/bad_weak_ptr.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
+ Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
+ Utils/boost/detail/sp_typeinfo.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
+ Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
+ Utils/boost/smart_ptr/detail/spinlock.hpp \
+ Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
+ Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp
+MOMDP.o: Models/MOMDP/MOMDP.cpp Models/MOMDP/MOMDP.h Core/Observations.h \
+ Core/SymbolSet.h Core/SymbolSetIterator.h Core/Const.h \
+ Models/MOMDP/IVariableValue.h Core/MObject.h \
+ Utils/boost/smart_ptr/intrusive_ptr.hpp Utils/boost/config.hpp \
+ Utils/boost/config/user.hpp \
+ Utils/boost/config/select_compiler_config.hpp \
+ Utils/boost/config/compiler/gcc.hpp \
+ Utils/boost/config/select_stdlib_config.hpp \
+ Utils/boost/config/no_tr1/utility.hpp \
+ Utils/boost/config/stdlib/libstdcpp3.hpp \
+ Utils/boost/config/select_platform_config.hpp \
+ Utils/boost/config/platform/linux.hpp \
+ Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
+ Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
+ Utils/boost/smart_ptr/detail/sp_convertible.hpp \
+ Utils/boost/config/no_tr1/functional.hpp \
+ Utils/boost/smart_ptr/detail/operator_bool.hpp \
+ Utils/boost/smart_ptr/shared_ptr.hpp \
+ Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
+ Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
+ Utils/boost/current_function.hpp \
+ Utils/boost/smart_ptr/detail/shared_count.hpp \
+ Utils/boost/smart_ptr/bad_weak_ptr.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
+ Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
+ Utils/boost/detail/sp_typeinfo.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
+ Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
+ Utils/boost/smart_ptr/detail/spinlock.hpp \
+ Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
+ Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp \
+ Models/MOMDP/IVariable.h Models/MOMDP/IVariableValue.h \
+ Core/VariableContainer.h Core/MObject.h MathLib/MathLib.h \
+ Parser/Cassandra/mdpCassandra.h Parser/Cassandra/sparse-matrix.h \
+ Core/Const.h Parser/Cassandra/pomdpCassandraWrapper.h \
+ MathLib/SparseVector.h Utils/md5wrapper.h MathLib/SparseVector.h \
+ Utils/md5.h MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
+ Core/States.h Models/MOMDP/Rewards.h Core/BeliefWithState.h \
+ Core/Belief.h Models/MOMDP/IVariable.h Models/MOMDP/VariableRelation.h \
+ Models/MOMDP/VariableValue.h Models/MOMDP/ObservationProbabilities.h \
+ Models/MOMDP/StateTransitionX.h Models/MOMDP/StateTransitionXY.h \
+ Models/MOMDP/StateTransitionY.h Models/MOMDP/StateTransitionXXpY.h \
+ Core/Belief.h Core/BeliefTransition.h Core/Observations.h Core/Actions.h \
+ Core/States.h Core/BeliefWithState.h Parser/Cassandra/POMDP.h \
+ Parser/Cassandra/MDP.h MathLib/DenseVector.h MathLib/SparseMatrix.h \
+ Core/FacmodelStructs.h Parser/POMDPX/POMDPLayer.h Parser/POMDPX/State.h \
+ Parser/POMDPX/StateObsAct.h Parser/POMDPX/ObsAct.h Utils/Cache.h \
+ Parser/POMDPX/FactoredPomdp.h Parser/POMDPX/tinyxml.h \
+ Parser/POMDPX/tinystr.h Utils/CPTimer.h Parser/POMDPX/State.h \
+ Parser/POMDPX/ObsAct.h Parser/POMDPX/PreCMatrix.h \
+ Parser/POMDPX/PreCEntry.h Parser/POMDPX/POMDPLayer.h \
+ Parser/POMDPX/Function.h Parser/POMDPX/SparseTable.h \
+ Parser/POMDPX/SparseEntry.h Parser/POMDPX/UniqueIndex.h \
+ Models/MOMDP/BeliefTransitionMOMDP.h
+Variable.o: Models/MOMDP/Variable.cpp Models/MOMDP/Variable.h \
+ Models/MOMDP/MOMDP.h Core/Observations.h Core/SymbolSet.h \
+ Core/SymbolSetIterator.h Core/Const.h Models/MOMDP/IVariableValue.h \
+ Core/MObject.h Utils/boost/smart_ptr/intrusive_ptr.hpp \
+ Utils/boost/config.hpp Utils/boost/config/user.hpp \
+ Utils/boost/config/select_compiler_config.hpp \
+ Utils/boost/config/compiler/gcc.hpp \
+ Utils/boost/config/select_stdlib_config.hpp \
+ Utils/boost/config/no_tr1/utility.hpp \
+ Utils/boost/config/stdlib/libstdcpp3.hpp \
+ Utils/boost/config/select_platform_config.hpp \
+ Utils/boost/config/platform/linux.hpp \
+ Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
+ Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
+ Utils/boost/smart_ptr/detail/sp_convertible.hpp \
+ Utils/boost/config/no_tr1/functional.hpp \
+ Utils/boost/smart_ptr/detail/operator_bool.hpp \
+ Utils/boost/smart_ptr/shared_ptr.hpp \
+ Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
+ Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
+ Utils/boost/current_function.hpp \
+ Utils/boost/smart_ptr/detail/shared_count.hpp \
+ Utils/boost/smart_ptr/bad_weak_ptr.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
+ Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
+ Utils/boost/detail/sp_typeinfo.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
+ Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
+ Utils/boost/smart_ptr/detail/spinlock.hpp \
+ Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
+ Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp \
+ Models/MOMDP/IVariable.h Models/MOMDP/IVariableValue.h \
+ Core/VariableContainer.h Core/MObject.h MathLib/MathLib.h \
+ Parser/Cassandra/mdpCassandra.h Parser/Cassandra/sparse-matrix.h \
+ Core/Const.h Parser/Cassandra/pomdpCassandraWrapper.h \
+ MathLib/SparseVector.h Utils/md5wrapper.h MathLib/SparseVector.h \
+ Utils/md5.h MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
+ Core/States.h Models/MOMDP/Rewards.h Core/BeliefWithState.h \
+ Core/Belief.h Models/MOMDP/IVariable.h Models/MOMDP/VariableRelation.h \
+ Models/MOMDP/VariableValue.h Models/MOMDP/ObservationProbabilities.h \
+ Models/MOMDP/StateTransitionX.h Models/MOMDP/StateTransitionXY.h \
+ Models/MOMDP/StateTransitionY.h Models/MOMDP/StateTransitionXXpY.h \
+ Core/Belief.h Core/BeliefTransition.h Core/Observations.h Core/Actions.h \
+ Core/States.h Core/BeliefWithState.h Parser/Cassandra/POMDP.h \
+ Parser/Cassandra/MDP.h MathLib/DenseVector.h MathLib/SparseMatrix.h \
+ Core/FacmodelStructs.h Parser/POMDPX/POMDPLayer.h Parser/POMDPX/State.h \
+ Parser/POMDPX/StateObsAct.h Parser/POMDPX/ObsAct.h Utils/Cache.h
+IVariable.o: Models/MOMDP/IVariable.cpp Models/MOMDP/IVariable.h \
+ Core/MObject.h Utils/boost/smart_ptr/intrusive_ptr.hpp \
+ Utils/boost/config.hpp Utils/boost/config/user.hpp \
+ Utils/boost/config/select_compiler_config.hpp \
+ Utils/boost/config/compiler/gcc.hpp \
+ Utils/boost/config/select_stdlib_config.hpp \
+ Utils/boost/config/no_tr1/utility.hpp \
+ Utils/boost/config/stdlib/libstdcpp3.hpp \
+ Utils/boost/config/select_platform_config.hpp \
+ Utils/boost/config/platform/linux.hpp \
+ Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
+ Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
+ Utils/boost/smart_ptr/detail/sp_convertible.hpp \
+ Utils/boost/config/no_tr1/functional.hpp \
+ Utils/boost/smart_ptr/detail/operator_bool.hpp \
+ Utils/boost/smart_ptr/shared_ptr.hpp \
+ Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
+ Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
+ Utils/boost/current_function.hpp \
+ Utils/boost/smart_ptr/detail/shared_count.hpp \
+ Utils/boost/smart_ptr/bad_weak_ptr.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
+ Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
+ Utils/boost/detail/sp_typeinfo.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
+ Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
+ Utils/boost/smart_ptr/detail/spinlock.hpp \
+ Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
+ Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp \
+ Models/MOMDP/IVariableValue.h
+VariableCombined.o: Models/MOMDP/VariableCombined.cpp \
+ Models/MOMDP/VariableCombined.h Models/MOMDP/MOMDP.h Core/Observations.h \
+ Core/SymbolSet.h Core/SymbolSetIterator.h Core/Const.h \
+ Models/MOMDP/IVariableValue.h Core/MObject.h \
+ Utils/boost/smart_ptr/intrusive_ptr.hpp Utils/boost/config.hpp \
+ Utils/boost/config/user.hpp \
+ Utils/boost/config/select_compiler_config.hpp \
+ Utils/boost/config/compiler/gcc.hpp \
+ Utils/boost/config/select_stdlib_config.hpp \
+ Utils/boost/config/no_tr1/utility.hpp \
+ Utils/boost/config/stdlib/libstdcpp3.hpp \
+ Utils/boost/config/select_platform_config.hpp \
+ Utils/boost/config/platform/linux.hpp \
+ Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
+ Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
+ Utils/boost/smart_ptr/detail/sp_convertible.hpp \
+ Utils/boost/config/no_tr1/functional.hpp \
+ Utils/boost/smart_ptr/detail/operator_bool.hpp \
+ Utils/boost/smart_ptr/shared_ptr.hpp \
+ Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
+ Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
+ Utils/boost/current_function.hpp \
+ Utils/boost/smart_ptr/detail/shared_count.hpp \
+ Utils/boost/smart_ptr/bad_weak_ptr.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
+ Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
+ Utils/boost/detail/sp_typeinfo.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
+ Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
+ Utils/boost/smart_ptr/detail/spinlock.hpp \
+ Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
+ Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp \
+ Models/MOMDP/IVariable.h Models/MOMDP/IVariableValue.h \
+ Core/VariableContainer.h Core/MObject.h MathLib/MathLib.h \
+ Parser/Cassandra/mdpCassandra.h Parser/Cassandra/sparse-matrix.h \
+ Core/Const.h Parser/Cassandra/pomdpCassandraWrapper.h \
+ MathLib/SparseVector.h Utils/md5wrapper.h MathLib/SparseVector.h \
+ Utils/md5.h MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
+ Core/States.h Models/MOMDP/Rewards.h Core/BeliefWithState.h \
+ Core/Belief.h Models/MOMDP/IVariable.h Models/MOMDP/VariableRelation.h \
+ Models/MOMDP/VariableValue.h Models/MOMDP/ObservationProbabilities.h \
+ Models/MOMDP/StateTransitionX.h Models/MOMDP/StateTransitionXY.h \
+ Models/MOMDP/StateTransitionY.h Models/MOMDP/StateTransitionXXpY.h \
+ Core/Belief.h Core/BeliefTransition.h Core/Observations.h Core/Actions.h \
+ Core/States.h Core/BeliefWithState.h Parser/Cassandra/POMDP.h \
+ Parser/Cassandra/MDP.h MathLib/DenseVector.h MathLib/SparseMatrix.h \
+ Core/FacmodelStructs.h Parser/POMDPX/POMDPLayer.h Parser/POMDPX/State.h \
+ Parser/POMDPX/StateObsAct.h Parser/POMDPX/ObsAct.h Utils/Cache.h \
+ Models/MOMDP/Variable.h
+StateTransitionXXpY.o: Models/MOMDP/StateTransitionXXpY.cpp \
+ Models/MOMDP/StateTransitionXXpY.h Core/Const.h Core/Observations.h \
  Core/SymbolSet.h Core/SymbolSetIterator.h Core/Const.h \
  Models/MOMDP/IVariableValue.h Core/MObject.h \
  Utils/boost/smart_ptr/intrusive_ptr.hpp Utils/boost/config.hpp \
@@ -5147,362 +5464,6 @@ StateTransitionX.o: Models/MOMDP/StateTransitionX.cpp \
  MathLib/SparseMatrix.h Core/FacmodelStructs.h Parser/POMDPX/POMDPLayer.h \
  Parser/POMDPX/State.h Parser/POMDPX/StateObsAct.h Parser/POMDPX/ObsAct.h \
  Utils/Cache.h
-MOMDPLite.o: Models/MOMDP/MOMDPLite.cpp Models/MOMDP/MOMDPLite.h \
- Models/MOMDP/MOMDP.h Core/Observations.h Core/SymbolSet.h \
- Core/SymbolSetIterator.h Core/Const.h Models/MOMDP/IVariableValue.h \
- Core/MObject.h Utils/boost/smart_ptr/intrusive_ptr.hpp \
- Utils/boost/config.hpp Utils/boost/config/user.hpp \
- Utils/boost/config/select_compiler_config.hpp \
- Utils/boost/config/compiler/gcc.hpp \
- Utils/boost/config/select_stdlib_config.hpp \
- Utils/boost/config/no_tr1/utility.hpp \
- Utils/boost/config/stdlib/libstdcpp3.hpp \
- Utils/boost/config/select_platform_config.hpp \
- Utils/boost/config/platform/linux.hpp \
- Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
- Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
- Utils/boost/smart_ptr/detail/sp_convertible.hpp \
- Utils/boost/config/no_tr1/functional.hpp \
- Utils/boost/smart_ptr/detail/operator_bool.hpp \
- Utils/boost/smart_ptr/shared_ptr.hpp \
- Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
- Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
- Utils/boost/current_function.hpp \
- Utils/boost/smart_ptr/detail/shared_count.hpp \
- Utils/boost/smart_ptr/bad_weak_ptr.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
- Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
- Utils/boost/detail/sp_typeinfo.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
- Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
- Utils/boost/smart_ptr/detail/spinlock.hpp \
- Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
- Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp \
- Models/MOMDP/IVariable.h Models/MOMDP/IVariableValue.h \
- Core/VariableContainer.h Core/MObject.h MathLib/MathLib.h \
- Parser/Cassandra/mdpCassandra.h Parser/Cassandra/sparse-matrix.h \
- Core/Const.h Parser/Cassandra/pomdpCassandraWrapper.h \
- MathLib/SparseVector.h Utils/md5wrapper.h MathLib/SparseVector.h \
- Utils/md5.h MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
- Core/States.h Models/MOMDP/Rewards.h Core/BeliefWithState.h \
- Core/Belief.h Models/MOMDP/IVariable.h Models/MOMDP/VariableRelation.h \
- Models/MOMDP/VariableValue.h Models/MOMDP/ObservationProbabilities.h \
- Models/MOMDP/StateTransitionX.h Models/MOMDP/StateTransitionXY.h \
- Models/MOMDP/StateTransitionY.h Models/MOMDP/StateTransitionXXpY.h \
- Core/Belief.h Core/BeliefTransition.h Core/Observations.h Core/Actions.h \
- Core/States.h Core/BeliefWithState.h Parser/Cassandra/POMDP.h \
- Parser/Cassandra/MDP.h MathLib/DenseVector.h MathLib/SparseMatrix.h \
- Core/FacmodelStructs.h Parser/POMDPX/POMDPLayer.h Parser/POMDPX/State.h \
- Parser/POMDPX/StateObsAct.h Parser/POMDPX/ObsAct.h Utils/Cache.h \
- Models/MOMDP/BeliefTransitionMOMDPLite.h
-MOMDP.o: Models/MOMDP/MOMDP.cpp Models/MOMDP/MOMDP.h Core/Observations.h \
- Core/SymbolSet.h Core/SymbolSetIterator.h Core/Const.h \
- Models/MOMDP/IVariableValue.h Core/MObject.h \
- Utils/boost/smart_ptr/intrusive_ptr.hpp Utils/boost/config.hpp \
- Utils/boost/config/user.hpp \
- Utils/boost/config/select_compiler_config.hpp \
- Utils/boost/config/compiler/gcc.hpp \
- Utils/boost/config/select_stdlib_config.hpp \
- Utils/boost/config/no_tr1/utility.hpp \
- Utils/boost/config/stdlib/libstdcpp3.hpp \
- Utils/boost/config/select_platform_config.hpp \
- Utils/boost/config/platform/linux.hpp \
- Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
- Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
- Utils/boost/smart_ptr/detail/sp_convertible.hpp \
- Utils/boost/config/no_tr1/functional.hpp \
- Utils/boost/smart_ptr/detail/operator_bool.hpp \
- Utils/boost/smart_ptr/shared_ptr.hpp \
- Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
- Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
- Utils/boost/current_function.hpp \
- Utils/boost/smart_ptr/detail/shared_count.hpp \
- Utils/boost/smart_ptr/bad_weak_ptr.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
- Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
- Utils/boost/detail/sp_typeinfo.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
- Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
- Utils/boost/smart_ptr/detail/spinlock.hpp \
- Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
- Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp \
- Models/MOMDP/IVariable.h Models/MOMDP/IVariableValue.h \
- Core/VariableContainer.h Core/MObject.h MathLib/MathLib.h \
- Parser/Cassandra/mdpCassandra.h Parser/Cassandra/sparse-matrix.h \
- Core/Const.h Parser/Cassandra/pomdpCassandraWrapper.h \
- MathLib/SparseVector.h Utils/md5wrapper.h MathLib/SparseVector.h \
- Utils/md5.h MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
- Core/States.h Models/MOMDP/Rewards.h Core/BeliefWithState.h \
- Core/Belief.h Models/MOMDP/IVariable.h Models/MOMDP/VariableRelation.h \
- Models/MOMDP/VariableValue.h Models/MOMDP/ObservationProbabilities.h \
- Models/MOMDP/StateTransitionX.h Models/MOMDP/StateTransitionXY.h \
- Models/MOMDP/StateTransitionY.h Models/MOMDP/StateTransitionXXpY.h \
- Core/Belief.h Core/BeliefTransition.h Core/Observations.h Core/Actions.h \
- Core/States.h Core/BeliefWithState.h Parser/Cassandra/POMDP.h \
- Parser/Cassandra/MDP.h MathLib/DenseVector.h MathLib/SparseMatrix.h \
- Core/FacmodelStructs.h Parser/POMDPX/POMDPLayer.h Parser/POMDPX/State.h \
- Parser/POMDPX/StateObsAct.h Parser/POMDPX/ObsAct.h Utils/Cache.h \
- Parser/POMDPX/FactoredPomdp.h Parser/POMDPX/tinyxml.h \
- Parser/POMDPX/tinystr.h Utils/CPTimer.h Parser/POMDPX/State.h \
- Parser/POMDPX/ObsAct.h Parser/POMDPX/PreCMatrix.h \
- Parser/POMDPX/PreCEntry.h Parser/POMDPX/POMDPLayer.h \
- Parser/POMDPX/Function.h Parser/POMDPX/SparseTable.h \
- Parser/POMDPX/SparseEntry.h Parser/POMDPX/UniqueIndex.h \
- Models/MOMDP/BeliefTransitionMOMDP.h
-VariableValue.o: Models/MOMDP/VariableValue.cpp \
- Models/MOMDP/VariableValue.h Models/MOMDP/IVariableValue.h \
- Core/MObject.h Utils/boost/smart_ptr/intrusive_ptr.hpp \
- Utils/boost/config.hpp Utils/boost/config/user.hpp \
- Utils/boost/config/select_compiler_config.hpp \
- Utils/boost/config/compiler/gcc.hpp \
- Utils/boost/config/select_stdlib_config.hpp \
- Utils/boost/config/no_tr1/utility.hpp \
- Utils/boost/config/stdlib/libstdcpp3.hpp \
- Utils/boost/config/select_platform_config.hpp \
- Utils/boost/config/platform/linux.hpp \
- Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
- Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
- Utils/boost/smart_ptr/detail/sp_convertible.hpp \
- Utils/boost/config/no_tr1/functional.hpp \
- Utils/boost/smart_ptr/detail/operator_bool.hpp \
- Utils/boost/smart_ptr/shared_ptr.hpp \
- Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
- Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
- Utils/boost/current_function.hpp \
- Utils/boost/smart_ptr/detail/shared_count.hpp \
- Utils/boost/smart_ptr/bad_weak_ptr.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
- Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
- Utils/boost/detail/sp_typeinfo.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
- Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
- Utils/boost/smart_ptr/detail/spinlock.hpp \
- Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
- Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp
-Variable.o: Models/MOMDP/Variable.cpp Models/MOMDP/Variable.h \
- Models/MOMDP/MOMDP.h Core/Observations.h Core/SymbolSet.h \
- Core/SymbolSetIterator.h Core/Const.h Models/MOMDP/IVariableValue.h \
- Core/MObject.h Utils/boost/smart_ptr/intrusive_ptr.hpp \
- Utils/boost/config.hpp Utils/boost/config/user.hpp \
- Utils/boost/config/select_compiler_config.hpp \
- Utils/boost/config/compiler/gcc.hpp \
- Utils/boost/config/select_stdlib_config.hpp \
- Utils/boost/config/no_tr1/utility.hpp \
- Utils/boost/config/stdlib/libstdcpp3.hpp \
- Utils/boost/config/select_platform_config.hpp \
- Utils/boost/config/platform/linux.hpp \
- Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
- Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
- Utils/boost/smart_ptr/detail/sp_convertible.hpp \
- Utils/boost/config/no_tr1/functional.hpp \
- Utils/boost/smart_ptr/detail/operator_bool.hpp \
- Utils/boost/smart_ptr/shared_ptr.hpp \
- Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
- Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
- Utils/boost/current_function.hpp \
- Utils/boost/smart_ptr/detail/shared_count.hpp \
- Utils/boost/smart_ptr/bad_weak_ptr.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
- Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
- Utils/boost/detail/sp_typeinfo.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
- Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
- Utils/boost/smart_ptr/detail/spinlock.hpp \
- Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
- Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp \
- Models/MOMDP/IVariable.h Models/MOMDP/IVariableValue.h \
- Core/VariableContainer.h Core/MObject.h MathLib/MathLib.h \
- Parser/Cassandra/mdpCassandra.h Parser/Cassandra/sparse-matrix.h \
- Core/Const.h Parser/Cassandra/pomdpCassandraWrapper.h \
- MathLib/SparseVector.h Utils/md5wrapper.h MathLib/SparseVector.h \
- Utils/md5.h MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
- Core/States.h Models/MOMDP/Rewards.h Core/BeliefWithState.h \
- Core/Belief.h Models/MOMDP/IVariable.h Models/MOMDP/VariableRelation.h \
- Models/MOMDP/VariableValue.h Models/MOMDP/ObservationProbabilities.h \
- Models/MOMDP/StateTransitionX.h Models/MOMDP/StateTransitionXY.h \
- Models/MOMDP/StateTransitionY.h Models/MOMDP/StateTransitionXXpY.h \
- Core/Belief.h Core/BeliefTransition.h Core/Observations.h Core/Actions.h \
- Core/States.h Core/BeliefWithState.h Parser/Cassandra/POMDP.h \
- Parser/Cassandra/MDP.h MathLib/DenseVector.h MathLib/SparseMatrix.h \
- Core/FacmodelStructs.h Parser/POMDPX/POMDPLayer.h Parser/POMDPX/State.h \
- Parser/POMDPX/StateObsAct.h Parser/POMDPX/ObsAct.h Utils/Cache.h
-StateTransitionXXpY.o: Models/MOMDP/StateTransitionXXpY.cpp \
- Models/MOMDP/StateTransitionXXpY.h Core/Const.h Core/Observations.h \
- Core/SymbolSet.h Core/SymbolSetIterator.h Core/Const.h \
- Models/MOMDP/IVariableValue.h Core/MObject.h \
- Utils/boost/smart_ptr/intrusive_ptr.hpp Utils/boost/config.hpp \
- Utils/boost/config/user.hpp \
- Utils/boost/config/select_compiler_config.hpp \
- Utils/boost/config/compiler/gcc.hpp \
- Utils/boost/config/select_stdlib_config.hpp \
- Utils/boost/config/no_tr1/utility.hpp \
- Utils/boost/config/stdlib/libstdcpp3.hpp \
- Utils/boost/config/select_platform_config.hpp \
- Utils/boost/config/platform/linux.hpp \
- Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
- Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
- Utils/boost/smart_ptr/detail/sp_convertible.hpp \
- Utils/boost/config/no_tr1/functional.hpp \
- Utils/boost/smart_ptr/detail/operator_bool.hpp \
- Utils/boost/smart_ptr/shared_ptr.hpp \
- Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
- Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
- Utils/boost/current_function.hpp \
- Utils/boost/smart_ptr/detail/shared_count.hpp \
- Utils/boost/smart_ptr/bad_weak_ptr.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
- Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
- Utils/boost/detail/sp_typeinfo.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
- Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
- Utils/boost/smart_ptr/detail/spinlock.hpp \
- Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
- Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp \
- Models/MOMDP/IVariable.h Models/MOMDP/IVariableValue.h \
- Core/VariableContainer.h Core/MObject.h MathLib/MathLib.h \
- Parser/Cassandra/mdpCassandra.h Parser/Cassandra/sparse-matrix.h \
- Parser/Cassandra/pomdpCassandraWrapper.h MathLib/SparseVector.h \
- Utils/md5wrapper.h MathLib/SparseVector.h Utils/md5.h \
- MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
- Core/States.h Models/MOMDP/VariableRelation.h \
- Models/MOMDP/VariableValue.h Models/MOMDP/IVariable.h \
- Models/MOMDP/StateTransitionY.h
-VariableCombined.o: Models/MOMDP/VariableCombined.cpp \
- Models/MOMDP/VariableCombined.h Models/MOMDP/MOMDP.h Core/Observations.h \
- Core/SymbolSet.h Core/SymbolSetIterator.h Core/Const.h \
- Models/MOMDP/IVariableValue.h Core/MObject.h \
- Utils/boost/smart_ptr/intrusive_ptr.hpp Utils/boost/config.hpp \
- Utils/boost/config/user.hpp \
- Utils/boost/config/select_compiler_config.hpp \
- Utils/boost/config/compiler/gcc.hpp \
- Utils/boost/config/select_stdlib_config.hpp \
- Utils/boost/config/no_tr1/utility.hpp \
- Utils/boost/config/stdlib/libstdcpp3.hpp \
- Utils/boost/config/select_platform_config.hpp \
- Utils/boost/config/platform/linux.hpp \
- Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
- Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
- Utils/boost/smart_ptr/detail/sp_convertible.hpp \
- Utils/boost/config/no_tr1/functional.hpp \
- Utils/boost/smart_ptr/detail/operator_bool.hpp \
- Utils/boost/smart_ptr/shared_ptr.hpp \
- Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
- Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
- Utils/boost/current_function.hpp \
- Utils/boost/smart_ptr/detail/shared_count.hpp \
- Utils/boost/smart_ptr/bad_weak_ptr.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
- Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
- Utils/boost/detail/sp_typeinfo.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
- Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
- Utils/boost/smart_ptr/detail/spinlock.hpp \
- Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
- Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp \
- Models/MOMDP/IVariable.h Models/MOMDP/IVariableValue.h \
- Core/VariableContainer.h Core/MObject.h MathLib/MathLib.h \
- Parser/Cassandra/mdpCassandra.h Parser/Cassandra/sparse-matrix.h \
- Core/Const.h Parser/Cassandra/pomdpCassandraWrapper.h \
- MathLib/SparseVector.h Utils/md5wrapper.h MathLib/SparseVector.h \
- Utils/md5.h MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
- Core/States.h Models/MOMDP/Rewards.h Core/BeliefWithState.h \
- Core/Belief.h Models/MOMDP/IVariable.h Models/MOMDP/VariableRelation.h \
- Models/MOMDP/VariableValue.h Models/MOMDP/ObservationProbabilities.h \
- Models/MOMDP/StateTransitionX.h Models/MOMDP/StateTransitionXY.h \
- Models/MOMDP/StateTransitionY.h Models/MOMDP/StateTransitionXXpY.h \
- Core/Belief.h Core/BeliefTransition.h Core/Observations.h Core/Actions.h \
- Core/States.h Core/BeliefWithState.h Parser/Cassandra/POMDP.h \
- Parser/Cassandra/MDP.h MathLib/DenseVector.h MathLib/SparseMatrix.h \
- Core/FacmodelStructs.h Parser/POMDPX/POMDPLayer.h Parser/POMDPX/State.h \
- Parser/POMDPX/StateObsAct.h Parser/POMDPX/ObsAct.h Utils/Cache.h \
- Models/MOMDP/Variable.h
-StateTransitionY.o: Models/MOMDP/StateTransitionY.cpp \
- Models/MOMDP/StateTransitionY.h Core/Const.h Core/Observations.h \
- Core/SymbolSet.h Core/SymbolSetIterator.h Core/Const.h \
- Models/MOMDP/IVariableValue.h Core/MObject.h \
- Utils/boost/smart_ptr/intrusive_ptr.hpp Utils/boost/config.hpp \
- Utils/boost/config/user.hpp \
- Utils/boost/config/select_compiler_config.hpp \
- Utils/boost/config/compiler/gcc.hpp \
- Utils/boost/config/select_stdlib_config.hpp \
- Utils/boost/config/no_tr1/utility.hpp \
- Utils/boost/config/stdlib/libstdcpp3.hpp \
- Utils/boost/config/select_platform_config.hpp \
- Utils/boost/config/platform/linux.hpp \
- Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
- Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
- Utils/boost/smart_ptr/detail/sp_convertible.hpp \
- Utils/boost/config/no_tr1/functional.hpp \
- Utils/boost/smart_ptr/detail/operator_bool.hpp \
- Utils/boost/smart_ptr/shared_ptr.hpp \
- Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
- Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
- Utils/boost/current_function.hpp \
- Utils/boost/smart_ptr/detail/shared_count.hpp \
- Utils/boost/smart_ptr/bad_weak_ptr.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
- Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
- Utils/boost/detail/sp_typeinfo.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
- Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
- Utils/boost/smart_ptr/detail/spinlock.hpp \
- Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
- Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp \
- Models/MOMDP/IVariable.h Models/MOMDP/IVariableValue.h \
- Core/VariableContainer.h Core/MObject.h MathLib/MathLib.h \
- Parser/Cassandra/mdpCassandra.h Parser/Cassandra/sparse-matrix.h \
- Parser/Cassandra/pomdpCassandraWrapper.h MathLib/SparseVector.h \
- Utils/md5wrapper.h MathLib/SparseVector.h Utils/md5.h \
- MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
- Core/States.h
-Rewards.o: Models/MOMDP/Rewards.cpp Models/MOMDP/Rewards.h Core/Const.h \
- Core/Observations.h Core/SymbolSet.h Core/SymbolSetIterator.h \
- Core/Const.h Models/MOMDP/IVariableValue.h Core/MObject.h \
- Utils/boost/smart_ptr/intrusive_ptr.hpp Utils/boost/config.hpp \
- Utils/boost/config/user.hpp \
- Utils/boost/config/select_compiler_config.hpp \
- Utils/boost/config/compiler/gcc.hpp \
- Utils/boost/config/select_stdlib_config.hpp \
- Utils/boost/config/no_tr1/utility.hpp \
- Utils/boost/config/stdlib/libstdcpp3.hpp \
- Utils/boost/config/select_platform_config.hpp \
- Utils/boost/config/platform/linux.hpp \
- Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
- Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
- Utils/boost/smart_ptr/detail/sp_convertible.hpp \
- Utils/boost/config/no_tr1/functional.hpp \
- Utils/boost/smart_ptr/detail/operator_bool.hpp \
- Utils/boost/smart_ptr/shared_ptr.hpp \
- Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
- Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
- Utils/boost/current_function.hpp \
- Utils/boost/smart_ptr/detail/shared_count.hpp \
- Utils/boost/smart_ptr/bad_weak_ptr.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
- Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
- Utils/boost/detail/sp_typeinfo.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
- Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
- Utils/boost/smart_ptr/detail/spinlock.hpp \
- Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
- Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp \
- Models/MOMDP/IVariable.h Models/MOMDP/IVariableValue.h \
- Core/VariableContainer.h Core/MObject.h MathLib/MathLib.h \
- Parser/Cassandra/mdpCassandra.h Parser/Cassandra/sparse-matrix.h \
- Parser/Cassandra/pomdpCassandraWrapper.h MathLib/SparseVector.h \
- Utils/md5wrapper.h MathLib/SparseVector.h Utils/md5.h \
- MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
- Core/States.h Core/BeliefWithState.h Core/Belief.h \
- Models/MOMDP/IVariable.h Models/MOMDP/VariableRelation.h \
- Models/MOMDP/VariableValue.h
 BeliefTransitionMOMDPLite.o: Models/MOMDP/BeliefTransitionMOMDPLite.cpp \
  Models/MOMDP/BeliefTransitionMOMDPLite.h Core/BeliefTransition.h \
  Core/Observations.h Core/SymbolSet.h Core/SymbolSetIterator.h \
@@ -5544,41 +5505,9 @@ BeliefTransitionMOMDPLite.o: Models/MOMDP/BeliefTransitionMOMDPLite.cpp \
  Utils/md5.h MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
  Core/States.h Core/BeliefWithState.h Core/Belief.h \
  Core/BeliefWithState.h
-IVariableValue.o: Models/MOMDP/IVariableValue.cpp \
- Models/MOMDP/IVariableValue.h Core/MObject.h \
- Utils/boost/smart_ptr/intrusive_ptr.hpp Utils/boost/config.hpp \
- Utils/boost/config/user.hpp \
- Utils/boost/config/select_compiler_config.hpp \
- Utils/boost/config/compiler/gcc.hpp \
- Utils/boost/config/select_stdlib_config.hpp \
- Utils/boost/config/no_tr1/utility.hpp \
- Utils/boost/config/stdlib/libstdcpp3.hpp \
- Utils/boost/config/select_platform_config.hpp \
- Utils/boost/config/platform/linux.hpp \
- Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
- Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
- Utils/boost/smart_ptr/detail/sp_convertible.hpp \
- Utils/boost/config/no_tr1/functional.hpp \
- Utils/boost/smart_ptr/detail/operator_bool.hpp \
- Utils/boost/smart_ptr/shared_ptr.hpp \
- Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
- Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
- Utils/boost/current_function.hpp \
- Utils/boost/smart_ptr/detail/shared_count.hpp \
- Utils/boost/smart_ptr/bad_weak_ptr.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
- Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
- Utils/boost/detail/sp_typeinfo.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
- Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
- Utils/boost/smart_ptr/detail/spinlock.hpp \
- Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
- Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp
-BooleanVariable.o: Models/MOMDP/BooleanVariable.cpp \
- Models/MOMDP/BooleanVariable.h Models/MOMDP/MOMDP.h Core/Observations.h \
- Core/SymbolSet.h Core/SymbolSetIterator.h Core/Const.h \
- Models/MOMDP/IVariableValue.h Core/MObject.h \
+Rewards.o: Models/MOMDP/Rewards.cpp Models/MOMDP/Rewards.h Core/Const.h \
+ Core/Observations.h Core/SymbolSet.h Core/SymbolSetIterator.h \
+ Core/Const.h Models/MOMDP/IVariableValue.h Core/MObject.h \
  Utils/boost/smart_ptr/intrusive_ptr.hpp Utils/boost/config.hpp \
  Utils/boost/config/user.hpp \
  Utils/boost/config/select_compiler_config.hpp \
@@ -5611,19 +5540,43 @@ BooleanVariable.o: Models/MOMDP/BooleanVariable.cpp \
  Models/MOMDP/IVariable.h Models/MOMDP/IVariableValue.h \
  Core/VariableContainer.h Core/MObject.h MathLib/MathLib.h \
  Parser/Cassandra/mdpCassandra.h Parser/Cassandra/sparse-matrix.h \
- Core/Const.h Parser/Cassandra/pomdpCassandraWrapper.h \
- MathLib/SparseVector.h Utils/md5wrapper.h MathLib/SparseVector.h \
- Utils/md5.h MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
- Core/States.h Models/MOMDP/Rewards.h Core/BeliefWithState.h \
- Core/Belief.h Models/MOMDP/IVariable.h Models/MOMDP/VariableRelation.h \
- Models/MOMDP/VariableValue.h Models/MOMDP/ObservationProbabilities.h \
- Models/MOMDP/StateTransitionX.h Models/MOMDP/StateTransitionXY.h \
- Models/MOMDP/StateTransitionY.h Models/MOMDP/StateTransitionXXpY.h \
- Core/Belief.h Core/BeliefTransition.h Core/Observations.h Core/Actions.h \
- Core/States.h Core/BeliefWithState.h Parser/Cassandra/POMDP.h \
- Parser/Cassandra/MDP.h MathLib/DenseVector.h MathLib/SparseMatrix.h \
- Core/FacmodelStructs.h Parser/POMDPX/POMDPLayer.h Parser/POMDPX/State.h \
- Parser/POMDPX/StateObsAct.h Parser/POMDPX/ObsAct.h Utils/Cache.h
+ Parser/Cassandra/pomdpCassandraWrapper.h MathLib/SparseVector.h \
+ Utils/md5wrapper.h MathLib/SparseVector.h Utils/md5.h \
+ MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
+ Core/States.h Core/BeliefWithState.h Core/Belief.h \
+ Models/MOMDP/IVariable.h Models/MOMDP/VariableRelation.h \
+ Models/MOMDP/VariableValue.h
+IVariableValue.o: Models/MOMDP/IVariableValue.cpp \
+ Models/MOMDP/IVariableValue.h Core/MObject.h \
+ Utils/boost/smart_ptr/intrusive_ptr.hpp Utils/boost/config.hpp \
+ Utils/boost/config/user.hpp \
+ Utils/boost/config/select_compiler_config.hpp \
+ Utils/boost/config/compiler/gcc.hpp \
+ Utils/boost/config/select_stdlib_config.hpp \
+ Utils/boost/config/no_tr1/utility.hpp \
+ Utils/boost/config/stdlib/libstdcpp3.hpp \
+ Utils/boost/config/select_platform_config.hpp \
+ Utils/boost/config/platform/linux.hpp \
+ Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
+ Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
+ Utils/boost/smart_ptr/detail/sp_convertible.hpp \
+ Utils/boost/config/no_tr1/functional.hpp \
+ Utils/boost/smart_ptr/detail/operator_bool.hpp \
+ Utils/boost/smart_ptr/shared_ptr.hpp \
+ Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
+ Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
+ Utils/boost/current_function.hpp \
+ Utils/boost/smart_ptr/detail/shared_count.hpp \
+ Utils/boost/smart_ptr/bad_weak_ptr.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
+ Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
+ Utils/boost/detail/sp_typeinfo.hpp \
+ Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
+ Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
+ Utils/boost/smart_ptr/detail/spinlock.hpp \
+ Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
+ Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp
 GlobalResource.o: OfflineSolver/GlobalResource.cpp \
  OfflineSolver/GlobalResource.h Core/BeliefCache.h Core/MObjectManager.h \
  Core/MObjectUser.h Core/Const.h Core/Belief.h MathLib/SparseVector.h \
@@ -7302,61 +7255,6 @@ parse_hash.o: Parser/Cassandra/parse_hash.c \
  Core/Const.h Parser/Cassandra/parse_hash.h
 sparse-matrix.o: Parser/Cassandra/sparse-matrix.c \
  Parser/Cassandra/sparse-matrix.h Core/Const.h
-convertor.o: PomdpConvertor/convertor.cpp Models/MOMDP/MOMDP.h \
- Core/Observations.h Core/SymbolSet.h Core/SymbolSetIterator.h \
- Core/Const.h Models/MOMDP/IVariableValue.h Core/MObject.h \
- Utils/boost/smart_ptr/intrusive_ptr.hpp Utils/boost/config.hpp \
- Utils/boost/config/user.hpp \
- Utils/boost/config/select_compiler_config.hpp \
- Utils/boost/config/compiler/gcc.hpp \
- Utils/boost/config/select_stdlib_config.hpp \
- Utils/boost/config/no_tr1/utility.hpp \
- Utils/boost/config/stdlib/libstdcpp3.hpp \
- Utils/boost/config/select_platform_config.hpp \
- Utils/boost/config/platform/linux.hpp \
- Utils/boost/config/posix_features.hpp Utils/boost/config/suffix.hpp \
- Utils/boost/assert.hpp Utils/boost/detail/workaround.hpp \
- Utils/boost/smart_ptr/detail/sp_convertible.hpp \
- Utils/boost/config/no_tr1/functional.hpp \
- Utils/boost/smart_ptr/detail/operator_bool.hpp \
- Utils/boost/smart_ptr/shared_ptr.hpp \
- Utils/boost/config/no_tr1/memory.hpp Utils/boost/checked_delete.hpp \
- Utils/boost/throw_exception.hpp Utils/boost/exception/exception.hpp \
- Utils/boost/current_function.hpp \
- Utils/boost/smart_ptr/detail/shared_count.hpp \
- Utils/boost/smart_ptr/bad_weak_ptr.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base.hpp \
- Utils/boost/smart_ptr/detail/sp_has_sync.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_base_nt.hpp \
- Utils/boost/detail/sp_typeinfo.hpp \
- Utils/boost/smart_ptr/detail/sp_counted_impl.hpp \
- Utils/boost/smart_ptr/detail/spinlock_pool.hpp \
- Utils/boost/smart_ptr/detail/spinlock.hpp \
- Utils/boost/smart_ptr/detail/spinlock_sync.hpp \
- Utils/boost/smart_ptr/detail/yield_k.hpp Utils/boost/memory_order.hpp \
- Models/MOMDP/IVariable.h Models/MOMDP/IVariableValue.h \
- Core/VariableContainer.h Core/MObject.h MathLib/MathLib.h \
- Parser/Cassandra/mdpCassandra.h Parser/Cassandra/sparse-matrix.h \
- Core/Const.h Parser/Cassandra/pomdpCassandraWrapper.h \
- MathLib/SparseVector.h Utils/md5wrapper.h MathLib/SparseVector.h \
- Utils/md5.h MathLib/SparseMatrix.h MathLib/DenseVector.h Core/Actions.h \
- Core/States.h Models/MOMDP/Rewards.h Core/BeliefWithState.h \
- Core/Belief.h Models/MOMDP/IVariable.h Models/MOMDP/VariableRelation.h \
- Models/MOMDP/VariableValue.h Models/MOMDP/ObservationProbabilities.h \
- Models/MOMDP/StateTransitionX.h Models/MOMDP/StateTransitionXY.h \
- Models/MOMDP/StateTransitionY.h Models/MOMDP/StateTransitionXXpY.h \
- Core/Belief.h Core/BeliefTransition.h Core/Observations.h Core/Actions.h \
- Core/States.h Core/BeliefWithState.h Parser/Cassandra/POMDP.h \
- Parser/Cassandra/MDP.h MathLib/DenseVector.h MathLib/SparseMatrix.h \
- Core/FacmodelStructs.h Parser/POMDPX/POMDPLayer.h Parser/POMDPX/State.h \
- Parser/POMDPX/StateObsAct.h Parser/POMDPX/ObsAct.h Utils/Cache.h \
- Parser/Cassandra/Parser.h Parser/Cassandra/POMDP.h \
- OfflineSolver/GlobalResource.h Core/BeliefCache.h Core/MObjectManager.h \
- Core/MObjectUser.h Core/UniqueBeliefHeap.h Core/BeliefCacheRow.h \
- Core/BeliefTreeNode.h Core/FacmodelStructs.h \
- Algorithms/PointBasedAlgorithm.h Bounds/AlphaVectorPolicy.h \
- OfflineSolver/solverUtils.h Utils/CPTimer.h OfflineSolver/solverUtils.h \
- PomdpConvertor/convertor.hpp
 Controller.o: Controller/Controller.cpp Simulator/SimulationEngine.h \
  Models/MOMDP/MOMDP.h Core/Observations.h Core/SymbolSet.h \
  Core/SymbolSetIterator.h Core/Const.h Models/MOMDP/IVariableValue.h \
@@ -7668,10 +7566,9 @@ PolicyGraph.o: PolicyGraph/PolicyGraph.cpp Models/MOMDP/MOMDP.h \
  Evaluator/EvaluatorBeliefTreeNodeTuple.h Core/Tuple.h \
  OfflineSolver/GlobalResource.h OfflineSolver/solverUtils.h \
  PolicyGraph/PolicyGraphGenerator.h
-pomdpconvert.o: PomdpConvertor/pomdpconvert.cpp \
- PomdpConvertor/convertor.hpp Models/MOMDP/MOMDP.h Core/Observations.h \
- Core/SymbolSet.h Core/SymbolSetIterator.h Core/Const.h \
- Models/MOMDP/IVariableValue.h Core/MObject.h \
+convertor.o: PomdpConvertor/convertor.cpp Models/MOMDP/MOMDP.h \
+ Core/Observations.h Core/SymbolSet.h Core/SymbolSetIterator.h \
+ Core/Const.h Models/MOMDP/IVariableValue.h Core/MObject.h \
  Utils/boost/smart_ptr/intrusive_ptr.hpp Utils/boost/config.hpp \
  Utils/boost/config/user.hpp \
  Utils/boost/config/select_compiler_config.hpp \
@@ -7717,9 +7614,10 @@ pomdpconvert.o: PomdpConvertor/pomdpconvert.cpp \
  Parser/Cassandra/MDP.h MathLib/DenseVector.h MathLib/SparseMatrix.h \
  Core/FacmodelStructs.h Parser/POMDPX/POMDPLayer.h Parser/POMDPX/State.h \
  Parser/POMDPX/StateObsAct.h Parser/POMDPX/ObsAct.h Utils/Cache.h \
- OfflineSolver/solverUtils.h OfflineSolver/GlobalResource.h \
- Core/BeliefCache.h Core/MObjectManager.h Core/MObjectUser.h \
- Core/UniqueBeliefHeap.h Core/BeliefCacheRow.h Core/BeliefTreeNode.h \
- Core/FacmodelStructs.h Algorithms/PointBasedAlgorithm.h \
- Bounds/AlphaVectorPolicy.h Utils/CPTimer.h OfflineSolver/solverUtils.h \
- Parser/Cassandra/Parser.h Parser/Cassandra/POMDP.h
+ Parser/Cassandra/Parser.h Parser/Cassandra/POMDP.h \
+ OfflineSolver/GlobalResource.h Core/BeliefCache.h Core/MObjectManager.h \
+ Core/MObjectUser.h Core/UniqueBeliefHeap.h Core/BeliefCacheRow.h \
+ Core/BeliefTreeNode.h Core/FacmodelStructs.h \
+ Algorithms/PointBasedAlgorithm.h Bounds/AlphaVectorPolicy.h \
+ OfflineSolver/solverUtils.h Utils/CPTimer.h OfflineSolver/solverUtils.h \
+ PomdpConvertor/convertor.hpp

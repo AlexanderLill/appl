@@ -162,9 +162,9 @@ OBJS_GRAPH	      = $(SRCS_GRAPH:.cpp=.o) # C++ object targets
 #
 TARGET_CONVERT	      = pomdpconvert
 
-HDRS_CONVERT          =
+HDRS_CONVERT          = ./PomdpConvertor/convertor.hpp 
 
-SRCS_CONVERT	      = ./PomdpConvertor/pomdpconvert.cpp
+SRCS_CONVERT	      = ./PomdpConvertor/convertor.cpp
 
 OBJS_CONVERT	      = $(SRCS_CONVERT:.cpp=.o) # C++ object targets
 
@@ -277,7 +277,6 @@ HDRS_APPL	      = 	./PolicyGraph/PolicyGraphGenerator.h \
 					./Parser/POMDPX/tinystr.h \
 					./Parser/POMDPX/tinyxml.h \
 					./Parser/POMDPX/UniqueIndex.h \
-					./PomdpConvertor/convertor.hpp \
 					./Utils/CPMemUtils.h \
 					./Utils/CPTimer.h \
 					./Utils/Cache.h \
@@ -372,7 +371,6 @@ SRCS_APPL	      = 	./PolicyGraph/PolicyGraph.cpp \
 					./Parser/Cassandra/parse_err.c \
 					./Parser/Cassandra/parse_hash.c \
 					./Parser/Cassandra/sparse-matrix.c \
-					./PomdpConvertor/convertor.cpp \
 					./Controller/Controller.cpp
 
 

@@ -5,8 +5,6 @@
 #include "POMDP.h"
 #include "GlobalResource.h"
 
-#include "convertor.hpp"
-
 #include <string>
 #include <stdlib.h>
 #include <sstream>
@@ -15,16 +13,14 @@
 using namespace std;
 using namespace momdp;
 
-namespace momdp {
-
-void Convertor::print_usage(const char* cmdName)
+void print_usage(const char* cmdName) 
 {
-    cout << "Usage: " << cmdName << " POMDPModelFileName\n " << endl;
+    cout << "Usage: " << cmdName << " POMDPModelFileName\n " << endl; 
     cout <<"Example:" <<endl;
     cout << "  " << cmdName << " Hallway.pomdp" << endl;
 }
 
-void Convertor::writeSparseVector(ostream& out, SparseVector& sv, int numStates) {
+void writeSparseVector(ostream& out, SparseVector& sv, int numStates) {
 
     int index = 0;
     for(vector<SparseVector_Entry>::const_iterator bi = sv.data.begin(); bi != sv.data.end(); bi++)
@@ -62,8 +58,8 @@ void Convertor::writeSparseVector(ostream& out, SparseVector& sv, int numStates)
 }
 
 //writeout SparseMatrix to POMDPX entries
-void Convertor::writeSparseMatrix(ostream& out, SparseMatrix& sm, SparseMatrix& smtr, int action, char type, int numStates) {
-
+void writeSparseMatrix(ostream& out, SparseMatrix& sm, SparseMatrix& smtr, int action, char type, int numStates) {
+    
     //check sparsity of matrix
     if(sm.data.size() < (sm.size1_ * sm.size2_)/20)
     {
@@ -80,7 +76,7 @@ void Convertor::writeSparseMatrix(ostream& out, SparseMatrix& sm, SparseMatrix& 
     }
     else{
 	//use transposed matrix for dumping dense matrix
-
+	
 	vector<SparseVector_Entry>::const_iterator  di, col_end;
 	out << "\n<Entry>\n<Instance>";
 	out << "a" << action << " - - </Instance>\n<ProbTable>" ;
@@ -123,13 +119,13 @@ void Convertor::writeSparseMatrix(ostream& out, SparseMatrix& sm, SparseMatrix& 
 	    }
 	    out << endl;
 	}
-
+	
 	out << "</ProbTable></Entry>";
     }
 }
 
 //writeout SparseMatrix to POMDPX reward entries
-void Convertor::writeSparseMatrixReward(ostream& out, SparseMatrix& sm)
+void writeSparseMatrixReward(ostream& out, SparseMatrix& sm)
 {
     vector<SparseVector_Entry>::const_iterator  di, col_end;
     FOR (c, sm.size2_) {
@@ -143,7 +139,7 @@ void Convertor::writeSparseMatrixReward(ostream& out, SparseMatrix& sm)
     }
 }
 
-void Convertor::convertToPomdpx(POMDP* problem, ofstream& pomdpxfile){
+void convertToPomdpx(POMDP* problem, ofstream& pomdpxfile){
 
     pomdpxfile << "<?xml version='1.0' encoding='ISO-8859-1'?>\n \
 	\n\
@@ -237,4 +233,43 @@ void Convertor::convertToPomdpx(POMDP* problem, ofstream& pomdpxfile){
     pomdpxfile << "</pomdpx>";
 }
 
+
+int main(int argc, char **argv) 
+{
+    try
+    {
+	SolverParams* p =&GlobalResource::getInstance()->solverParams;
+	bool parseCorrect = SolverParams::parseCommandLineOption(argc, argv, *p);
+	if(!parseCorrect)
+	{
+	    print_usage(p->cmdName);
+	    exit(EXIT_FAILURE);
+	}
+	Parser* parser = new Parser();
+	POMDP* pomdpProblem = parser->parse(p->problemName, p->useFastParser);
+
+	ofstream pomdpxFile((p->problemName.append("x")).c_str());
+	convertToPomdpx(pomdpProblem, pomdpxFile);	
+	pomdpxFile.flush();
+	pomdpxFile.close();
+    }
+    catch(bad_alloc &e)
+    {
+	if(GlobalResource::getInstance()->solverParams.memoryLimit == 0)
+	{
+	    cout << "Memory allocation failed. Exit." << endl;
+	}
+	else
+	{
+	    cout << "Memory limit reached. Please try increase memory limit" << endl;
+	}
+
+    }
+    catch(exception &e)
+    {
+	cout << "Exception: " << e.what() << endl ;
+    }
+
+    return 0;
 }
+
