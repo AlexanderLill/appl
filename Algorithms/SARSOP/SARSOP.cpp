@@ -17,7 +17,7 @@
 
 void printSampleBelief(list<cacherow_stval>& beliefNStates)
 {
-	cout << "SampledBelief" <<  endl;
+	cout << "SampledBelief: ";
 	for(list<cacherow_stval>::iterator iter =beliefNStates.begin(); iter != beliefNStates.end() ; iter ++)
 	{
 		cout <<  "[ " <<(*iter).row << " : " << (*iter).sval << " ] ";
@@ -109,16 +109,20 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 			// only POMDPX parser can generates 2 sets of matrices, therefore, only release the second set if it is using POMDPX parser and the second set is generated
 			problem->deletePOMDPMatrices();
 		}
-		if(problem->XStates->size() != 1 && problem->hasPOMDPMatrices())
-		{
-			// only POMDPX parser can generates 2 sets of matrices, therefore, only release the second set if it is using POMDPX parser and the second set is generated
-			problem->deletePOMDPMatrices();
-		}
-		if(problem->XStates->size() != 1 && problem->hasPOMDPMatrices())
-		{
-			// only POMDPX parser can generates 2 sets of matrices, therefore, only release the second set if it is using POMDPX parser and the second set is generated
-			problem->deletePOMDPMatrices();
-		}
+
+// 3 times the same if - commented that out
+//
+//		if(problem->XStates->size() != 1 && problem->hasPOMDPMatrices())
+//		{
+//			// only POMDPX parser can generates 2 sets of matrices, therefore, only release the second set if it is using POMDPX parser and the second set is generated
+//			problem->deletePOMDPMatrices();
+//		}
+//		if(problem->XStates->size() != 1 && problem->hasPOMDPMatrices())
+//		{
+//			// only POMDPX parser can generates 2 sets of matrices, therefore, only release the second set if it is using POMDPX parser and the second set is generated
+//			problem->deletePOMDPMatrices();
+//		}
+
 		GlobalResource::getInstance()->getInstance()->solving = true;
 
 		//cout << "finished calling initialize() in SARSOP::solve()" << endl;
@@ -186,6 +190,9 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 
 		while(!stop)
 		{
+
+		    DEBUG_TRACE( printBeliefCacheSet(); );
+
 			int numTrials = ((SampleBP*)sampleEngine)->numTrials;
 			if( this->solverParams->targetTrials > 0 && numTrials >  this->solverParams->targetTrials )
 			{
@@ -201,6 +208,7 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 
 			if (activeRoot == -1)
 			{
+                DEBUG_TRACE( cout << "globalroot.getGlobalRootNumSampleroots()=" << globalroot.getGlobalRootNumSampleroots() <<endl; );
 				FOR (r, globalroot.getGlobalRootNumSampleroots())
 				{
 					SampleRootEdge* eR = globalroot.sampleRootEdges[r];
@@ -211,6 +219,7 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 						sampledBeliefs.clear();
 						sampledBeliefs.push_back(sn.cacheIndex);
 
+                        cout << "if (activeRoot == -1)" << endl;
 						DEBUG_TRACE( printSampleBelief(sampledBeliefs); );
 
 						currentBeliefIndexArr[r] =  backup(sampledBeliefs);
@@ -326,8 +335,11 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 			//  b. if target depth has been reached, go back to root
 			if (!skipSample)
 			{
+                DEBUG_TRACE( cout << "Sample: sampleEngine->sample(" << currentBeliefIndexArr[activeRoot] << ")" << endl; );
 				// ADDED_24042009
 				sampledBeliefs = sampleEngine->sample(currentBeliefIndexArr[activeRoot], activeRoot);
+				DEBUG_TRACE( printSampleBelief(sampledBeliefs); );
+
 			}
 			//3. prune
 			//	decide whether needs pruning at this moment, if so,
@@ -335,6 +347,7 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 
 			//DEBUG_TRACE (beliefForest->print(););
 
+            DEBUG_TRACE( writeIntermediatePolicyTraceToFile(numTrials, runtimeTimer.elapsed(), this->solverParams->outPolicyFileName, this->solverParams->problemName ); );
 			pruneEngine->prune();
 
 			//4. write out policy file if interval time reached
@@ -713,6 +726,11 @@ BeliefTreeNode& SARSOP::getMaxExcessUncRoot(BeliefForest& globalroot)
 
 void SARSOP::backup(BeliefTreeNode* node)
 {
+    // So far, this is never executed
+    // backup on BeliefTreeNodes calls
+    // - AlphaPlanePoolSet::backup(BeliefTreeNode * node)
+    // - SharedPointer<BeliefValuePair> backup(BeliefTreeNode * node)
+    assert(false);
 	upperBoundSet->backup(node);
 	lowerBoundSet->backup(node);
 }
@@ -934,4 +952,25 @@ void SARSOP::printHeader(){
 
 void SARSOP::printDivider(){
     cout << "-------------------------------------------------------------------------------" << endl;
+}
+
+void SARSOP::printBeliefCacheSet() {
+
+    // #include "BeliefCache.h"
+    cout << "pbcs: Printing belief cache set" << endl;
+    cout << "pbcs:   beliefCacheSet.size()=" << beliefCacheSet.size() << endl;
+
+    for (int i = 0; i < beliefCacheSet.size(); ++i) {
+        cout << "pbcs:  i=" << i << " beliefCacheSet[" << i << "]->size()=" << beliefCacheSet[i]->size() << endl;
+
+        for (int j = 0; j < beliefCacheSet[i]->size(); ++j) {
+            BeliefCacheRow *row = beliefCacheSet[i]->getRow(j);
+
+            cout << "pbcs:  i=" << i << " j=" << j << " " << "BELIEF= " << row->BELIEF->ToString() << endl;
+            cout << "pbcs:  i=" << i << " j=" << j << " " << "LB= " << row->LB << endl;
+            cout << "pbcs:  i=" << i << " j=" << j << " " << "UB= " << row->UB << endl;
+            // TODO: cout << "pbcs:    i=" << i << " j=" << j << row->REACHABLE << endl;
+
+        }
+    }
 }

@@ -64,7 +64,7 @@ namespace momdp
 		vector<IndexedTuple<AlphaPlanePoolDataTuple> *> lbDataTableSet;
 		vector<IndexedTuple<BeliefValuePairPoolDataTuple> *> ubDataTableSet;
 
-
+		void printBeliefCacheSet();
 
 		virtual void solve(SharedPointer<MOMDP> problem);
 		virtual void writePolicy(string fileName, string problemName);
@@ -119,6 +119,7 @@ namespace momdp
 
 			solver->beliefCacheSet[stateidx]->getRow( row)->REACHABLE = node;
 			solver->beliefCacheSet[stateidx]->getRow( row)->UB = ubVal;
+			DEBUG_TRACE( cout << "MYLBVAL(1)=" << lbVal << endl; );
 			solver->beliefCacheSet[stateidx]->getRow( row)->LB = lbVal;
 
 			sarsopSolver->lowerBoundSet->set[stateidx]->dataTable->set(row).ALPHA_TIME_STAMP = timeStamp;

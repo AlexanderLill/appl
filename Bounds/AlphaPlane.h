@@ -8,14 +8,14 @@
 #include "tinyxml.h"
 
 using namespace momdp;
-namespace momdp 
+namespace momdp
 {
 class AlphaPlane :	public MObject
 {
 public:
 		//constructor
 		AlphaPlane();
-		
+
 
 		//AlphaPlane(const alpha_vector& _alpha, int _action, state_val _sval);
 
@@ -26,15 +26,15 @@ public:
 
 	virtual ~AlphaPlane(void);
 
-		
+
 		SharedPointer<alpha_vector> alpha;
 		int action;
 		state_val sval;
-	
+
 		Tuple* solverData;
 		int timeStamp;
 		int used; //for recording its usage in corner point dominations
-	
+
 
 		void setTimeStamp(int _timeStamp);
 
@@ -46,9 +46,9 @@ public:
 
 		SharedPointer<AlphaPlane> duplicate();
 		void write(std::ofstream& out) const;	//write XML dense vector
-		void writeSparse(std::ofstream& out) const; //write XML sparse vector 
+		void writeSparse(std::ofstream& out) const; //write XML sparse vector
 		//void write(std::ostream& out) const;	//write plane in old IV format
-
+        void print();
 
 };
 }

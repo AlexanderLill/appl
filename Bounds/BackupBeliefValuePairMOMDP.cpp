@@ -6,7 +6,7 @@
 #include "MOMDP.h"
 #include "SARSOP.h"
 #include "BeliefValuePairPool.h"
-#include "exception" 
+#include "exception"
 
 using namespace std;
 using namespace momdp;
@@ -27,7 +27,7 @@ SharedPointer<BeliefValuePair> BackupBeliefValuePairMOMDP::backup(BeliefTreeNode
 	state_val stateidx = cn->s->sval;
 
 	double newUBVal = getNewUBValue(*cn, &maxUBAction);
-	SharedPointer<BeliefValuePair> result = boundSet->addPoint(cn->s, newUBVal);    
+	SharedPointer<BeliefValuePair> result = boundSet->addPoint(cn->s, newUBVal);
 
 	if(maxUBAction < 0)
 	{
@@ -35,38 +35,38 @@ SharedPointer<BeliefValuePair> BackupBeliefValuePairMOMDP::backup(BeliefTreeNode
 	}
 	//  maybePrune();
 	//pruning is done in Prune class later
-	double lastUbVal = boundSet->set[stateidx]->beliefCache->getRow(cn->cacheIndex.row)->UB;
 
 	boundSet->set[stateidx]->beliefCache->getRow( cn->cacheIndex.row)->UB = newUBVal;
 
 	boundSet->set[stateidx]->dataTable->set(cn->cacheIndex.row).UB_ACTION = maxUBAction;
 
-	DEBUG_TRACE( cout << "Set UB_ACTION: [ " << stateidx << " / " << cn->cacheIndex.row << " ] = " << maxUBAction << endl; );
-	
+    DEBUG_TRACE( double lastUbVal = boundSet->set[stateidx]->beliefCache->getRow(cn->cacheIndex.row)->UB; );
+	DEBUG_TRACE( cout << "Set UB_ACTION: [ " << stateidx << " / " << cn->cacheIndex.row << " ] = " << maxUBAction << " lastUbVal=" << lastUbVal << " newUbVal=" << newUBVal << endl; );
+
 	// TODO:: cn.lastUbVal = lastUbVal;
 	//printf("lastUb: %f, ubVal %f\n", lastUbVal, newUBVal);//for debugging purpose
 	//return maxUBAction;
 	return result;
 }
 // upper bound on long-term reward for taking action a
-double BackupBeliefValuePairMOMDP::getNewUBValueQ(BeliefTreeNode& cn, int a) 
+double BackupBeliefValuePairMOMDP::getNewUBValueQ(BeliefTreeNode& cn, int a)
 {
 	DEBUG_TRACE( cout << "getNewUBValueQ a " << a << endl; );
 	DEBUG_TRACE( cout << "cn->cacheIndex " << cn.cacheIndex.row << " " << cn.cacheIndex.sval << endl; );
 
 	double val = 0;
 	BeliefTreeQEntry& Qa = cn.Q[a];
-	FOR (Xc, Qa.getNumStateOutcomes()) 
+	FOR (Xc, Qa.getNumStateOutcomes())
 	{
 		DEBUG_TRACE( cout << "Xc " << Xc << endl; );
 		BeliefTreeObsState* QaXc =  Qa.stateOutcomes[Xc];
-		if (NULL != QaXc ) 
+		if (NULL != QaXc )
 		{
-			FOR(o, QaXc->getNumOutcomes()) 
+			FOR(o, QaXc->getNumOutcomes())
 			{
 				DEBUG_TRACE( cout << "o " << o << endl; );
 				BeliefTreeEdge* e = QaXc->outcomes[o];
-				if (NULL != e) 
+				if (NULL != e)
 				{
 					DEBUG_TRACE( cout << "e!=NULL " << endl; );
 					DEBUG_TRACE( cout << "e->nextState->cacheIndex " << e->nextState->cacheIndex.row << " " << e->nextState->cacheIndex.sval <<endl; );
@@ -89,7 +89,7 @@ double BackupBeliefValuePairMOMDP::getNewUBValueQ(BeliefTreeNode& cn, int a)
 		}
 	}
 
-	val = Qa.immediateReward + problem->getDiscount() * val; 
+	val = Qa.immediateReward + problem->getDiscount() * val;
 	DEBUG_TRACE( cout << "val " << val << endl; );
 	Qa.ubVal = val;
 
@@ -97,25 +97,26 @@ double BackupBeliefValuePairMOMDP::getNewUBValueQ(BeliefTreeNode& cn, int a)
 	return val;
 }
 
-double BackupBeliefValuePairMOMDP::getNewUBValueSimple(BeliefTreeNode& cn, int* maxUBActionP) 
+double BackupBeliefValuePairMOMDP::getNewUBValueSimple(BeliefTreeNode& cn, int* maxUBActionP)
 {
-	DEBUG_TRACE( cout << "getNewUBValueSimple: " << endl; );
+	DEBUG_TRACE( cout << "gnUBvs: getNewUBValueSimple: " << endl; );
 
 	double val, maxVal = -99e+20;
 	int maxUBAction = -1;
-	FOR(a, problem->getNumActions()) 
+	FOR(a, problem->getNumActions())
 	{
-		DEBUG_TRACE( cout << "a: " << a << endl; );
+		DEBUG_TRACE( cout << "gnUBvs: a: " << a << endl; );
 		val = getNewUBValueQ(cn, a);
-		DEBUG_TRACE( cout << "val: " << val << endl; );
-		DEBUG_TRACE( cout << "maxVal: " << maxVal << endl; );
+		DEBUG_TRACE( cout << "gnUBvs: val: " << val << endl; );
+		DEBUG_TRACE( cout << "gnUBvs: maxVal: " << maxVal << endl; );
 
 
-		if (val > maxVal ) 
+		if (val > maxVal )
 		{
+            // FIXME: 2 Actions are equal, but only first action is saved as UBAction
 			maxVal = val;
 			maxUBAction = a;
-			DEBUG_TRACE( cout << "maxUBAction TO: " << maxUBAction << endl; );
+			DEBUG_TRACE( cout << "gnUBvs: maxUBAction TO: " << maxUBAction << endl; );
 		}
 	}
 
@@ -123,16 +124,15 @@ double BackupBeliefValuePairMOMDP::getNewUBValueSimple(BeliefTreeNode& cn, int* 
 	{
 		*maxUBActionP = maxUBAction;
 	}
-
 	return maxVal;
 }
 
-double BackupBeliefValuePairMOMDP::getNewUBValueUseCache(BeliefTreeNode& cn, int* maxUBActionP) 
+double BackupBeliefValuePairMOMDP::getNewUBValueUseCache(BeliefTreeNode& cn, int* maxUBActionP)
 {
 	DEBUG_TRACE( cout << "getNewUBValueUseCache" <<  endl; );
 	// cache upper bound for each action
 	DenseVector cachedUpperBound(problem->getNumActions());
-	
+
 	for(Actions::iterator aIter = problem->actions->begin(); aIter != problem->actions->end(); aIter ++)
 	{
 		int a = aIter.index();
@@ -152,7 +152,7 @@ double BackupBeliefValuePairMOMDP::getNewUBValueUseCache(BeliefTreeNode& cn, int
 	double val;
 	int maxUBAction = argmax_elt(cachedUpperBound);
 
-	while (1) 
+	while (1)
 	{
 		DEBUG_TRACE( cout << "cachedUpperBound" << endl; );
 		DEBUG_TRACE( cachedUpperBound.write(cout) << endl; );
@@ -174,7 +174,7 @@ double BackupBeliefValuePairMOMDP::getNewUBValueUseCache(BeliefTreeNode& cn, int
 
 	double maxVal = cachedUpperBound(maxUBAction);
 
-	if (NULL != maxUBActionP) 
+	if (NULL != maxUBActionP)
 	{
 		*maxUBActionP = maxUBAction;
 	}
@@ -184,13 +184,13 @@ double BackupBeliefValuePairMOMDP::getNewUBValueUseCache(BeliefTreeNode& cn, int
 double BackupBeliefValuePairMOMDP::getNewUBValue(BeliefTreeNode& cn, int* maxUBActionP)
 {
 	DEBUG_TRACE( cout << "BackupUpperBoundBVpair::getNewUBValue: " <<  cn.cacheIndex.row << " : " << cn.cacheIndex.sval << endl; );
-	    	    
-	if (CB_QVAL_UNDEFINED == cn.Q[0].ubVal) 
+
+	if (CB_QVAL_UNDEFINED == cn.Q[0].ubVal)
 	{
 		DEBUG_TRACE( cout << "getNewUBValue:2" << endl; );
 		return getNewUBValueSimple(cn, maxUBActionP);
-	} 
-	else 
+	}
+	else
 	{
 		DEBUG_TRACE( cout << "getNewUBValue:3" << endl; );
 		return getNewUBValueUseCache(cn, maxUBActionP);

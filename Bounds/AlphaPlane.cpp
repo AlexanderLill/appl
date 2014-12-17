@@ -8,7 +8,7 @@ using namespace std;
 
 AlphaPlane::AlphaPlane(void) : alpha (new alpha_vector())
 {
-	
+
 	solverData = new SARSOPAlphaPlaneTuple();
 }
 SharedPointer<AlphaPlane> AlphaPlane::duplicate()
@@ -51,7 +51,7 @@ void AlphaPlane::setTimeStamp(int _timeStamp)
 
 // TODO: Migrate to prunning section
 //Functionality:
-//	add belief to its dominated list if it's not already in 
+//	add belief to its dominated list if it's not already in
 void AlphaPlane::addDominatedBelief(int _timeStamp, BeliefTreeNode* _belief)
 {
 	SARSOPAlphaPlaneTuple *planeTuple = (SARSOPAlphaPlaneTuple *)(this->solverData);
@@ -84,18 +84,30 @@ void AlphaPlane::write(std::ofstream& out) const
 {
     out << "<Vector action=\"" << action <<"\" obsValue=\"" << sval << "\">";
     int n = alpha->size();
-    FOR (i, n) 
+    FOR (i, n)
     {
 	out << (*alpha)(i) << " ";
     }
     out << "</Vector>" << endl;
 }
 
+void AlphaPlane::print() {
+
+    cout << "<Vector action=\"" << action <<"\" obsValue=\"" << sval << "\">";
+    int n = alpha->size();
+    FOR (i, n)
+    {
+	cout << (*alpha)(i) << " ";
+    }
+    cout << "</Vector>" << endl;
+
+}
+
 void AlphaPlane::writeSparse(std::ofstream& out) const
 {
     out << "<SparseVector action=\"" << action <<"\" obsValue=\"" << sval << "\">";
     int n = alpha->size();
-    FOR (i, n) 
+    FOR (i, n)
     {
 	if(abs((*alpha)(i))>1e-10){
 	    out << "<Entry>";
@@ -115,7 +127,7 @@ void AlphaPlane::writeSparse(std::ofstream& out) const
 	out << "      numEntries => " << alpha->size() << "," << endl;
 	out << "      entries => [" << endl;
 	int n = alpha->size();
-	FOR (i, n-1) 
+	FOR (i, n-1)
 	{
 		out << "        " << i << ", " << (*alpha)(i) << "," << endl;
 	}
@@ -124,4 +136,4 @@ void AlphaPlane::writeSparse(std::ofstream& out) const
 	out << "      ]" << endl;
 	out << "    }";
 }
-*/	
+*/

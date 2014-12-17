@@ -1,9 +1,9 @@
-/** 
- * The code is released under GPL v2 
+/**
+ * The code is released under GPL v2
  */
 /************************************************************************
 File: SampleBP.cc
-Date: 06/06/2007 
+Date: 06/06/2007
 Author: rn
 *************************************************************************/
 #include "SampleBP.h"
@@ -25,7 +25,7 @@ namespace momdp
 		solver = _solver;
 		srand( time(NULL) );
 		// beliefCache = &(BeliefCache::getCache ()); // removed for factored, now accessed through Bounds class
-		
+
 
 		numTrials = 0;
 		numSubOptimal = 0;		//xan-edit
@@ -38,7 +38,7 @@ namespace momdp
 		priorityQueueArr.resize(problem->initialBeliefX->size());
 		nextNodeTargetUbArr.resize(problem->initialBeliefX->size());
 		nextNodeTargetLbArr.resize(problem->initialBeliefX->size());
-		FOR(r, problem->initialBeliefX->size()) 
+		FOR(r, problem->initialBeliefX->size())
 		{
 			double rprob = (*(problem->initialBeliefX))(r);
 			if (rprob > OBS_IS_ZERO_EPS) {
@@ -62,7 +62,7 @@ namespace momdp
 	}
 	//first level method
 	//Function: sample
-	//Functionality: 
+	//Functionality:
 	//    decide which are the next beliefs to be sampled, and
 	//    return them as a list, at the same time add them into the
 	//    reachable structure
@@ -73,17 +73,17 @@ namespace momdp
 	list < cacherow_stval >SampleBP::sample (cacherow_stval currIndexRow, unsigned int currentRoot)
 	{
 		isRoot = false;
-		bm->updateNode(currIndexRow); //for Bin Heuristic  // prevly, bm->updateNode(row);//for Bin Heuristic 
+		bm->updateNode(currIndexRow); //for Bin Heuristic  // prevly, bm->updateNode(row);//for Bin Heuristic
 		list < cacherow_stval >sampledBeliefs; // prevly, list < int >sampledBeliefs;
 		double excessUncertainty;
 		double lbVal, ubVal;
 
-		
+
 		lbVal = solver->beliefCacheSet[currIndexRow.sval]->getRow(currIndexRow.row)->LB;
 		ubVal = solver->beliefCacheSet[currIndexRow.sval]->getRow(currIndexRow.row)->UB;
 		BeliefTreeNode & currentNode = *(solver->beliefCacheSet[currIndexRow.sval]->getRow(currIndexRow.row)->REACHABLE);
 
-		DEBUG_TRACE( cout << "SampleBP::sample ub" << ubVal << " lb " << lbVal << endl; );
+		DEBUG_TRACE( cout << "SampleBP::sample ub " << ubVal << " lb " << lbVal << endl; );
 		DEBUG_TRACE( cout << "SampleBP::sample currentNode row: " << currentNode.cacheIndex.row << " sval " << currentNode.cacheIndex.sval << endl; );
 
 		//reset depth and precision parameters when it is a new trial
@@ -92,7 +92,7 @@ namespace momdp
 		{
 			//ADD SYLTAG
 			bool rootFound = false;
-			
+
 			FOR (r, solver->beliefForest->getGlobalRootNumSampleroots()) // solver->beliefForest is a data member of Sample class
 			{
 				SampleRootEdge* eR = solver->beliefForest->sampleRootEdges[r];
@@ -111,9 +111,9 @@ namespace momdp
 
 			//trialTargetPrecision = (ubVal - lbVal) * problem->getDiscount ();
 			//cout << "GlobalResource::getInstance()->solverParams->BP_IMPROVEMENT_CONSTANT " << GlobalResource::getInstance()->solverParams->BP_IMPROVEMENT_CONSTANT << endl;
-			
-			trialTargetPrecisionArr[currentRoot] = (ubVal - lbVal) *  solver->solverParams->BP_IMPROVEMENT_CONSTANT;//not 
-			//trialTargetPrecision = (ubVal - lbVal) * GlobalResource::getInstance()->solverParams->BP_IMPROVEMENT_CONSTANT;//not in use for fixed targetPrecision 
+
+			trialTargetPrecisionArr[currentRoot] = (ubVal - lbVal) *  solver->solverParams->BP_IMPROVEMENT_CONSTANT;//not
+			//trialTargetPrecision = (ubVal - lbVal) * GlobalResource::getInstance()->solverParams->BP_IMPROVEMENT_CONSTANT;//not in use for fixed targetPrecision
 			//empty the priority Queue
 			priorityQueueArr[currentRoot].clear ();
 			isRoot = true;
@@ -145,7 +145,7 @@ namespace momdp
 
 			DEBUG_TRACE( cout << "SampleBP::sample expectedError " << expectedError << endl; );
 			DEBUG_TRACE( cout << "SampleBP::sample excessUncertainty " << excessUncertainty << endl; );
-			
+
 			// choose to do randomization or not
 			if(doRandomization)
 			{
@@ -154,9 +154,10 @@ namespace momdp
 			}
 			else
 			{
+                // FIXME: Gets only best action, even if there are two equally good
 				r.maxUBAction = solver->upperBoundSet->set[currIndexRow.sval]->dataTable->get(currIndexRow.row).UB_ACTION;
 			}
-			
+
 			DEBUG_TRACE( cout << "SampleBP::sample r.maxUBAction " << r.maxUBAction << endl; );
 
 			r.maxUBVal = ubVal;
@@ -168,7 +169,7 @@ namespace momdp
 			int j = r.maxExcessUncOutcome;
 
 			cacherow_stval newIndexRow = currentNode.getNextState (i,j, Xn).cacheIndex;
-	
+
 			DEBUG_TRACE( cout << "SampleBP::sample int i = r.maxUBAction; " << r.maxUBAction << endl; );
 			DEBUG_TRACE( cout << "SampleBP::sample int Xn = r.maxExcessUncStateOutcome; " << Xn << endl; );
 			DEBUG_TRACE( cout << "SampleBP::sample int j = r.maxExcessUncOutcome; " << j << endl; );
@@ -177,7 +178,7 @@ namespace momdp
 
 			// 26092008 added
 			// if child node is exactly the same as parent node, and there is no randomization,
-			// end the trial here 
+			// end the trial here
 			// HOWEVER note that , since the parent node is a child node of itself, just doing repeated backups COULD
 			// improve bounds at the same node!
 /*			if ( (!doRandomization) && (newIndexRow.sval == currIndexRow.sval) && (newIndexRow.row == currIndexRow.row))
@@ -191,7 +192,7 @@ namespace momdp
 cout << "End of one trial due to childnode == parentnode" << endl;
 #endif
 				return priorityQueue;	//at the end of each trial, the entire path is returned
-			} 
+			}
 */
 
 			// int newRow = currentNode.getNextState (i,j).cacheIndex;
@@ -254,7 +255,7 @@ cout << "End of one trial due to ( (excessUncertainty) <= 0)" << endl;
 #endif
 
 					return priorityQueueArr[currentRoot];	//at the end of each trial, the entire path is returned
-				} 
+				}
 				else
 				{
 					if ( (currentNode.Q[i].ubVal == CB_QVAL_UNDEFINED || currentNode.Q[i].ubVal > curTargetUb))
@@ -269,8 +270,8 @@ cout << "End of one trial due to ( (excessUncertainty) <= 0)" << endl;
 					}//end bp check
 				}//end excess uncertainty check
 			}//end compare lower bound improves action
-			
-			
+
+
 			if ( proceed )
 			{
 				DEBUG_TRACE ( cout << "proceeded" << endl; );
@@ -473,7 +474,7 @@ cout << "End of one trial due to !( (currentNode.Q[i].ubVal == CB_QVAL_UNDEFINED
 		}
 */
 		// now add the predicted LB of chosen node, multiplied by P(o,x'|x,b,a)
-		// for ref: e->obsProb * Qax->obsStateProb  
+		// for ref: e->obsProb * Qax->obsStateProb
 		// 061008 changed calculation for obsProb
 		double oxp = Qa.stateOutcomes[xstate]->outcomes[observation]->obsProb;
 		//double oxp = Qa.stateOutcomes[xstate]->outcomes[observation]->obsProb * Qa.stateOutcomes[xstate]->obsStateProb;
@@ -484,12 +485,12 @@ cout << "End of one trial due to !( (currentNode.Q[i].ubVal == CB_QVAL_UNDEFINED
 
 		value *= problem->getDiscount();
 		value += currentNode.Q[action].immediateReward;
-		
+
 		double curTargetLb;
 		if (isRoot)
 		{
 			curTargetLb = maxValue;
-		}	
+		}
 		else
 		{
 			curTargetLb = max(maxValue, nextNodeTargetLbArr[currentRoot]);
@@ -513,7 +514,7 @@ cout << "End of one trial due to !( (currentNode.Q[i].ubVal == CB_QVAL_UNDEFINED
 			FOR(o, opv.size())
 			{
 				if ( opv(o) > OBS_IS_ZERO_EPS )
-				{	
+				{
 					value += opv(o) *  solver->beliefCacheSet[currentNode.getNextState (action, o, x).cacheIndex.sval]->getRow(currentNode.getNextState (action, o, x).cacheIndex.row)->LB;
 				}
 			}

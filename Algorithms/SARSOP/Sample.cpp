@@ -1,7 +1,7 @@
-/** 
+/**
  * Part of the this code is derived from ZBeliefTree: http://www.cs.cmu.edu/~trey/zmdp/
  * ZBeliefTree is released under Apache License 2.0
- * The rest of the code is released under GPL v2 
+ * The rest of the code is released under GPL v2
  */
 
 /******************************************************************************
@@ -53,7 +53,7 @@ namespace momdp
      }
 
      //ADD SYLTAG - this function just creates, initializes and returns pointer. It does not expand.
-     BeliefForest* Sample::getGlobalNode(void) 
+     BeliefForest* Sample::getGlobalNode(void)
      {
 	  return beliefForest;
      }
@@ -61,27 +61,24 @@ namespace momdp
 
 
 
-     BeliefTreeNode* Sample::getNode(SharedPointer<BeliefWithState>& b_s) 
+     BeliefTreeNode* Sample::getNode(SharedPointer<BeliefWithState>& b_s)
      {
 	  SharedPointer<belief_vector>& s = b_s->bvec;
 	  state_val stateidx = b_s->sval;
 
 	  bool keepLowerBound = true;
 
-	  DEBUG_TRACE( cout << "Sample::getNode stateidx " << stateidx; );
-	  DEBUG_TRACE( cout << " s" << endl; );
-	  DEBUG_TRACE( s->write(cout) << endl; );
-	  DEBUG_TRACE( cout << " hash: " << s->md5HashValue() << endl; );
-
 	  int row = (*beliefCacheSet)[stateidx]->getBeliefRowIndex(s);
 
-	  DEBUG_TRACE( cout << "testedRowIndex: " << row << endl; );
+	  DEBUG_TRACE( cout << "Sample::getNode stateidx " << stateidx << " s "; );
+	  DEBUG_TRACE( s->write(cout) );
+	  DEBUG_TRACE( cout << " hash: " << s->md5HashValue() << " testedRowIndex: " << row << endl; );
 
 
 	  bool isTerminal;
 	  double ubVal, lbVal;
 
-	  if (row==-1) 
+	  if (row==-1)
 	  {
 	       // create a new fringe node
 	       BeliefTreeNode* cn = new BeliefTreeNode();
@@ -114,7 +111,7 @@ namespace momdp
 
 	       return cn;
 	  }
-	  else 
+	  else
 	  {
 	       // return existing node
 	       BeliefTreeNode* temp = (*beliefCacheSet)[stateidx]->getRow(row)->REACHABLE;
@@ -125,8 +122,7 @@ namespace momdp
      //Assumption: cn.depth is defined already
      void Sample::expand(BeliefTreeNode& cn)
      {
-	  DEBUG_TRACE( cout<<"expand"<< endl; );
-	  DEBUG_TRACE( cout << "cn.s sval " << cn.s->sval << " index " << cn.cacheIndex.row << endl; );
+	  DEBUG_TRACE( cout<<"expandnode cn.s->sval " << cn.s->sval << " cn.cacheIndex.row " << cn.cacheIndex.row << " "; );
 	  DEBUG_TRACE( cn.s->bvec->write(cout) << endl; );
 
 	  // set up successors for this fringe node (possibly creating new fringe nodes)
@@ -167,7 +163,7 @@ namespace momdp
 		    DEBUG_TRACE( cout << "Sample::expand Xn " << Xn << endl; );
 
 		    double sprob = spv(Xn);
-		    if (sprob > OBS_IS_ZERO_EPS) 
+		    if (sprob > OBS_IS_ZERO_EPS)
 		    {
 			 BeliefTreeObsState* xe = new BeliefTreeObsState();
 			 Qa.stateOutcomes[Xn] = xe;
@@ -179,13 +175,13 @@ namespace momdp
 
 			 for(Observations::iterator oIter =  problem->observations->begin() ; oIter != problem->observations->end(); oIter ++)
 			 {
-			      //FOR(o, opv.size()) 
+			      //FOR(o, opv.size())
 			      int o = oIter.index();
 
-			      DEBUG_TRACE( cout << "Sample::expand o " << o << endl; );
+			      DEBUG_TRACE( cout << "Sample::expand Xn " << Xn << " o " << o << endl; );
 
 			      double oprob = opv(o);
-			      if (oprob > OBS_IS_ZERO_EPS) 
+			      if (oprob > OBS_IS_ZERO_EPS)
 			      {
 				   BeliefTreeEdge* e = new BeliefTreeEdge();
 				   xe->outcomes[o] = e;
@@ -207,14 +203,14 @@ namespace momdp
 				   DEBUG_TRACE( cout << "e->nextState->cacheIndex.row " << e->nextState->cacheIndex.row << " count " << e->nextState->count << endl; );
 				   // new path which runs into the node
 			      }
-			      else 
+			      else
 			      {
 				   xe->outcomes[o] = NULL;
 			      }
 			 }
-		    } 
-		    else 
-		    { 
+		    }
+		    else
+		    {
 			 Qa.stateOutcomes[Xn] = NULL;
 		    }
 	       }

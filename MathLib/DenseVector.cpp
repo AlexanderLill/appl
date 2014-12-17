@@ -15,8 +15,8 @@ DenseVector::DenseVector(void)
 {
 }
 DenseVector::DenseVector(int _size)
-{ 
-	resize(_size); 
+{
+	resize(_size);
 }
 DenseVector::~DenseVector(void)
 {
@@ -29,15 +29,15 @@ DenseVector::~DenseVector(void)
 	//{
 		//vector<SparseVector_Entry>::const_iterator  Ai, col_end;
 		//assert( size() == A.size1() );
-		
+
 		//DenseVector* result = new DenseVector( A.size2() );
 
-		//FOR (c, A.size2()) 
+		//FOR (c, A.size2())
 		//{
 			//col_end = A.data.begin() + A.col_starts[c+1];
 			//for (Ai = A.data.begin() + A.col_starts[c];
 				//Ai != col_end;
-				//Ai++) 
+				//Ai++)
 			//{
 					//(*result)(c) += (*this)(Ai->index) * Ai->value;
 			//}
@@ -76,12 +76,12 @@ int DenseVector::argSampleDist()
 	REAL_VALUE randNumber = unit_rand();
 	REAL_VALUE sum = 0.0;
 	int state = 0;
-	FOREACH(REAL_VALUE, entry,  data) 
+	FOREACH(REAL_VALUE, entry,  data)
 	{
 		sum += *entry;
 		if(randNumber < sum )
 		{
-			return state; 
+			return state;
 		}
 		state ++;
 	}
@@ -95,11 +95,11 @@ void DenseVector::resize(int _size, REAL_VALUE value)
 {
 	assert(0 == value);
 	data.resize( _size );
-	FOREACH_NOCONST(double, di,  data) 
+	FOREACH_NOCONST(double, di,  data)
 	{
 		(*di) = value;
 	}
-	
+
 }
 
 void DenseVector::resize(int _size)
@@ -115,7 +115,7 @@ void DenseVector::read(istream& in)
 
 	in >> num_entries;
 	resize( num_entries );
-	FOR (i, num_entries) 
+	FOR (i, num_entries)
 	{
 		in >> data[i];
 	}
@@ -134,8 +134,8 @@ void DenseVector::read(istream& in)
 
 ostream& DenseVector::write(ostream& out) const
 {
-	out << size() << std::endl;
-	FOREACH(REAL_VALUE, x,  data) 
+	out << "size=" << size() << " densevectordata=";
+	FOREACH(REAL_VALUE, x,  data)
 	{
 		out << (*x) << " ";
 	}

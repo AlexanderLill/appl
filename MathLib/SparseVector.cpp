@@ -86,7 +86,7 @@ main_loop_done:
     REAL_VALUE SparseVector::getEntropy()
     {
 	REAL_VALUE entropy = 0;
-	FOREACH (SparseVector_Entry, di, data) 
+	FOREACH (SparseVector_Entry, di, data)
 	{
 	    entropy += di->value * ( log(di->value) / log(2.0) );
 	}
@@ -178,12 +178,12 @@ main_loop_done:
     {
 	REAL_VALUE randNumber = unit_rand();
 	REAL_VALUE sum = 0.0;
-	FOREACH(SparseVector_Entry, entry,  data) 
+	FOREACH(SparseVector_Entry, entry,  data)
 	{
 	    sum += entry->value;
 	    if(randNumber < sum )
 	    {
-		return entry->index; 
+		return entry->index;
 	    }
 	}
 	return size()-1;
@@ -268,9 +268,9 @@ main_loop_done:
 	REAL_VALUE result = 0.0;
 	vector<SparseVector_Entry>::iterator  vi, vend = data.end();
 
-	for (vi = data.begin(); vi != vend; vi++) 
+	for (vi = data.begin(); vi != vend; vi++)
 	{
-	    if (!mask[vi->index]) 
+	    if (!mask[vi->index])
 	    {
 		result += vi->value;
 	    }
@@ -281,7 +281,7 @@ main_loop_done:
     void SparseVector::copyIndex( vector<int>& result)
     {
 	vector<SparseVector_Entry>::iterator  vi, vend = data.end();
-	for (vi = data.begin(); vi != vend; vi++) 
+	for (vi = data.begin(); vi != vend; vi++)
 	{
 	    result.push_back(vi->index);
 	}
@@ -290,7 +290,7 @@ main_loop_done:
     void SparseVector::copyValue( vector<REAL_VALUE>& result)
     {
 	vector<SparseVector_Entry>::iterator  vi, vend = data.end();
-	for (vi = data.begin(); vi != vend; vi++) 
+	for (vi = data.begin(); vi != vend; vi++)
 	{
 	    result.push_back(vi->value);
 	}
@@ -383,12 +383,12 @@ main_loop_done:
     {
 	REAL_VALUE randNumber = unit_rand();
 	REAL_VALUE sum = 0.0;
-	FOREACH(SparseVector_Entry, entry,  data) 
+	FOREACH(SparseVector_Entry, entry,  data)
 	{
 	    sum += entry->value;
 	    if(randNumber < sum )
 	    {
-		return entry->index; 
+		return entry->index;
 	    }
 	}
 	return logicalSize -1;
@@ -464,7 +464,7 @@ main_loop_done:
 
     //@added by amit on 29th june
     std::ostream& SparseVector::write(std::ostream& out) const{
-	out << "size: "<< logicalSize <<",\n data: [";
+	out << "size: "<< logicalSize <<", data: [";
 
 	for(std::vector<SparseVector_Entry>::const_iterator iter = data.begin();
 		iter != data.end(); iter++){
@@ -485,7 +485,7 @@ main_loop_done:
 	//out << "size: "<< logicalSize <<",\n data: [";
 	//printf("this: %X\n", this);
 	//cout << "size: "<< logicalSize <<",\n data: (size="<< sizeof(data) / sizeof(data[0]) << ") [";
-	
+
 	for(std::vector<SparseVector_Entry>::const_iterator iter = data.begin(); iter != data.end(); iter++)
 	{
 	    //printf("Iter: %X\n", iter);
@@ -500,7 +500,7 @@ main_loop_done:
     }
 
 
-    void SparseVector::finalize() 
+    void SparseVector::finalize()
     {
 	// become immutable
 	// TODO:: Temp Disabled
@@ -530,19 +530,19 @@ main_loop_done:
     {
 	stringstream out;
 
-	// TODO, use setf 
+	// TODO, use setf
 	//out.setf ( ios::hex, ios::basefield );       // set hex as the basefield
 	//out.width(2);
 
 	for(int i=0; i<16; i++)
 	{
 	    out << setfill('0') << setw(2) << hex << (int) bytes[i];
-	}	
+	}
 
 	return out.str();
     }
 
-    string SparseVector::getHashFromCVector(SparseVector& x)	
+    string SparseVector::getHashFromCVector(SparseVector& x)
     {
 	MD5_CTX context;
 
@@ -574,8 +574,8 @@ main_loop_done:
 	md5.MD5Final (digest, &context);
 	string result = convToString(digest);
 	return result;
-    }	
-    string SparseVector::getHashFromSparseVectorTruncated(SparseVector& x)	
+    }
+    string SparseVector::getHashFromSparseVectorTruncated(SparseVector& x)
     {
 	MD5_CTX context;
 
@@ -607,7 +607,7 @@ main_loop_done:
 	string result = convToString(digest);
 	return result;
 
-    }	
+    }
 
 }
 
