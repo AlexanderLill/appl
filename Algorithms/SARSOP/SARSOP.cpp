@@ -973,17 +973,4 @@ void SARSOP::printBeliefCacheSet() {
             cout << "pbcs:   i=" << i << " j=" << j << " UB_ACTION=" << upperBoundSet->set[i]->dataTable->get(j).UB_ACTION << endl;
         }
     }
-
-    //r.maxUBAction = solver->upperBoundSet->set[currIndexRow.sval]->dataTable->get(currIndexRow.row).UB_ACTION;
-    //cout << "dfubs: Data from upperBoundSet:" << endl;
-    //cout << "dfubs: solver->upperBoundSet->set.size()=" << upperBoundSet->set.size() << endl;
-
-    //for (int i=0; i < upperBoundSet->set.size(); ++i) {
-    //    cout << "dfubs:   upperBoundSet->set[i]->dataTable->size()=" << upperBoundSet->set[i]->dataTable->size() << endl;
-    //    cout << "dfubs:   i=" << i << endl;
-
-    //    for (int j=0; j < upperBoundSet->set[i]->dataTable->size(); ++j) {
-    //        cout << "dfubs:   i=" << i << " j=" << j << " UB_ACTION=" << upperBoundSet->set[i]->dataTable->get(j).UB_ACTION << endl;
-    //    }
-    //}
 }
