@@ -113,6 +113,7 @@ double BackupBeliefValuePairMOMDP::getNewUBValueSimple(BeliefTreeNode& cn, int* 
 
 		if (val > maxVal )
 		{
+            // FIXME: 2 Actions are equal, but only first action is saved as UBAction
 			maxVal = val;
 			maxUBAction = a;
 			DEBUG_TRACE( cout << "gnUBvs: maxUBAction TO: " << maxUBAction << endl; );

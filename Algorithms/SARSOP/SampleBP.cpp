@@ -146,17 +146,15 @@ namespace momdp
 			DEBUG_TRACE( cout << "SampleBP::sample expectedError " << expectedError << endl; );
 			DEBUG_TRACE( cout << "SampleBP::sample excessUncertainty " << excessUncertainty << endl; );
 
-            // FIXME: This is just for debugging
-            doRandomization = true;
-
 			// choose to do randomization or not
 			if(doRandomization)
 			{
-                DEBUG_TRACE( cout << "Choosing random best action (looking at UB)" << endl; )
 				r.maxUBAction = chooseAction(currentNode);
+				//cout << "Random Choose action" << endl;
 			}
 			else
 			{
+                // FIXME: Gets only best action, even if there are two equally good
 				r.maxUBAction = solver->upperBoundSet->set[currIndexRow.sval]->dataTable->get(currIndexRow.row).UB_ACTION;
 			}
 

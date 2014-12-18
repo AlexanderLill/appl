@@ -91,7 +91,6 @@ void AlphaPlane::write(std::ofstream& out) const
     out << "</Vector>" << endl;
 }
 
-// Added by Alex
 void AlphaPlane::print() {
 
     cout << "<Vector action=\"" << action <<"\" obsValue=\"" << sval << "\">";

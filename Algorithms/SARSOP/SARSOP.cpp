@@ -110,7 +110,7 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 			problem->deletePOMDPMatrices();
 		}
 
-// Added by Alex: 3 times the same if - I commented that out
+// 3 times the same if - commented that out
 //
 //		if(problem->XStates->size() != 1 && problem->hasPOMDPMatrices())
 //		{
@@ -954,7 +954,6 @@ void SARSOP::printDivider(){
     cout << "-------------------------------------------------------------------------------" << endl;
 }
 
-// Added by Alex
 void SARSOP::printBeliefCacheSet() {
 
     // #include "BeliefCache.h"
