@@ -335,12 +335,12 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 			//  b. if target depth has been reached, go back to root
 			if (!skipSample)
 			{
-                DEBUG_TRACE( cout << "Sample: sampleEngine->sample(" << currentBeliefIndexArr[activeRoot] << ")" << endl; );
+                DEBUG_TRACE( cout << "Sample: sampleEngine->sample(" << currentBeliefIndexArr[activeRoot].row << ")" << endl; );
 				// ADDED_24042009
 				sampledBeliefs = sampleEngine->sample(currentBeliefIndexArr[activeRoot], activeRoot);
 				DEBUG_TRACE( printSampleBelief(sampledBeliefs); );
-
 			}
+
 			//3. prune
 			//	decide whether needs pruning at this moment, if so,
 			//  prune off the unnecessary nodes
@@ -385,7 +385,7 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 							lapTimer.restart();
 
 
-							DEBUG_LOG(logFilePrint(policyIndex-1););
+							DEBUG_LOG( logFilePrint(policyIndex-1); );
 							DEBUG_LOG( progressiveIncreasePolicyInteval(numPolicies); );
 
 
@@ -958,19 +958,31 @@ void SARSOP::printBeliefCacheSet() {
 
     // #include "BeliefCache.h"
     cout << "pbcs: Printing belief cache set" << endl;
-    cout << "pbcs:   beliefCacheSet.size()=" << beliefCacheSet.size() << endl;
+    cout << "pbcs: beliefCacheSet.size()=" << beliefCacheSet.size() << endl;
 
     for (int i = 0; i < beliefCacheSet.size(); ++i) {
-        cout << "pbcs:  i=" << i << " beliefCacheSet[" << i << "]->size()=" << beliefCacheSet[i]->size() << endl;
+        cout << "pbcs:   i=" << i << " beliefCacheSet[" << i << "]->size()=" << beliefCacheSet[i]->size() << endl;
 
         for (int j = 0; j < beliefCacheSet[i]->size(); ++j) {
             BeliefCacheRow *row = beliefCacheSet[i]->getRow(j);
 
-            cout << "pbcs:  i=" << i << " j=" << j << " " << "BELIEF= " << row->BELIEF->ToString() << endl;
-            cout << "pbcs:  i=" << i << " j=" << j << " " << "LB= " << row->LB << endl;
-            cout << "pbcs:  i=" << i << " j=" << j << " " << "UB= " << row->UB << endl;
-            // TODO: cout << "pbcs:    i=" << i << " j=" << j << row->REACHABLE << endl;
-
+            cout << "pbcs:   i=" << i << " j=" << j << " BELIEF= " << row->BELIEF->ToString() << endl;
+            cout << "pbcs:   i=" << i << " j=" << j << " LB= " << row->LB << endl;
+            cout << "pbcs:   i=" << i << " j=" << j << " UB= " << row->UB << endl;
+            cout << "pbcs:   i=" << i << " j=" << j << " UB_ACTION=" << upperBoundSet->set[i]->dataTable->get(j).UB_ACTION << endl;
         }
     }
+
+    //r.maxUBAction = solver->upperBoundSet->set[currIndexRow.sval]->dataTable->get(currIndexRow.row).UB_ACTION;
+    //cout << "dfubs: Data from upperBoundSet:" << endl;
+    //cout << "dfubs: solver->upperBoundSet->set.size()=" << upperBoundSet->set.size() << endl;
+
+    //for (int i=0; i < upperBoundSet->set.size(); ++i) {
+    //    cout << "dfubs:   upperBoundSet->set[i]->dataTable->size()=" << upperBoundSet->set[i]->dataTable->size() << endl;
+    //    cout << "dfubs:   i=" << i << endl;
+
+    //    for (int j=0; j < upperBoundSet->set[i]->dataTable->size(); ++j) {
+    //        cout << "dfubs:   i=" << i << " j=" << j << " UB_ACTION=" << upperBoundSet->set[i]->dataTable->get(j).UB_ACTION << endl;
+    //    }
+    //}
 }

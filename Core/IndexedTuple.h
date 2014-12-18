@@ -7,7 +7,7 @@
 
 using namespace std;
 using namespace momdp;
-namespace momdp 
+namespace momdp
 {
 template <typename T>
 class IndexedTuple
@@ -23,7 +23,7 @@ public:
 	{
 	}
 
-	T& set(size_t index) 
+	T& set(size_t index)
 	{
 		if(index < 0)
 		{
@@ -36,7 +36,7 @@ public:
 		}
 		return tupleTable[index];
 	}
-	const T& get(size_t index) 
+	const T& get(size_t index)
 	{
 		if(index < 0)
 		{
@@ -50,6 +50,10 @@ public:
 
 		return tupleTable[index];
 	}
+
+	int size() {
+        return tupleTable.size();
+    }
 
 
 };
