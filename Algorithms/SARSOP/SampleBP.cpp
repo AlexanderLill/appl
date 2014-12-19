@@ -152,7 +152,6 @@ namespace momdp
 			// choose to do randomization or not
 			if(doRandomization)
 			{
-                DEBUG_TRACE( cout << "Choosing random best action (looking at UB)" << endl; )
 				r.maxUBAction = chooseAction(currentNode);
 			}
 			else
@@ -160,7 +159,11 @@ namespace momdp
 				r.maxUBAction = solver->upperBoundSet->set[currIndexRow.sval]->dataTable->get(currIndexRow.row).UB_ACTION;
 			}
 
-			DEBUG_TRACE( cout << "SampleBP::sample r.maxUBAction " << r.maxUBAction << endl; );
+			DEBUG_TRACE( cout << "SampleBP::sample r.maxUBAction " << r.maxUBAction; );
+			if (doRandomization) {
+                DEBUG_TRACE( cout << " (chosen by random)"; );
+			}
+			DEBUG_TRACE( cout << endl; );
 
 			r.maxUBVal = ubVal;
 			getMaxExcessUncOutcome (currentNode, r, currentRoot);
@@ -535,12 +538,20 @@ cout << "End of one trial due to !( (currentNode.Q[i].ubVal == CB_QVAL_UNDEFINED
 		int action = max_action;
 
 		FOR (a, problem->getNumActions()) {
+
+		    DEBUG_TRACE( cout << "SampleBP::chooseAction UBcurrentAction=" << currentNode.Q[a].ubVal; );
+
 			if ( currentNode.Q[a].ubVal >= (currentNode.Q[max_action].ubVal - 0.5*1e-9) ) {
+                DEBUG_TRACE( cout << " >= " <<  "UBmaxActionMinusX=" << currentNode.Q[max_action].ubVal - 0.5*1e-9 << " (Raw=" << currentNode.Q[max_action].ubVal << ") - Action=" << a; );
 				actions[index] = a;
 				index++;
+			} else {
+                DEBUG_TRACE( cout << "<" <<  "UBmaxActionMinusX=" << currentNode.Q[max_action].ubVal - 0.5*1e-9 << " (Raw=" << currentNode.Q[max_action].ubVal << ")"; );
 			}
+			DEBUG_TRACE( cout << " count=" << index << endl; );
 		}
 		action = actions[ rand() % index ];
+
 		free(actions);
 		return action;
 	}

@@ -1,12 +1,13 @@
 /**
-  @brief A simple test for the Controller using the Tiger example
-  @author Le Trong Dao
-  @date 2012-02-07
+  @brief Controller with reinforcement learning for coffee example
+  @author Alexander Lill
+  @date 2014-12-19
 **/
 
 // Usage: "./testController --policy-file=out.policy
 // ../examples/POMDPX/Tiger.pomdpx"
 
+// TODO: Fix includes, namespaces ... it's a mess!
 
 #include <stdio.h>
 #include <stdlib.h>
