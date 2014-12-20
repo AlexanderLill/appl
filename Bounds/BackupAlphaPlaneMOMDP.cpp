@@ -94,7 +94,7 @@ double BackupAlphaPlaneMOMDP::getNewAlphaPlane(AlphaPlane& result, BeliefTreeNod
 					FOR (o, QaXn->getNumOutcomes())
 						//FOR (o, QaXn.getNumOutcomes())
 					{
-						cout << "gnap:  a=" << a << " Xn= " << Xn << " o=" << o << endl;
+						DEBUG_TRACE( cout << "gnap:  a=" << a << " Xn= " << Xn << " o=" << o << endl; );
 
 						BeliefTreeEdge* e = QaXn->outcomes[o];
 						//BeliefTreeEdge* e = QaXn.outcomes[o];

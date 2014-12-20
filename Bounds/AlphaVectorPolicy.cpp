@@ -289,8 +289,8 @@ int AlphaVectorPolicy::getBestActionLookAhead(BeliefWithState& b, REAL_VALUE& ma
 						DEBUG_TRACE( nextb->bvec->write(cout) << endl; );
 
 						SharedPointer<AlphaPlane> bestAlpha = alphaPlanePoolSet->getBestAlphaPlane1(*nextb);
-						bestAlpha->print();
-                        cout << nextb->bvec->ToString() << endl;
+						//bestAlpha->print();
+						//cout << nextb->bvec->ToString() << endl;
 						double childLB = inner_prod(*bestAlpha->alpha, *nextb->bvec);
 						sum += childLB * obsProb;
 

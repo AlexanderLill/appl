@@ -219,7 +219,7 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 						sampledBeliefs.clear();
 						sampledBeliefs.push_back(sn.cacheIndex);
 
-                        cout << "if (activeRoot == -1)" << endl;
+                        DEBUG_TRACE( cout << "if (activeRoot == -1)" << endl; );
 						DEBUG_TRACE( printSampleBelief(sampledBeliefs); );
 
 						currentBeliefIndexArr[r] =  backup(sampledBeliefs);
