@@ -4,8 +4,7 @@
   @date 2014-12-19
 **/
 
-// Usage: "./testController --policy-file=out.policy
-// ../examples/POMDPX/Tiger.pomdpx"
+// Usage: "./coffeeControllerIntegrated coffeeproblem.pomdpx"
 
 // TODO: Fix includes, namespaces ... it's a mess!
 
@@ -51,8 +50,6 @@
 
 #include "tinyxml.h"
 
-#include <string.h>
-
 using namespace std;
 using namespace momdp;
 
@@ -74,32 +71,184 @@ OutputParams::OutputParams(void) {
 	interval = -1;
 }
 
+
 class RewardChange {
-public:
+
+private:
     int state;
     int action;
-    int oldReward;
-    int newReward;
+    REAL_VALUE oldReward;
+    REAL_VALUE newReward;
 
-    RewardChange(int state, int action, int oldReward, int newReward) {
+public:
+    RewardChange() : state(0), action(0), oldReward(0.0), newReward(0.0) {
+        cout << "RewardChange()" << endl;
+    }
+
+    RewardChange(int state, int action, REAL_VALUE oldReward, REAL_VALUE newReward) {
+        cout << "RewardChange(" << state << "," << action << "," << oldReward << "," << newReward << ")" << endl;
+
         this->state = state;
         this->action = action;
         this->oldReward = oldReward;
         this->newReward = newReward;
     }
 
-    string ToString() {
+    void applyToProblem(SharedPointer<MOMDP> problem) {
+        cout << "applyToProblem()" << endl;
+
+        (problem->rewards->getMatrix(0))->changeValue(state, action, newReward);
+    }
+
+    REAL_VALUE getNewReward() {
+        return newReward;
+    }
+
+    string toString() {
         ostringstream ss;
-        ss << "State: " << state << ", Action: " << action << ", oldReward: " << oldReward << ", newReward: " << newReward;
+        ss << "RewardChange - state: " << state << ", action: " << action << ", oldReward: " << oldReward << ", newReward: " << newReward;
         return ss.str();
     }
 
-    string instanceString() {
+    string getInstanceString() {
         ostringstream ss;
         ss << "a" << action << " s" << state;
         return ss.str();
     }
 };
+
+
+class UserFeedback {
+
+private:
+    SharedPointer<MOMDP> problem;
+    SharedPointer<BeliefWithState> belief;
+    int previousAction;
+    int feedbackSign;
+    float impact;
+    vector<RewardChange> improvements;
+
+
+public:
+    UserFeedback() {
+        cout << "UserFeedback()" << endl;
+    }
+
+    UserFeedback(SharedPointer<MOMDP> problem, SharedPointer<BeliefWithState> belief, int previousAction, bool negativeFeedback, float impact) {
+        cout << "UserFeedback(problem,belief," << previousAction << "," << negativeFeedback << "," << impact << ")" << endl;
+
+        this->problem = problem;
+        this->belief = belief;
+        this->previousAction = previousAction;
+
+        if (negativeFeedback) {
+            this->feedbackSign = -1;
+        } else {
+            this->feedbackSign = 1;
+        }
+
+        this->impact = impact;
+    }
+
+    vector<RewardChange> getImprovements() {
+        if (improvements.size() == 0) {
+            calculateImprovements();
+        }
+        return improvements;
+    }
+
+    string toString() {
+        ostringstream ss;
+        ss << "UserFeedback - belief: " << belief->bvec->ToString() << ", previousAction: " << previousAction << ", feedbackSign=" << feedbackSign << ", impact: " << impact;
+
+        vector<RewardChange>::iterator  vi;
+
+        for (vi = improvements.begin(); vi != improvements.end(); ++vi) {
+            ss << vi->toString() << endl;
+        }
+
+        return ss.str();
+    }
+
+private:
+    void calculateImprovements() {
+
+        vector<SparseVector_Entry>::iterator  vi;
+        int state = 0;
+        REAL_VALUE probability = 0.0;
+        REAL_VALUE oldReward = 0.0;
+        REAL_VALUE diff = 0.0;
+        REAL_VALUE newReward = 0.0;
+
+        // Iterate over all entries of the current belief
+        for (vi = belief->bvec->data.begin(); vi != belief->bvec->data.end(); ++vi) {
+
+            state = vi->index;
+            probability = vi->value;
+            oldReward = (*(problem->rewards->getMatrix(belief->sval)))(state, previousAction);
+            diff = probability * impact * oldReward * feedbackSign;
+            newReward = oldReward + diff;
+
+            cout << "state=" << state << ", probability=" << probability << ", action=" << previousAction << ", oldReward=" << oldReward << ", feedbackSign=" << feedbackSign << ", diff=" << diff << ", newReward=" << newReward << endl;
+
+            improvements.push_back(RewardChange(state, previousAction, oldReward, newReward));
+        }
+
+    }
+
+};
+
+
+class Improvements {
+
+private:
+    map<string, RewardChange> improvements;
+
+    void addRewardChange(RewardChange rewardChange) {
+        improvements[rewardChange.getInstanceString()] = rewardChange;
+    }
+
+public:
+    Improvements() {
+        cout << "Improvements()" << endl;
+    }
+
+    void addUserFeedback(UserFeedback userFeedback) {
+        vector<RewardChange> rewardChanges = userFeedback.getImprovements();
+
+        vector<RewardChange>::iterator  vi;
+        for (vi = rewardChanges.begin(); vi != rewardChanges.end(); ++vi) {
+                addRewardChange(*vi);
+        }
+    }
+
+    map<string, RewardChange> getImprovements() {
+        return improvements;
+    }
+
+    void applyToProblem(SharedPointer<MOMDP> problem) {
+        map<string, RewardChange>::iterator  vi;
+
+        for (vi = improvements.begin(); vi != improvements.end(); ++vi) {
+            vi->second.applyToProblem(problem);
+        }
+    }
+
+    int size() {
+        return improvements.size();
+    }
+
+    string toString() {
+        ostringstream ss;
+        map<string, RewardChange>::iterator  vi;
+        for (vi = improvements.begin(); vi != improvements.end(); ++vi) {
+                ss << vi->second.toString() << endl;
+        }
+        return ss.str();
+    }
+};
+
+
 
 #include "Controller.h"
 #include "GlobalResource.h"
@@ -110,7 +259,7 @@ public:
 //using namespace std;
 
 int MDPSolution(SharedPointer<MOMDP> problem, SolverParams* p);
-void changeRewardsInFile(string filename, map<string, int>*);
+void writeImprovementsToFile(string filename, Improvements improvements);
 string lookupAction(int);
 string lookupObservation(int);
 
@@ -204,8 +353,7 @@ int main(int argc, char **argv) {
 
     int num, nitems, firstAction, action;
 
-    // History of changed rewards
-    vector<RewardChange> rewardChangeHistory;
+    Improvements improvements;
 
     // Give first observation as dummy observation - to begin the process
     // Signature: nextAction(ObsDefine currObservation, int nextStateX)
@@ -227,24 +375,14 @@ int main(int argc, char **argv) {
             // Handle negative feedback
             if (num == 7) {
 
-                // FIXME: Uses only the state with most probability
-                int state = (*(control.currBelief())->bvec).argmax();
-
                 cout << "Last action  : " << lookupAction(action) << endl;
                 cout << "Beliefs      : " << (*(control.currBelief())->bvec).ToString() << endl;
-                cout << "Belief (max) : " << state << endl;
 
-                int original_reward = (*(problem->rewards->getMatrix(0)))(state, action);
-                int new_reward = original_reward - 5;
+                UserFeedback uf = UserFeedback(problem, control.currBelief(), action, true, 0.01);
+                improvements.addUserFeedback(uf);
+                improvements.applyToProblem(problem);
 
-                // Change reward in the problem matrix (used for policy calulation)
-                (problem->rewards->getMatrix(0))->changeValue(state, action, new_reward);
-
-                RewardChange* rc = new RewardChange(state, action, original_reward, new_reward);
-                rewardChangeHistory.push_back(*rc);
-
-                // Debug output
-                cout << "Changed reward: " << rc->ToString();
+                cout << "Created and applied user feedback: " << uf.toString() << endl;
 
                 // Recalculate the policy and load it
                 sarsopSolver->solve(problem);
@@ -259,40 +397,26 @@ int main(int argc, char **argv) {
         }
     }
 
-    // Save the changed rewards
-    if (rewardChangeHistory.size() != 0) {
+    // Save the improvements to the filesystem
+    if (improvements.size() != 0) {
 
-        map<string, int> finalRewards;
+        // Print all improvements
+        cout << "All improvements:" << endl;
+        cout << improvements.toString() << endl;
 
-        // Print all changed rewards
-        cout << "All changed rewards:" << endl;
-
-        for(std::vector<RewardChange>::iterator it = rewardChangeHistory.begin(); it != rewardChangeHistory.end(); ++it) {
-
-            // debug output
-            cout << it->ToString() << endl;
-            cout << "INSTANCESTRING " << it->instanceString() << "aaa" << endl;
-
-
-            if (finalRewards.find(it->instanceString()) != finalRewards.end()) {
-                cout << "found" << endl;
-                finalRewards[it->instanceString()] = it->newReward;
-            } else {
-                cout << "notfound" << endl;
-                finalRewards.insert(make_pair(it->instanceString(), it->newReward));
-            }
-
-        }
-
-        // Write all changed rewards to the pomdpx file
-        changeRewardsInFile(p->problemName, &finalRewards);
+        // Write all improvements to the pomdpx file
+        writeImprovementsToFile(p->problemName, improvements);
 
     }
 
     return 0;
 }
 
-void changeRewardsInFile(string filename, map<string, int>* changedRewards) {
+
+
+void writeImprovementsToFile(string filename, Improvements improvements) {
+
+    map<string, RewardChange> rewardChanges = improvements.getImprovements();
 
     TiXmlDocument doc(filename.c_str());
 
@@ -318,9 +442,9 @@ void changeRewardsInFile(string filename, map<string, int>* changedRewards) {
     TiXmlNode* child;
     ostringstream ss;
 
-    // Shrinked list of new rewards
-    for(map<string,int>::iterator it=changedRewards->begin(); it!=changedRewards->end(); ++it) {
-        cout << it->first << " H! " << it->second << endl;
+    map<string,RewardChange>::iterator it;
+    for(it = rewardChanges.begin(); it != rewardChanges.end(); ++it) {
+        cout << it->first << " - " << it->second.getNewReward() << endl;
 
         child = 0;
         while( child = entries->IterateChildren(child) ) {
@@ -328,7 +452,9 @@ void changeRewardsInFile(string filename, map<string, int>* changedRewards) {
             //value = child->FirstChild("ValueTable")->ToElement()->GetText();
 
             if (child->FirstChild("Instance")->ToElement()->GetText() == it->first){
-                ss << it->second;
+                ss.str("");
+                ss.clear();
+                ss << it->second.getNewReward();
                 child->FirstChild("ValueTable")->ToElement()->FirstChild()->SetValue(ss.str().c_str());
             }
         }
