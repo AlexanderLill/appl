@@ -146,9 +146,6 @@ namespace momdp
 			DEBUG_TRACE( cout << "SampleBP::sample expectedError " << expectedError << endl; );
 			DEBUG_TRACE( cout << "SampleBP::sample excessUncertainty " << excessUncertainty << endl; );
 
-            // FIXME: This is just for debugging
-            doRandomization = true;
-
 			// choose to do randomization or not
 			if(doRandomization)
 			{
