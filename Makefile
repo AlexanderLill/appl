@@ -162,7 +162,7 @@ OBJS_GRAPH	      = $(SRCS_GRAPH:.cpp=.o) # C++ object targets
 #
 TARGET_CONVERT	      = pomdpconvert
 
-HDRS_CONVERT          = ./PomdpConvertor/convertor.hpp 
+HDRS_CONVERT          = 
 
 SRCS_CONVERT	      = ./PomdpConvertor/convertor.cpp
 
@@ -384,9 +384,9 @@ OBJS_APPL	      = $(OBJS_APPL_CC:.cpp=.o)  # C++ object targets
 # target: controller
 #
 TARGET_CTRL		= coffeeControllerIntegrated
-HDRS_CTRL		=
+HDRS_CTRL		= ./Controller/RewardChange.h ./Controller/UserFeedback.h ./Controller/Improvements.h
 SRCS_CTRL		= ./Controller/coffeeControllerIntegrated.cpp
-OBJS_CTRL		= $(SRCS_CTRL:.cpp=.o) # C++ object targets
+OBJS_CTRL		= $(SRCS_CTRL:.cpp=.o) $(HDRS_CTRL:.h=.o) # C++ object targets
 
 
 # ----------------------------------------------------------------------
