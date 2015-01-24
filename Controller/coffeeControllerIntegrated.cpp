@@ -96,7 +96,7 @@ int main(int argc, char **argv) {
 
     while (true) {
 
-        cout << "### grabMilk=0 grabCoffee=1 grabCup=2 putbackMilk=3 putbackCoff=4 putbackCup=5 done=6 negative=7 ### ";
+        cout << "### grabCup=0 grabMilk=1 grabCoffee=2 putbackCup=3 putbackMilk=4 putbackCoff=5 done=6 negative=7 ### ";
 
         nitems = scanf("%d", &num);
         if (nitems == EOF) {
@@ -245,35 +245,34 @@ string lookupObservation(int observation) {
     string returnval;
 
     /*
-    grabMilk        #0
-    grabCoffee      #1
-    grabCup         #2
-    putbackMilk     #3
-    putbackCoff     #4
-    putbackCup      #5
-    done            #6
-    NEGATIVE        #7
+	grabCup			#0
+	grabMilk		#1
+	grabCoffee		#2
+	putbackCup		#3
+	putbackMilk		#4
+	putbackCoff		#5
+	done			#6
     */
 
     switch (observation) {
 
     case 0:
-        returnval = "grabMilk";
-        break;
-    case 1:
-        returnval = "grabCoffee";
-        break;
-    case 2:
         returnval = "grabCup";
         break;
+    case 1:
+        returnval = "grabMilk";
+        break;
+    case 2:
+        returnval = "grabCoffee";
+        break;
     case 3:
-        returnval = "putbackMilk";
+        returnval = "putbackCup";
         break;
     case 4:
-        returnval = "putbackCoff";
+        returnval = "putbackMilk";
         break;
     case 5:
-        returnval = "putbackCup";
+        returnval = "putbackCoff";
         break;
     case 6:
         returnval = "done";
