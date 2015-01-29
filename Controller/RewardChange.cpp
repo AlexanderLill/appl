@@ -37,33 +37,40 @@ RewardChange::RewardChange(int state,
     cout << "RewardChange(" << state << "," << action << "," << oldReward << "," << newReward << "," << feedbackID << ")" << endl;
 }
 
-int RewardChange::getState() {
+int RewardChange::getState()
+{
     return state;
 }
 
-int RewardChange::getAction() {
+int RewardChange::getAction()
+{
     return action;
 }
 
-REAL_VALUE RewardChange::getOldReward() {
+REAL_VALUE RewardChange::getOldReward()
+{
     return oldReward;
 }
 
-REAL_VALUE RewardChange::getNewReward() {
+REAL_VALUE RewardChange::getNewReward()
+{
     return newReward;
 }
 
-int RewardChange::getFeedbackID() {
+int RewardChange::getFeedbackID()
+{
     return feedbackID;
 }
 
-string RewardChange::toString() {
+string RewardChange::toString()
+{
     ostringstream ss;
     ss << "RewardChange - state: " << state << ", action: " << action << ", oldReward: " << oldReward << ", newReward: " << newReward << ", feedbackID: " << feedbackID;
     return ss.str();
 }
 
-string RewardChange::getActionAndStateString() {
+string RewardChange::getActionAndStateString()
+{
     ostringstream ss;
     ss << "a" << action << " " << "s" << state;
     return ss.str();
