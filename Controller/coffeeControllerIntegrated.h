@@ -47,11 +47,11 @@ struct OutputParams {
 
 #include "Controller.h"
 #include "RewardChange.h"
-#include "UserFeedback.h"
-#include "Improvements.h"
+#include "Feedback.h"
+#include "FeedbackProcessor.h"
 
 #include "tinyxml.h"
 
-void writeImprovementsToFile(string filename, Improvements improvements);
+void writeRewardChangesToFile(string filename, vector<RewardChange> rewardChanges);
 string lookupAction(int);
 string lookupObservation(int);

@@ -88,7 +88,7 @@ int main(int argc, char **argv) {
 
     int num, nitems, firstAction, action;
 
-    Improvements improvements;
+    FeedbackProcessor *fp = new FeedbackProcessor(problem);
 
     // Give first observation as dummy observation - to begin the process
     // Signature: nextAction(ObsDefine currObservation, int nextStateX)
@@ -114,11 +114,10 @@ int main(int argc, char **argv) {
                 cout << "Last action  : " << lookupAction(action) << endl;
                 cout << "Beliefs      : " << (*(control.currBelief())->bvec).ToString() << endl;
 
-                UserFeedback uf = UserFeedback(problem, control.currBelief(), action, true, 0.01);
-                improvements.addUserFeedback(uf);
-                improvements.applyToProblem(problem);
+                Feedback fb = Feedback(control.currBelief(), action, Feedback::NEGATIVE, 0.01);
+                cout << "fb: " << fb.toString() << endl;
 
-                cout << "Created and applied user feedback: " << uf.toString() << endl;
+                fp->applyRewardChanges(fp->getRewardChangesForFeedback(fb));
 
                 // Recalculate the policy and load it
                 sarsopSolver->solve(problem);
@@ -134,22 +133,26 @@ int main(int argc, char **argv) {
     }
 
     // Save the improvements to the filesystem
-    if (improvements.size() != 0) {
+    if (fp->hasRewardChanges()) {
 
-        // Print all improvements
-        cout << "All improvements:" << endl;
-        cout << improvements.toString() << endl;
+        vector<RewardChange> rewardChangesInUse = fp->getRewardChangesInUse();
+
+        cout << "RewardChanges in use:" << endl;
+
+        vector<RewardChange>::iterator it;
+
+        for(it = rewardChangesInUse.begin(); it != rewardChangesInUse.end(); ++it) {
+            cout << it->toString() << endl;
+        }
 
         // Write all improvements to the pomdpx file
-        writeImprovementsToFile(p->problemName, improvements);
+        writeRewardChangesToFile(p->problemName, rewardChangesInUse);
     }
 
     return 0;
 }
 
-void writeImprovementsToFile(string filename, Improvements improvements) {
-
-    map<string, RewardChange> rewardChanges = improvements.getImprovements();
+void writeRewardChangesToFile(string filename, vector<RewardChange> rewardChanges) {
 
     TiXmlDocument doc(filename.c_str());
 
@@ -157,7 +160,7 @@ void writeImprovementsToFile(string filename, Improvements improvements) {
     bool loadOkay = doc.LoadFile();
 
     if (!loadOkay) {
-        cerr << "ERROR\n  Could not load pomdpX file" << endl ;
+        cerr << "ERROR: Could not load pomdpX file" << endl ;
         cerr << "  Line"<< doc.ErrorRow() << ":" << doc.ErrorDesc() << endl;
         cerr << "Check pomdpX file with pomdpX's XML schema using a XML validator." << endl;
         exit(1);
@@ -175,25 +178,25 @@ void writeImprovementsToFile(string filename, Improvements improvements) {
     TiXmlNode* child;
     ostringstream ss;
 
-    map<string,RewardChange>::iterator it;
+    vector<RewardChange>::iterator it;
     for(it = rewardChanges.begin(); it != rewardChanges.end(); ++it) {
-        cout << it->first << " - " << it->second.getNewReward() << endl;
+        cout << it->getActionAndStateString() << endl;
 
         child = 0;
         while( child = entries->IterateChildren(child) ) {
             //key = child->FirstChild("Instance")->ToElement()->GetText();
             //value = child->FirstChild("ValueTable")->ToElement()->GetText();
-
-            if (child->FirstChild("Instance")->ToElement()->GetText() == it->first) {
+            // TODO OPTIMIEREN
+            if (child->FirstChild("Instance")->ToElement()->GetText() == it->getActionAndStateString()) {
                 ss.str("");
                 ss.clear();
-                ss << it->second.getNewReward();
+                ss << it->getNewReward();
                 child->FirstChild("ValueTable")->ToElement()->FirstChild()->SetValue(ss.str().c_str());
             }
         }
     }
 
-    doc.SaveFile(filename.append("new.pomdpx").c_str());
+    doc.SaveFile(filename.append("_new.pomdpx").c_str());
 }
 
 string lookupAction(int action) {
