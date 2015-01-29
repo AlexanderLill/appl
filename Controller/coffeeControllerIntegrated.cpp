@@ -86,7 +86,8 @@ int main(int argc, char **argv) {
 
     cout << "Initial belief: " << (*(control.currBelief())->bvec).ToString() << endl << endl;
 
-    int num, nitems, firstAction, action;
+    int num, nitems, action;
+    short counter = 0;
 
     FeedbackProcessor *fp = new FeedbackProcessor(problem);
 
@@ -108,8 +109,9 @@ int main(int argc, char **argv) {
         } else {
             cout << endl << "OBSERVATION  : " << lookupObservation(num) << endl;
 
-            // Handle negative feedback
             if (num == 7) {
+
+                // Handle negative feedback
 
                 cout << "Last action  : " << lookupAction(action) << endl;
                 cout << "Beliefs      : " << (*(control.currBelief())->bvec).ToString() << endl;
@@ -123,8 +125,30 @@ int main(int argc, char **argv) {
                 sarsopSolver->solve(problem);
                 policy->load(sarsopSolver->getPolicy());
 
+                counter = 0;
+
             } else {
-                // Normal observation ... continue as usual
+
+                // Normal observation
+                counter++;
+                cout << "counter=" << counter << endl;
+
+                //Feedback fb = Feedback(control.currBelief(), action, Feedback::POSITIVE, 0.01);
+                //cout << "fb: " << fb.toString() << endl;
+
+                //fp->applyRewardChanges(fp->getRewardChangesForFeedback(fb));
+
+                //if ((counter % 10) == 0) {
+                if (false) {
+                    cout << "counter is " << counter << " - recalculate policy!" << endl;
+
+                    // Recalculate the policy and load it
+                    sarsopSolver->solve(problem);
+                    policy->load(sarsopSolver->getPolicy());
+
+                    counter = 0;
+                }
+
                 cout << "BELIEF BEFORE: " << (*(control.currBelief())->bvec).ToString() << endl;
                 action = control.nextAction(num, 0);
                 cout << "CHOSEN ACTION: " << lookupAction(action) << endl << endl;
