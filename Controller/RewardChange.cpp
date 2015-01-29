@@ -1,36 +1,70 @@
 #include "RewardChange.h"
 
-RewardChange::RewardChange() : state(0), action(0), oldReward(0.0), newReward(0.0) {
+RewardChange::RewardChange()
+    : state(-1),
+      action(-1),
+      oldReward(0.0),
+      newReward(0.0),
+      feedbackID(-1)
+{
     cout << "RewardChange()" << endl;
 }
 
-RewardChange::RewardChange(int state, int action, REAL_VALUE oldReward, REAL_VALUE newReward) {
-    cout << "RewardChange(" << state << "," << action << "," << oldReward << "," << newReward << ")" << endl;
-
-    this->state = state;
-    this->action = action;
-    this->oldReward = oldReward;
-    this->newReward = newReward;
+RewardChange::RewardChange(int state,
+                           int action,
+                           REAL_VALUE oldReward,
+                           REAL_VALUE newReward)
+    : state(state),
+      action(action),
+      oldReward(oldReward),
+      newReward(newReward),
+      feedbackID(-1)
+{
+    cout << "RewardChange(" << state << "," << action << "," << oldReward << "," << newReward << "," << feedbackID << ")" << endl;
 }
 
-void RewardChange::applyToProblem(SharedPointer<MOMDP> problem) {
-    cout << "applyToProblem()" << endl;
+RewardChange::RewardChange(int state,
+                           int action,
+                           REAL_VALUE oldReward,
+                           REAL_VALUE newReward,
+                           int feedbackID)
+    : state(state),
+      action(action),
+      oldReward(oldReward),
+      newReward(newReward),
+      feedbackID(feedbackID)
+{
+    cout << "RewardChange(" << state << "," << action << "," << oldReward << "," << newReward << "," << feedbackID << ")" << endl;
+}
 
-    (problem->rewards->getMatrix(0))->changeValue(state, action, newReward);
+int RewardChange::getState() {
+    return state;
+}
+
+int RewardChange::getAction() {
+    return action;
+}
+
+REAL_VALUE RewardChange::getOldReward() {
+    return oldReward;
 }
 
 REAL_VALUE RewardChange::getNewReward() {
     return newReward;
 }
 
+int RewardChange::getFeedbackID() {
+    return feedbackID;
+}
+
 string RewardChange::toString() {
     ostringstream ss;
-    ss << "RewardChange - state: " << state << ", action: " << action << ", oldReward: " << oldReward << ", newReward: " << newReward;
+    ss << "RewardChange - state: " << state << ", action: " << action << ", oldReward: " << oldReward << ", newReward: " << newReward << ", feedbackID: " << feedbackID;
     return ss.str();
 }
 
-string RewardChange::getInstanceString() {
+string RewardChange::getActionAndStateString() {
     ostringstream ss;
-    ss << "a" << action << " s" << state;
+    ss << "a" << action << " " << "s" << state;
     return ss.str();
 }
