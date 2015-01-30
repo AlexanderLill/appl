@@ -7,7 +7,7 @@ RewardChange::RewardChange()
       newReward(0.0),
       feedbackID(-1)
 {
-    cout << "RewardChange()" << endl;
+    DEBUG_TRACE( cout << "RewardChange()" << endl; );
 }
 
 RewardChange::RewardChange(int state,
@@ -20,7 +20,9 @@ RewardChange::RewardChange(int state,
       newReward(newReward),
       feedbackID(-1)
 {
-    cout << "RewardChange(" << state << "," << action << "," << oldReward << "," << newReward << "," << feedbackID << ")" << endl;
+    DEBUG_TRACE( cout << "RewardChange(" << state << "," << action
+                      << "," << oldReward << "," << newReward
+                      << "," << feedbackID << ")" << endl; );
 }
 
 RewardChange::RewardChange(int state,
@@ -34,7 +36,9 @@ RewardChange::RewardChange(int state,
       newReward(newReward),
       feedbackID(feedbackID)
 {
-    cout << "RewardChange(" << state << "," << action << "," << oldReward << "," << newReward << "," << feedbackID << ")" << endl;
+    DEBUG_TRACE( cout << "RewardChange(" << state << "," << action
+                      << "," << oldReward << "," << newReward
+                      << "," << feedbackID << ")" << endl; );
 }
 
 int RewardChange::getState()
@@ -65,7 +69,11 @@ int RewardChange::getFeedbackID()
 string RewardChange::toString()
 {
     ostringstream ss;
-    ss << "RewardChange - state: " << state << ", action: " << action << ", oldReward: " << oldReward << ", newReward: " << newReward << ", feedbackID: " << feedbackID;
+    ss << "RewardChange - state: " << state
+       << ", action: " << action
+       << ", oldReward: " << oldReward
+       << ", newReward: " << newReward
+       << ", feedbackID: " << feedbackID;
     return ss.str();
 }
 

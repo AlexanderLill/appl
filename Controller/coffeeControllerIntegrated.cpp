@@ -18,7 +18,7 @@ OutputParams::OutputParams(void) {
 
 int main(int argc, char **argv) {
 
-    // SOLVER
+    // Process parameters
     SolverParams* p = &GlobalResource::getInstance()->solverParams;
 
     bool parseCorrect = SolverParams::parseCommandLineOption(argc, argv, *p);
@@ -41,6 +41,7 @@ int main(int argc, char **argv) {
 
     printf("\nLoading the model ...\n  ");
 
+    // Load the problem
     GlobalResource::getInstance()->PBSolverPrePOMDPLoad();
     SharedPointer<MOMDP> problem (NULL);
     if(p->hardcodedProblem.length() ==0 ) {
@@ -54,6 +55,7 @@ int main(int argc, char **argv) {
     printf("  loading time : %.2fs \n", pomdpLoadTime);
     GlobalResource::getInstance()->problem = problem;
 
+    // Initialize the solver
     SARSOP* sarsopSolver = NULL;
     BackupAlphaPlaneMOMDP* lbBackup = new BackupAlphaPlaneMOMDP();
     BackupBeliefValuePairMOMDP* ubBackup = new BackupBeliefValuePairMOMDP();
@@ -68,10 +70,10 @@ int main(int argc, char **argv) {
     ubBackup->problem = problem;
     sarsopSolver->upperBoundBackup = ubBackup;
 
-    //solve the problem
+    // Solve the problem
     sarsopSolver->solve(problem);
 
-    //load calculated policy
+    // Load calculated policy
     SharedPointer<AlphaVectorPolicy> policy = new AlphaVectorPolicy(problem);
     policy->load(sarsopSolver->getPolicy());
 
@@ -79,24 +81,26 @@ int main(int argc, char **argv) {
         cout<<"   action selection : one-step look ahead\n";
     }
 
+    // Initialize controller
     Controller control(problem, policy, p, -1);
 
-    cout<<"\nInitialized the controller\n";
-    cout<<"\nEnter number of the observation or any character to exit."<<endl<<endl;
-
+    cout << "\nInitialized the controller\n";
+    cout << "\nEnter number of the observation or any character to exit."<<endl<<endl;
     cout << "Initial belief: " << (*(control.currBelief())->bvec).ToString() << endl << endl;
 
     int num, nitems, action;
     short counter = 0;
 
+    // Initialize feedback processor
     FeedbackProcessor *fp = new FeedbackProcessor(problem);
 
     // Give first observation as dummy observation - to begin the process
-    // Signature: nextAction(ObsDefine currObservation, int nextStateX)
     control.nextAction(0, 0);
 
+    // Run controller until it is exited with 'break'
     while (true) {
 
+        // Print possible observations
         cout << "### grabCup=0 grabMilk=1 grabCoffee=2 putbackCup=3 putbackMilk=4 putbackCoff=5 done=6 negative=7 ### ";
 
         nitems = scanf("%d", &num);
@@ -107,12 +111,14 @@ int main(int argc, char **argv) {
             cout <<"\n\nExiting...\n";
             break;
         } else {
+
+            // Print name for given observation
             cout << endl << "OBSERVATION  : " << lookupObservation(num) << endl;
 
+            // Check if given input is a normal observation or negative feedback
             if (num == 7) {
 
                 // Handle negative feedback
-
                 cout << "Last action  : " << lookupAction(action) << endl;
                 cout << "Beliefs      : " << (*(control.currBelief())->bvec).ToString() << endl;
 

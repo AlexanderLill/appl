@@ -2,6 +2,7 @@
 
 using namespace std;
 
+// Counter for ascending IDs
 int Feedback::idcounter = 0;
 
 Feedback::Feedback()
@@ -11,7 +12,7 @@ Feedback::Feedback()
       impact(0.01),
       id(idcounter++)
 {
-    cout << "Feedback() - id:" << id << endl;
+    DEBUG_TRACE( cout << "Feedback() - id:" << id << endl; );
 }
 
 Feedback::Feedback(SharedPointer<BeliefWithState> belief,
@@ -24,7 +25,9 @@ Feedback::Feedback(SharedPointer<BeliefWithState> belief,
       impact(impact),
       id(idcounter++)
 {
-    cout << "Feedback(" << belief->bvec->ToString() << "," << previousAction << "," << type << "," << impact << "," << id << ")" << endl;
+    DEBUG_TRACE( cout << "Feedback(" << belief->bvec->ToString() << ","
+                     << previousAction << "," << type << "," << impact
+                     << "," << id << ")" << endl; );
 }
 
 SharedPointer<BeliefWithState> Feedback::getBelief()
@@ -55,6 +58,10 @@ int Feedback::getID()
 string Feedback::toString()
 {
     ostringstream ss;
-    ss << "Feedback " << id << " - belief: " << belief->bvec->ToString() << ", previousAction: " << previousAction << ", type: " << type << ", impact: " << impact;
+    ss << "Feedback " << id
+       << " - belief: " << belief->bvec->ToString()
+       << ", previousAction: " << previousAction
+       << ", type: " << type
+       << ", impact: " << impact;
     return ss.str();
 }

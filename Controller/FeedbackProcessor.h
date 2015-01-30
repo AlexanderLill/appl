@@ -12,8 +12,6 @@ private:
     map<string, RewardChange> rewardChangesInUse;
     vector<RewardChange> rewardChangesHistory;
 
-    vector<REAL_VALUE> getRewardsForState(SharedPointer<BeliefWithState> belief, int state);
-
 public:
     FeedbackProcessor(SharedPointer<MOMDP> problem);
 
@@ -26,6 +24,9 @@ public:
     bool hasRewardChanges();
     vector<RewardChange> getHistoryOfRewardChanges();
     vector<RewardChange> getRewardChangesInUse();
+
+    REAL_VALUE getRewardForStateAndAction(SharedPointer<BeliefWithState> belief, int state, int action);
+    vector<REAL_VALUE> getRewardsForState(SharedPointer<BeliefWithState> belief, int state);
 };
 
 #endif
