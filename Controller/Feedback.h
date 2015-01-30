@@ -20,8 +20,8 @@ private:
     static int idcounter;
 
 public:
-    Feedback();
-    Feedback(SharedPointer<BeliefWithState> belief, int previousAction, Type type, float impact);
+    Feedback(SharedPointer<BeliefWithState> belief,
+             int previousAction, Type type, float impact);
 
     SharedPointer<BeliefWithState> getBelief();
     int getPreviousAction();

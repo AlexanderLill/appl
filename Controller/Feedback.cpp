@@ -5,16 +5,6 @@ using namespace std;
 // Counter for ascending IDs
 int Feedback::idcounter = 0;
 
-Feedback::Feedback()
-    : belief(NULL),
-      previousAction(-1),
-      type(NEGATIVE),
-      impact(0.01),
-      id(idcounter++)
-{
-    DEBUG_TRACE( cout << "Feedback() - id:" << id << endl; );
-}
-
 Feedback::Feedback(SharedPointer<BeliefWithState> belief,
                    int previousAction,
                    Type type,

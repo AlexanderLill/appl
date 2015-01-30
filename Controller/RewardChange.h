@@ -11,13 +11,14 @@ private:
     int action;
     REAL_VALUE oldReward;
     REAL_VALUE newReward;
-
     int feedbackID;
 
 public:
     RewardChange();
-    RewardChange(int state, int action, REAL_VALUE oldReward, REAL_VALUE newReward);
-    RewardChange(int state, int action, REAL_VALUE oldReward, REAL_VALUE newReward, int feedbackID);
+    RewardChange(int state, int action,
+                 REAL_VALUE oldReward, REAL_VALUE newReward);
+    RewardChange(int state, int action,
+                 REAL_VALUE oldReward, REAL_VALUE newReward, int feedbackID);
 
     int getState();
     int getAction();
