@@ -130,16 +130,16 @@ int main(int argc, char **argv) {
             } else {
 
                 // Normal observation
+                /*
                 counter++;
                 cout << "counter=" << counter << endl;
 
-                //Feedback fb = Feedback(control.currBelief(), action, Feedback::POSITIVE, 0.01);
-                //cout << "fb: " << fb.toString() << endl;
+                Feedback fb = Feedback(control.currBelief(), action, Feedback::POSITIVE, 0.01);
+                cout << "fb: " << fb.toString() << endl;
 
-                //fp->applyRewardChanges(fp->getRewardChangesForFeedback(fb));
+                fp->applyRewardChanges(fp->getRewardChangesForFeedback(fb));
 
-                //if ((counter % 10) == 0) {
-                if (false) {
+                if ((counter % 10) == 0) {
                     cout << "counter is " << counter << " - recalculate policy!" << endl;
 
                     // Recalculate the policy and load it
@@ -148,6 +148,8 @@ int main(int argc, char **argv) {
 
                     counter = 0;
                 }
+
+                */
 
                 cout << "BELIEF BEFORE: " << (*(control.currBelief())->bvec).ToString() << endl;
                 action = control.nextAction(num, 0);
@@ -204,14 +206,15 @@ void writeRewardChangesToFile(string filename, vector<RewardChange> rewardChange
 
     vector<RewardChange>::iterator it;
     for(it = rewardChanges.begin(); it != rewardChanges.end(); ++it) {
-        cout << it->getActionAndStateString() << endl;
 
         child = 0;
         while( child = entries->IterateChildren(child) ) {
             //key = child->FirstChild("Instance")->ToElement()->GetText();
             //value = child->FirstChild("ValueTable")->ToElement()->GetText();
-            // TODO OPTIMIEREN
-            if (child->FirstChild("Instance")->ToElement()->GetText() == it->getActionAndStateString()) {
+
+            string actionAndState = it->getActionAndStateString();
+
+            if (child->FirstChild("Instance")->ToElement()->GetText() == actionAndState) {
                 ss.str("");
                 ss.clear();
                 ss << it->getNewReward();
