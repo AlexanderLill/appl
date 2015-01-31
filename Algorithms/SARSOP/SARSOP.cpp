@@ -153,6 +153,10 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 		elapsed = runtimeTimer.elapsed();
 		printf("  initialization time : %.2fs\n", elapsed);
 
+		if(solverParams->randomizationBP) {
+            printf("  fyi: i am using randomization!");
+		}
+
 
 		DEBUG_LOG(logFilePrint(policyIndex-1););
 
