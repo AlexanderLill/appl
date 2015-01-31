@@ -11,7 +11,7 @@ class ControllerInterface
 {
   public:
     virtual ActionDefine nextAction(ObsDefine obs, int nextStateX = -1) = 0;
-    virtual BeliefDefine currBelief() const = 0;
+    virtual Belief currBelief() const = 0;
 };
 
 #endif

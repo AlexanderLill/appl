@@ -2,8 +2,11 @@
 #define USERFEEDBACK_H
 
 #include "BeliefWithState.h"
+#include "Controller.h"
 #include <iostream>
 #include <sstream>
+
+using namespace std;
 
 class Feedback {
 
@@ -11,7 +14,7 @@ public:
     enum Type { POSITIVE = 1, NEGATIVE = -1 };
 
 private:
-    SharedPointer<BeliefWithState> belief;
+    Belief belief;
     int previousAction;
     Type type;
     float impact;
@@ -20,10 +23,9 @@ private:
     static int idcounter;
 
 public:
-    Feedback(SharedPointer<BeliefWithState> belief,
-             int previousAction, Type type, float impact);
+    Feedback(Belief belief, int previousAction, Type type, float impact);
 
-    SharedPointer<BeliefWithState> getBelief();
+    Belief getBelief();
     int getPreviousAction();
     Type getType();
     float getImpact();

@@ -1,11 +1,9 @@
 #include "Feedback.h"
 
-using namespace std;
-
 // Counter for ascending IDs
 int Feedback::idcounter = 0;
 
-Feedback::Feedback(SharedPointer<BeliefWithState> belief,
+Feedback::Feedback(Belief belief,
                    int previousAction,
                    Type type,
                    float impact)
@@ -20,7 +18,7 @@ Feedback::Feedback(SharedPointer<BeliefWithState> belief,
                      << "," << id << ")" << endl; );
 }
 
-SharedPointer<BeliefWithState> Feedback::getBelief()
+Belief Feedback::getBelief()
 {
     return belief;
 }

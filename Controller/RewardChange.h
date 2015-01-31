@@ -1,8 +1,11 @@
 #ifndef REWARDCHANGE_H
 #define REWARDCHANGE_H
 
-#include "MOMDP.h"
 #include "Const.h"
+#include <iostream>
+#include <sstream>
+
+using namespace std;
 
 class RewardChange {
 

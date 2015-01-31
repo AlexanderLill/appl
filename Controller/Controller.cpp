@@ -8,15 +8,15 @@ using namespace momdp;
 
 namespace momdp
 {
-    Controller::Controller(SharedPointer<MOMDP> problem,
-                           SharedPointer<AlphaVectorPolicy> policy,
+    Controller::Controller(Problem problem,
+                           Policy policy,
                            SolverParams* solverParams,
-                           int initialBeliefStvalX):
-                                problem(problem),
-                                policy(policy),
-                                solverParams(solverParams),
-                                currBelSt(new BeliefWithState()),
-                                firstAction(true)
+                           int initialBeliefStvalX)
+        : problem(problem),
+          policy(policy),
+          solverParams(solverParams),
+          currBelSt(new BeliefWithState()),
+          firstAction(true)
     {
         // Initialize the starting state of X
         currBelSt->sval = initialBeliefStvalX == -1 ?
@@ -46,7 +46,7 @@ namespace momdp
             // observation
 
             // Next belief with state
-            SharedPointer<BeliefWithState> nextBelSt;
+            Belief nextBelSt;
 
             // Create next belief
             nextBelSt = problem->beliefTransition->nextBelief(currBelSt, lastAction, currObservation, nextStateX);
@@ -79,7 +79,7 @@ namespace momdp
         return currAction;
     }
 
-    SharedPointer<BeliefWithState> Controller::currBelief() const
+    Belief Controller::currBelief() const
     {
         return currBelSt;
     }

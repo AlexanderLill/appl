@@ -1,6 +1,6 @@
 #include "FeedbackProcessor.h"
 
-FeedbackProcessor::FeedbackProcessor(SharedPointer<MOMDP> problem)
+FeedbackProcessor::FeedbackProcessor(Problem problem)
     : problem(problem)
 {
     DEBUG_TRACE( cout << "FeedbackProcessor(problem)" << endl; );
@@ -28,7 +28,7 @@ vector<RewardChange> FeedbackProcessor::calculateRewardChanges_simple(Feedback f
         REAL_VALUE probability = vi->value;
 
         // Calculate reward change for previousAction
-        REAL_VALUE oldReward   = (*(problem->rewards->getMatrix(feedback.getBelief()->sval)))(state, feedback.getPreviousAction());
+        REAL_VALUE oldReward   = getRewardForStateAndAction(feedback.getBelief(), state, feedback.getPreviousAction());
         REAL_VALUE diff        = probability * feedback.getImpact() * oldReward * feedback.getType();
         REAL_VALUE newReward   = oldReward + diff;
 
@@ -187,7 +187,7 @@ vector<RewardChange> FeedbackProcessor::getRewardChangesInUse()
     return returnVector;
 }
 
-REAL_VALUE FeedbackProcessor::getRewardForStateAndAction(SharedPointer<BeliefWithState> belief,
+REAL_VALUE FeedbackProcessor::getRewardForStateAndAction(Belief belief,
                                                          int state,
                                                          int action)
 {
@@ -195,7 +195,7 @@ REAL_VALUE FeedbackProcessor::getRewardForStateAndAction(SharedPointer<BeliefWit
     return (*(problem->rewards->getMatrix(belief->sval)))(state, action);
 }
 
-vector<REAL_VALUE> FeedbackProcessor::getRewardsForState(SharedPointer<BeliefWithState> belief,
+vector<REAL_VALUE> FeedbackProcessor::getRewardsForState(Belief belief,
                                                          int state)
 {
     // Result vector

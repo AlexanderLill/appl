@@ -3,12 +3,13 @@
 
 #include "Feedback.h"
 #include "RewardChange.h"
+#include "Controller.h"
 #include "MOMDP.h"
 
 class FeedbackProcessor {
 
 private:
-    SharedPointer<MOMDP> problem;
+    Problem problem;
     map<string, RewardChange> rewardChangesInUse;
     vector<RewardChange> rewardChangesHistory;
 
@@ -16,7 +17,7 @@ private:
     vector<RewardChange> calculateRewardChanges_enhanced(Feedback feedback);
 
 public:
-    FeedbackProcessor(SharedPointer<MOMDP> problem);
+    FeedbackProcessor(Problem problem);
 
     vector<RewardChange> getRewardChangesForFeedback(Feedback feedback);
     void applyRewardChanges(vector<RewardChange> rewardChanges);
@@ -26,10 +27,8 @@ public:
     vector<RewardChange> getHistoryOfRewardChanges();
     vector<RewardChange> getRewardChangesInUse();
 
-    REAL_VALUE getRewardForStateAndAction(SharedPointer<BeliefWithState> belief,
-                                          int state, int action);
-    vector<REAL_VALUE> getRewardsForState(SharedPointer<BeliefWithState> belief,
-                                          int state);
+    REAL_VALUE getRewardForStateAndAction(Belief belief, int state, int action);
+    vector<REAL_VALUE> getRewardsForState(Belief belief, int state);
 };
 
 #endif

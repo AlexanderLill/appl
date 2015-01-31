@@ -10,7 +10,9 @@
 // Some macros to adapt the Interface
 #define ActionDefine int const
 #define ObsDefine int const
-#define BeliefDefine SharedPointer<BeliefWithState>
+#define Belief SharedPointer<BeliefWithState>
+#define Problem SharedPointer<MOMDP>
+#define Policy SharedPointer<AlphaVectorPolicy>
 
 #include <vector>
 #include "MOMDP.h"
@@ -24,23 +26,23 @@ namespace momdp
     class Controller: public ControllerInterface
     {
       private:
-        SharedPointer<MOMDP> problem;
-        SharedPointer<AlphaVectorPolicy> policy;
+        Problem problem;
+        Policy policy;
         SolverParams* solverParams;
         // starting value of X
-        SharedPointer<BeliefWithState> currBelSt;
+        Belief currBelSt;
         // If this is the first action => ignore the obs and don't
         // update the belief
         bool firstAction;
         int lastAction;
 
       public:
-        Controller(SharedPointer<MOMDP> problem,
-                   SharedPointer<AlphaVectorPolicy> policy,
+        Controller(Problem problem,
+                   Policy policy,
                    SolverParams * solverParams,
                    int initialBeliefStvalX);
         ActionDefine nextAction(ObsDefine obs, int nextStateX);
-        BeliefDefine currBelief() const;
+        Belief currBelief() const;
     };
 }
 
