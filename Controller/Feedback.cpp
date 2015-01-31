@@ -4,17 +4,17 @@
 int Feedback::idcounter = 0;
 
 Feedback::Feedback(Belief belief,
-                   int previousAction,
+                   int action,
                    Type type,
                    float impact)
     : belief(belief),
-      previousAction(previousAction),
+      action(action),
       type(type),
       impact(impact),
       id(idcounter++)
 {
     DEBUG_TRACE( cout << "Feedback(" << belief->bvec->ToString() << ","
-                     << previousAction << "," << type << "," << impact
+                     << action << "," << type << "," << impact
                      << "," << id << ")" << endl; );
 }
 
@@ -23,9 +23,9 @@ Belief Feedback::getBelief()
     return belief;
 }
 
-int Feedback::getPreviousAction()
+int Feedback::getAction()
 {
-    return previousAction;
+    return action;
 }
 
 Feedback::Type Feedback::getType()
@@ -46,10 +46,10 @@ int Feedback::getID()
 string Feedback::toString()
 {
     ostringstream ss;
-    ss << "Feedback " << id
+    ss << "Feedback #" << id
        << " - belief: " << belief->bvec->ToString()
-       << ", previousAction: " << previousAction
-       << ", type: " << type
-       << ", impact: " << impact;
+       << " - action: " << action
+       << " - type: " << type
+       << " - impact: " << impact;
     return ss.str();
 }

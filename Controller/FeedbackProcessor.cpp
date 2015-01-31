@@ -27,21 +27,21 @@ vector<RewardChange> FeedbackProcessor::calculateRewardChanges_simple(Feedback f
         int state              = vi->index;
         REAL_VALUE probability = vi->value;
 
-        // Calculate reward change for previousAction
-        REAL_VALUE oldReward   = getRewardForStateAndAction(feedback.getBelief(), state, feedback.getPreviousAction());
+        // Calculate reward change for previous action
+        REAL_VALUE oldReward   = getRewardForStateAndAction(state, feedback.getAction());
         REAL_VALUE diff        = probability * feedback.getImpact() * oldReward * feedback.getType();
         REAL_VALUE newReward   = oldReward + diff;
 
         DEBUG_TRACE( cout << "state=" << state
                           << ", probability=" << probability
-                          << ", action=" << feedback.getPreviousAction()
+                          << ", action=" << feedback.getAction()
                           << ", oldReward=" << oldReward
                           << ", feedbackSign=" << feedback.getType()
                           << ", diff=" << diff
                           << ", newReward=" << newReward << endl; );
 
         // Create reward change
-        RewardChange rc = RewardChange(state, feedback.getPreviousAction(),
+        RewardChange rc = RewardChange(state, feedback.getAction(),
                                        oldReward, newReward,
                                        feedback.getID());
 
@@ -68,7 +68,7 @@ vector<RewardChange> FeedbackProcessor::calculateRewardChanges_enhanced(Feedback
         REAL_VALUE probability = vi->value;
 
         // Get all rewards for this state in format oldReward,newReward
-        vector<REAL_VALUE> rewards = getRewardsForState(feedback.getBelief(), state);
+        vector<REAL_VALUE> rewards = getRewardsForState(state);
 
         // Loop vars
         float oldRewardSum = 0.0;
@@ -79,14 +79,14 @@ vector<RewardChange> FeedbackProcessor::calculateRewardChanges_enhanced(Feedback
             oldRewardSum += *it;
         }
 
-        // Calculate new reward for previousAction
-        REAL_VALUE oldReward = rewards[feedback.getPreviousAction()];
+        // Calculate new reward for previous action
+        REAL_VALUE oldReward = rewards[feedback.getAction()];
         REAL_VALUE diff      = oldReward * probability * feedback.getImpact() * feedback.getType();
         REAL_VALUE newReward = oldReward + diff;
 
         DEBUG_TRACE( cout << "state=" << state
                           << ", probability=" << probability
-                          << ", action=" << feedback.getPreviousAction()
+                          << ", action=" << feedback.getAction()
                           << ", oldReward=" << oldReward
                           << ", feedbackSign=" << feedback.getType()
                           << ", diff=" << diff
@@ -109,7 +109,7 @@ vector<RewardChange> FeedbackProcessor::calculateRewardChanges_enhanced(Feedback
 
             // Calculate new reward
             REAL_VALUE newActionReward;
-            if (action == feedback.getPreviousAction()) {
+            if (action == feedback.getAction()) {
                 // If exectued action, scale new reward
                 newActionReward = newReward * scaleFactor;
             } else {
@@ -166,11 +166,6 @@ bool FeedbackProcessor::hasRewardChanges()
     }
 }
 
-vector<RewardChange> FeedbackProcessor::getHistoryOfRewardChanges()
-{
-    return rewardChangesHistory;
-}
-
 vector<RewardChange> FeedbackProcessor::getRewardChangesInUse()
 {
     // Result vector
@@ -187,23 +182,28 @@ vector<RewardChange> FeedbackProcessor::getRewardChangesInUse()
     return returnVector;
 }
 
-REAL_VALUE FeedbackProcessor::getRewardForStateAndAction(Belief belief,
-                                                         int state,
+vector<RewardChange> FeedbackProcessor::getHistoryOfRewardChanges()
+{
+    return rewardChangesHistory;
+}
+
+REAL_VALUE FeedbackProcessor::getRewardForStateAndAction(int state,
                                                          int action)
 {
     // Get reward from reward matrix
-    return (*(problem->rewards->getMatrix(belief->sval)))(state, action);
+    return (*(problem->rewards->getMatrix(0)))(state, action);
+    // If this needs to work with MOMDPs, we additionally need a belief:
+    //return (*(problem->rewards->getMatrix(belief->sval)))(state, action);
 }
 
-vector<REAL_VALUE> FeedbackProcessor::getRewardsForState(Belief belief,
-                                                         int state)
+vector<REAL_VALUE> FeedbackProcessor::getRewardsForState(int state)
 {
     // Result vector
     vector<REAL_VALUE> rewards;
 
     // Get reward for all actions in the current state
     for(int i = 0; i<problem->getNumActions(); ++i) {
-        rewards.push_back(getRewardForStateAndAction(belief, state, i));
+        rewards.push_back(getRewardForStateAndAction(state, i));
     }
 
     return rewards;

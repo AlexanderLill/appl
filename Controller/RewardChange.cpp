@@ -66,20 +66,21 @@ int RewardChange::getFeedbackID()
     return feedbackID;
 }
 
-string RewardChange::toString()
-{
-    ostringstream ss;
-    ss << "RewardChange - state: " << state
-       << ", action: " << action
-       << ", oldReward: " << oldReward
-       << ", newReward: " << newReward
-       << ", feedbackID: " << feedbackID;
-    return ss.str();
-}
-
 string RewardChange::getActionAndStateString()
 {
     ostringstream ss;
     ss << "a" << action << " " << "s" << state;
+    return ss.str();
+}
+
+string RewardChange::toString()
+{
+    ostringstream ss;
+    ss << "RewardChange"
+       << " - state: " << state
+       << " - action: " << action
+       << " - oldReward: " << oldReward
+       << " - newReward: " << newReward
+       << " - feedbackID: " << feedbackID;
     return ss.str();
 }

@@ -28,9 +28,9 @@ public:
     REAL_VALUE getOldReward();
     REAL_VALUE getNewReward();
     int getFeedbackID();
+    string getActionAndStateString();
 
     string toString();
-    string getActionAndStateString();
 };
 
 #endif

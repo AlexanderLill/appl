@@ -24,11 +24,11 @@ public:
     void applyRewardChange(RewardChange rewardChange);
 
     bool hasRewardChanges();
-    vector<RewardChange> getHistoryOfRewardChanges();
     vector<RewardChange> getRewardChangesInUse();
+    vector<RewardChange> getHistoryOfRewardChanges();
 
-    REAL_VALUE getRewardForStateAndAction(Belief belief, int state, int action);
-    vector<REAL_VALUE> getRewardsForState(Belief belief, int state);
+    REAL_VALUE getRewardForStateAndAction(int state, int action);
+    vector<REAL_VALUE> getRewardsForState(int state);
 };
 
 #endif

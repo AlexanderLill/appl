@@ -15,7 +15,7 @@ public:
 
 private:
     Belief belief;
-    int previousAction;
+    int action;
     Type type;
     float impact;
     int id;
@@ -23,10 +23,10 @@ private:
     static int idcounter;
 
 public:
-    Feedback(Belief belief, int previousAction, Type type, float impact);
+    Feedback(Belief belief, int action, Type type, float impact);
 
     Belief getBelief();
-    int getPreviousAction();
+    int getAction();
     Type getType();
     float getImpact();
     int getID();
