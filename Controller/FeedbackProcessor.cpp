@@ -92,9 +92,6 @@ vector<RewardChange> FeedbackProcessor::calculateRewardChanges_enhanced(Feedback
                           << ", diff=" << diff
                           << ", newReward=" << newReward << endl; );
 
-        // Update reward for previous action
-        rewards[feedback.getPreviousAction()] = newReward;
-
         // Calculate sum of new rewards
         float newRewardSum = oldRewardSum + diff;
 
@@ -104,12 +101,25 @@ vector<RewardChange> FeedbackProcessor::calculateRewardChanges_enhanced(Feedback
         // Create all the reward changes
         for (it = rewards.begin(); it != rewards.end(); ++it) {
 
+            // Current action
+            int action = it - rewards.begin();
+
+            // Old reward
+            REAL_VALUE oldActionReward = *it;
+
             // Calculate new reward
-            REAL_VALUE newActionReward = *it * scaleFactor;
+            REAL_VALUE newActionReward;
+            if (action == feedback.getPreviousAction()) {
+                // If exectued action, scale new reward
+                newActionReward = newReward * scaleFactor;
+            } else {
+                // If one of the other action, scale old reward
+                newActionReward = oldActionReward * scaleFactor;
+            }
 
             // Create reward change
             RewardChange rc = RewardChange(state, it - rewards.begin(),
-                                           *it, newActionReward,
+                                           oldActionReward, newActionReward,
                                            feedback.getID());
 
             // Put reward change in the list of reward changes
