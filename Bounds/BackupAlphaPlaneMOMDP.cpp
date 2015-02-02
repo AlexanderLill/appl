@@ -113,13 +113,13 @@ double BackupAlphaPlaneMOMDP::getNewAlphaPlane(AlphaPlane& result, BeliefTreeNod
 							double childLB = inner_prod(*(tempAlpha->alpha), *(childNode->s->bvec));
 
 							boundSet->set[childNode->cacheIndex.sval]->beliefCache->getRow( childNode->cacheIndex.row)->LB = childLB;
-                            DEBUG_TRACE( cout << "gnap: MYLBVAL(3)=" << childLB << endl; );
+							DEBUG_TRACE( cout << "gnap: MYLBVAL(3)=" << childLB << endl; );
 
 
 							//SLOWEST:
 							//								double childLB = alphaPlanePool->getLowerBoundValue(childNode->s);
 
-                            DEBUG_TRACE( cout << "gnap: a=" << a << " Xn=" << Xn << " o=" << o << " childLB=" << childLB << " obsProb=" << e->obsProb << " oldsum="  << sum << " newsum=" << sum; );
+							DEBUG_TRACE( cout << "gnap: a=" << a << " Xn=" << Xn << " o=" << o << " childLB=" << childLB << " obsProb=" << e->obsProb << " oldsum="  << sum << " newsum=" << sum; );
 
 							// 260908 fixed bug, prevly multiplied only by e->obsProb
 							// 061008 changed calculation for e->obsProb
@@ -144,7 +144,7 @@ double BackupAlphaPlaneMOMDP::getNewAlphaPlane(AlphaPlane& result, BeliefTreeNod
 
 			cn.Q[a].lbVal = sum;
 
-            DEBUG_TRACE( cout << "gnap: OLD maxAction=" << maxAction << " with LB=" << maxActionLB; );
+			DEBUG_TRACE( cout << "gnap: OLD maxAction=" << maxAction << " with LB=" << maxActionLB; );
 
 			if(sum > maxActionLB)
 			{

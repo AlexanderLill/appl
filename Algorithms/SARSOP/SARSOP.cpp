@@ -153,6 +153,7 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 		elapsed = runtimeTimer.elapsed();
 		printf("  initialization time : %.2fs\n", elapsed);
 
+		// Added by Alex: Info about randomization-parameter
 		if(solverParams->randomizationBP) {
             printf("  fyi: i am using randomization!");
 		}
@@ -195,7 +196,7 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 		while(!stop)
 		{
 
-		    DEBUG_TRACE( printBeliefCacheSet(); );
+			DEBUG_TRACE( printBeliefCacheSet(); );
 
 			int numTrials = ((SampleBP*)sampleEngine)->numTrials;
 			if( this->solverParams->targetTrials > 0 && numTrials >  this->solverParams->targetTrials )
@@ -339,7 +340,7 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 			//  b. if target depth has been reached, go back to root
 			if (!skipSample)
 			{
-                DEBUG_TRACE( cout << "Sample: sampleEngine->sample(" << currentBeliefIndexArr[activeRoot].row << ")" << endl; );
+				DEBUG_TRACE( cout << "Sample: sampleEngine->sample(" << currentBeliefIndexArr[activeRoot].row << ")" << endl; );
 				// ADDED_24042009
 				sampledBeliefs = sampleEngine->sample(currentBeliefIndexArr[activeRoot], activeRoot);
 				DEBUG_TRACE( printSampleBelief(sampledBeliefs); );
@@ -351,7 +352,7 @@ void SARSOP::solve(SharedPointer<MOMDP> problem)
 
 			//DEBUG_TRACE (beliefForest->print(););
 
-            DEBUG_TRACE( writeIntermediatePolicyTraceToFile(numTrials, runtimeTimer.elapsed(), this->solverParams->outPolicyFileName, this->solverParams->problemName ); );
+			DEBUG_TRACE( writeIntermediatePolicyTraceToFile(numTrials, runtimeTimer.elapsed(), this->solverParams->outPolicyFileName, this->solverParams->problemName ); );
 			pruneEngine->prune();
 
 			//4. write out policy file if interval time reached
@@ -730,6 +731,7 @@ BeliefTreeNode& SARSOP::getMaxExcessUncRoot(BeliefForest& globalroot)
 
 void SARSOP::backup(BeliefTreeNode* node)
 {
+    // Added by Alex: Unused
     // So far, this is never executed
     // backup on BeliefTreeNodes calls
     // - AlphaPlanePoolSet::backup(BeliefTreeNode * node)

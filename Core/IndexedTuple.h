@@ -51,12 +51,11 @@ public:
 		return tupleTable[index];
 	}
 
-    // Added by Alex
-	int size() {
-        return tupleTable.size();
-    }
-
-
+	// Added by Alex
+	int size()
+	{
+		return tupleTable.size();
+	}
 };
 
 }

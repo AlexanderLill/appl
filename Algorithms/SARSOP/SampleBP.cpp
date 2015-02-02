@@ -538,14 +538,14 @@ cout << "End of one trial due to !( (currentNode.Q[i].ubVal == CB_QVAL_UNDEFINED
 
 		    DEBUG_TRACE( cout << "SampleBP::chooseAction UBcurrentAction=" << currentNode.Q[a].ubVal; );
 
-			if ( currentNode.Q[a].ubVal >= (currentNode.Q[max_action].ubVal - 0.5*1e-9) ) {
-                DEBUG_TRACE( cout << " >= " <<  "UBmaxActionMinusX=" << currentNode.Q[max_action].ubVal - 0.5*1e-9 << " (Raw=" << currentNode.Q[max_action].ubVal << ") - Action=" << a; );
+            if ( currentNode.Q[a].ubVal >= (currentNode.Q[max_action].ubVal - 0.5*1e-9) ) {
+				DEBUG_TRACE( cout << " >= " <<  "UBmaxActionMinusX=" << currentNode.Q[max_action].ubVal - 0.5*1e-9 << " (Raw=" << currentNode.Q[max_action].ubVal << ") - Action=" << a; );
 				actions[index] = a;
 				index++;
-			} else {
-                DEBUG_TRACE( cout << "<" <<  "UBmaxActionMinusX=" << currentNode.Q[max_action].ubVal - 0.5*1e-9 << " (Raw=" << currentNode.Q[max_action].ubVal << ")"; );
-			}
-			DEBUG_TRACE( cout << " count=" << index << endl; );
+            } else {
+				DEBUG_TRACE( cout << "<" <<  "UBmaxActionMinusX=" << currentNode.Q[max_action].ubVal - 0.5*1e-9 << " (Raw=" << currentNode.Q[max_action].ubVal << ")"; );
+            }
+            DEBUG_TRACE( cout << " count=" << index << endl; );
 		}
 		action = actions[ rand() % index ];
 

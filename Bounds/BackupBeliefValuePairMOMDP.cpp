@@ -40,7 +40,7 @@ SharedPointer<BeliefValuePair> BackupBeliefValuePairMOMDP::backup(BeliefTreeNode
 
 	boundSet->set[stateidx]->dataTable->set(cn->cacheIndex.row).UB_ACTION = maxUBAction;
 
-    DEBUG_TRACE( double lastUbVal = boundSet->set[stateidx]->beliefCache->getRow(cn->cacheIndex.row)->UB; );
+	DEBUG_TRACE( double lastUbVal = boundSet->set[stateidx]->beliefCache->getRow(cn->cacheIndex.row)->UB; );
 	DEBUG_TRACE( cout << "Set UB_ACTION: [ " << stateidx << " / " << cn->cacheIndex.row << " ] = " << maxUBAction << " lastUbVal=" << lastUbVal << " newUbVal=" << newUBVal << endl; );
 
 	// TODO:: cn.lastUbVal = lastUbVal;

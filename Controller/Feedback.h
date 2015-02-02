@@ -1,5 +1,5 @@
-#ifndef USERFEEDBACK_H
-#define USERFEEDBACK_H
+#ifndef FEEDBACK_H
+#define FEEDBACK_H
 
 #include "BeliefWithState.h"
 #include "Controller.h"

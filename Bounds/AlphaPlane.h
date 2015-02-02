@@ -48,7 +48,7 @@ public:
 		void write(std::ofstream& out) const;	//write XML dense vector
 		void writeSparse(std::ofstream& out) const; //write XML sparse vector
 		//void write(std::ostream& out) const;	//write plane in old IV format
-        void print();
+		void print();
 
 };
 }

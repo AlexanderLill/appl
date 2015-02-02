@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
 
     // Load the problem
     GlobalResource::getInstance()->PBSolverPrePOMDPLoad();
-    SharedPointer<MOMDP> problem (NULL);
+    Problem problem (NULL);
     if(p->hardcodedProblem.length() ==0 ) {
         problem = ParserSelector::loadProblem(p->problemName, *p);
     } else {
@@ -74,7 +74,7 @@ int main(int argc, char **argv) {
     sarsopSolver->solve(problem);
 
     // Load calculated policy
-    SharedPointer<AlphaVectorPolicy> policy = new AlphaVectorPolicy(problem);
+    Policy policy = new AlphaVectorPolicy(problem);
     policy->load(sarsopSolver->getPolicy());
 
     if (p->useLookahead) {
@@ -122,9 +122,11 @@ int main(int argc, char **argv) {
                 cout << "Last action  : " << lookupAction(action) << endl;
                 cout << "Beliefs      : " << (*(control.currBelief())->bvec).ToString() << endl;
 
+                // Create feedback object
                 Feedback fb = Feedback(control.currBelief(), action, Feedback::NEGATIVE, 0.01);
                 cout << "fb: " << fb.toString() << endl;
 
+                // Apply reward changes calculated from feedback to problem
                 fp->applyRewardChanges(fp->getRewardChangesForFeedback(fb));
 
                 // Recalculate the policy and load it
