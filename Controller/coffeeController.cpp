@@ -4,9 +4,9 @@
   @date 2014-12-19
 **/
 
-// Usage: "./coffeeControllerIntegrated coffeeproblem.pomdpx"
+// Usage: "./coffeeController coffeeproblem.pomdpx"
 
-#include "coffeeControllerIntegrated.h"
+#include "coffeeController.h"
 
 using namespace std;
 using namespace momdp;
