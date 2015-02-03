@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
 
 		observation = askForObservation();
 
-		if (observation < 0 || observation > 7) {
+		if (observation < 0 || observation > Obs::NEGATIVE) {
 			cout << "Invalid observation. Stop." << endl;
 			break;
 		}
@@ -197,10 +197,8 @@ int askForObservation() {
 
 	int nitems = scanf("%d", &observation);
 	if (nitems == EOF) {
-		cout << "EOF!" << endl;
 		return -1;
 	} else if (nitems == 0) {
-		cout << "zero!" << endl;
 		return -1;
 	} else {
 		return observation;
