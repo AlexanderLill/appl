@@ -193,7 +193,7 @@ int askForObservation() {
 
 	int observation;
 
-	cout << "Observation=";
+	cout << "=>  Input Obs: ";
 
 	int nitems = scanf("%d", &observation);
 	if (nitems == EOF) {
