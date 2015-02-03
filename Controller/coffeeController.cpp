@@ -11,11 +11,6 @@
 using namespace std;
 using namespace momdp;
 
-OutputParams::OutputParams(void) {
-	timeoutSeconds = -1;
-	interval = -1;
-}
-
 int main(int argc, char **argv) {
 
     // Process parameters
@@ -27,14 +22,6 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
 
-    OutputParams op;
-    if(GlobalResource::getInstance()->benchmarkMode) {
-        if(GlobalResource::getInstance()->simNum == 0|| GlobalResource::getInstance()->simLen == 0) {
-            cout << "Benchmark Length and/or Number not set, please set them using option --simLen and --simNum" << endl;
-            exit(-1);
-        }
-    }
-
     GlobalResource::getInstance()->init();
     string baseName = GlobalResource::getInstance()->parseBaseNameWithoutPath(p->problemName);
     GlobalResource::getInstance()->setBaseName(baseName);
@@ -43,30 +30,20 @@ int main(int argc, char **argv) {
 
     // Load the problem
     GlobalResource::getInstance()->PBSolverPrePOMDPLoad();
-    Problem problem (NULL);
-    if(p->hardcodedProblem.length() ==0 ) {
-        problem = ParserSelector::loadProblem(p->problemName, *p);
-    } else {
-        cout << "Unknown hard coded problem type : " << p->hardcodedProblem << endl;
-        exit(0);
-    }
-
+    Problem problem = ParserSelector::loadProblem(p->problemName, *p);
     double pomdpLoadTime = GlobalResource::getInstance()->PBSolverPostPOMDPLoad();
     printf("  loading time : %.2fs \n", pomdpLoadTime);
     GlobalResource::getInstance()->problem = problem;
 
     // Initialize the solver
-    SARSOP* sarsopSolver = NULL;
+    SARSOP* sarsopSolver = new SARSOP(problem, p);
+
+    // Initialize the solvers bounds
     BackupAlphaPlaneMOMDP* lbBackup = new BackupAlphaPlaneMOMDP();
     BackupBeliefValuePairMOMDP* ubBackup = new BackupBeliefValuePairMOMDP();
-
-    sarsopSolver = new SARSOP(problem, p);
-
     lbBackup->problem = problem;
     sarsopSolver->lowerBoundBackup = lbBackup;
-
     ((BackupAlphaPlaneMOMDP* )(sarsopSolver->lowerBoundBackup))->solver = sarsopSolver;
-
     ubBackup->problem = problem;
     sarsopSolver->upperBoundBackup = ubBackup;
 
@@ -78,112 +55,90 @@ int main(int argc, char **argv) {
     policy->load(sarsopSolver->getPolicy());
 
     if (p->useLookahead) {
-        cout<<"   action selection : one-step look ahead\n";
+        cout<<"   action selection : one-step look ahead" << endl << endl;
     }
 
     // Initialize controller
     Controller control(problem, policy, p, -1);
 
-    cout << "\nInitialized the controller\n";
-    cout << "\nEnter number of the observation or any character to exit."<<endl<<endl;
-    cout << "Initial belief: " << (*(control.currBelief())->bvec).ToString() << endl << endl;
-
-    int num, nitems, action;
-    short counter = 0;
+    cout << "Initialized the controller" << endl;
+    cout << "Enter number of the observation or any character to exit." << endl << endl;
 
     // Initialize feedback processor
     FeedbackProcessor *fp = new FeedbackProcessor(problem);
 
-    // Give first observation as dummy observation - to begin the process
-    control.nextAction(0, 0);
+    // Action and observation vars
+    int action = -1;
+    int observation = -1;
 
-    // Run controller until it is exited with 'break'
+    // Give first observation as dummy observation - to begin the process
+    action = control.nextAction(0, 0);
+
+    // Run process
     while (true) {
 
-        // Print possible observations
-        cout << "### grabCup=0 grabMilk=1 grabCoffee=2 putbackCup=3 putbackMilk=4 putbackCoff=5 done=6 negative=7 ### ";
+		printLine();
+		printPossibleObservations();
 
-        nitems = scanf("%d", &num);
-        if (nitems == EOF) {
-            cout <<"\n\nExiting...\n";
-            break;
-        } else if (nitems == 0) {
-            cout <<"\n\nExiting...\n";
-            break;
-        } else {
+		observation = askForObservation();
 
-            // Print name for given observation
-            cout << endl << "OBSERVATION  : " << lookupObservation(num) << endl;
+		if (observation < 0 || observation > 7) {
+			cout << "Invalid observation. Stop." << endl;
+			break;
+		}
 
-            // Check if given input is a normal observation or negative feedback
-            if (num == 7) {
+		cout << "BELIEF w/o  O: " << (*(control.currBelief())->bvec).ToString() << endl;
+		cout << "OBSERVATION  : " << Obs::ObsNames[observation] << endl;
 
-                // Handle negative feedback
-                cout << "Last action  : " << lookupAction(action) << endl;
-                cout << "Beliefs      : " << (*(control.currBelief())->bvec).ToString() << endl;
+		if (observation != Obs::NEGATIVE) {
 
-                // Create feedback object
-                Feedback fb = Feedback(control.currBelief(), action, Feedback::NEGATIVE, 0.01);
-                cout << "fb: " << fb.toString() << endl;
+			// NORMAL OBSERVATION
+			action = control.nextAction(observation, 0);
+			cout << "CHOSEN ACTION: " << Actions::ActionNames[action] << endl;
 
-                // Apply reward changes calculated from feedback to problem
-                fp->applyRewardChanges(fp->getRewardChangesForFeedback(fb));
+		} else {
 
-                // Recalculate the policy and load it
-                sarsopSolver->solve(problem);
-                policy->load(sarsopSolver->getPolicy());
+			// NEGATIVE OBSERVATION
+			cout << "LAST ACTION  : " << Actions::ActionNames[action] << endl;
 
-                counter = 0;
+			// Create feedback object
+			Feedback fb = Feedback(control.currBelief(), action, Feedback::NEGATIVE, 0.01);
+			cout << "fb: " << fb.toString() << endl;
 
-            } else {
+			// Apply reward changes calculated from feedback to problem
+			fp->applyRewardChanges(fp->getRewardChangesForFeedback(fb));
 
-                // Normal observation
-                /*
-                counter++;
-                cout << "counter=" << counter << endl;
+			// Recalculate the policy and load it
+			sarsopSolver->solve(problem);
+			policy->load(sarsopSolver->getPolicy());
+		}
+	}
 
-                Feedback fb = Feedback(control.currBelief(), action, Feedback::POSITIVE, 0.01);
-                cout << "fb: " << fb.toString() << endl;
-
-                fp->applyRewardChanges(fp->getRewardChangesForFeedback(fb));
-
-                if ((counter % 10) == 0) {
-                    cout << "counter is " << counter << " - recalculate policy!" << endl;
-
-                    // Recalculate the policy and load it
-                    sarsopSolver->solve(problem);
-                    policy->load(sarsopSolver->getPolicy());
-
-                    counter = 0;
-                }
-
-                */
-
-                cout << "BELIEF BEFORE: " << (*(control.currBelief())->bvec).ToString() << endl;
-                action = control.nextAction(num, 0);
-                cout << "CHOSEN ACTION: " << lookupAction(action) << endl << endl;
-            }
-        }
-    }
-
-    // Save the improvements to the filesystem
+    // Save the reward changes
     if (fp->hasRewardChanges()) {
 
+    	// Get all reward changes from feedback processor
         vector<RewardChange> rewardChangesInUse = fp->getRewardChangesInUse();
 
-        cout << "RewardChanges in use:" << endl;
+        // Print all reward changes
+        printRewardChangesInUse(rewardChangesInUse);
 
-        vector<RewardChange>::iterator it;
-
-        for(it = rewardChangesInUse.begin(); it != rewardChangesInUse.end(); ++it) {
-            cout << it->toString() << endl;
-        }
-
-        // Write all improvements to the pomdpx file
+        // Apply all reward changes to the pomdpx file
         writeRewardChangesToFile(p->problemName, rewardChangesInUse);
     }
 
     return 0;
+}
+
+void printRewardChangesInUse(vector<RewardChange> rewardChanges) {
+
+	cout << "RewardChanges in use:" << endl;
+
+	vector<RewardChange>::iterator it;
+
+	for(it = rewardChanges.begin(); it != rewardChanges.end(); ++it) {
+		cout << it->toString() << endl;
+	}
 }
 
 void writeRewardChangesToFile(string filename, vector<RewardChange> rewardChanges) {
@@ -234,93 +189,39 @@ void writeRewardChangesToFile(string filename, vector<RewardChange> rewardChange
     doc.SaveFile(filename.append("_new.pomdpx").c_str());
 }
 
-string lookupAction(int action) {
+int askForObservation() {
 
-    string returnval;
+	int observation;
 
-    /*
-    reachCup        #0
-    addMilk         #1
-    addCoffee       #2
-    putbackCup      #3
-    putbackMilk     #4
-    putbackCoff     #5
-    wait            #6
-    */
+	cout << "Observation=";
 
-    switch (action) {
-
-    case 0:
-        returnval = "reachCup";
-        break;
-    case 1:
-        returnval = "addMilk";
-        break;
-    case 2:
-        returnval = "addCoffee";
-        break;
-    case 3:
-        returnval = "putbackCup";
-        break;
-    case 4:
-        returnval = "putbackMilk";
-        break;
-    case 5:
-        returnval = "putbackCoff";
-        break;
-    case 6:
-        returnval = "wait";
-        break;
-    default:
-        returnval = "Invalid action number!";
-    }
-
-    return returnval;
+	int nitems = scanf("%d", &observation);
+	if (nitems == EOF) {
+		cout << "EOF!" << endl;
+		return -1;
+	} else if (nitems == 0) {
+		cout << "zero!" << endl;
+		return -1;
+	} else {
+		return observation;
+	}
 }
 
-string lookupObservation(int observation) {
+void printLine() {
+	cout << "----------------------------------------------------------------------------------------------------" << endl;
+	//       ### grabCup=0 grabMilk=1 grabCoffee=2 putbackCup=3 putbackMilk=4 putbackCoff=5 done=6 NEGATIVE=7 ###
+}
 
-    string returnval;
+void printPossibleObservations() {
 
-    /*
-	grabCup			#0
-	grabMilk		#1
-	grabCoffee		#2
-	putbackCup		#3
-	putbackMilk		#4
-	putbackCoff		#5
-	done			#6
-    */
+	cout << "### ";
+	int numberOfEntries = sizeof(Obs::ObsNames)/sizeof(const char*);
 
-    switch (observation) {
+	int i =0;
+	while (i < numberOfEntries) {
+		cout << Obs::ObsNames[i] << "=" << i << " ";
+		i++;
+	}
 
-    case 0:
-        returnval = "grabCup";
-        break;
-    case 1:
-        returnval = "grabMilk";
-        break;
-    case 2:
-        returnval = "grabCoffee";
-        break;
-    case 3:
-        returnval = "putbackCup";
-        break;
-    case 4:
-        returnval = "putbackMilk";
-        break;
-    case 5:
-        returnval = "putbackCoff";
-        break;
-    case 6:
-        returnval = "done";
-        break;
-    case 7:
-        returnval = "NEGATIVE";
-        break;
-    default:
-        returnval = "Invalid observation number!";
-    }
-
-    return returnval;
+	cout << "###" << endl;
 }

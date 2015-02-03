@@ -52,6 +52,52 @@ struct OutputParams {
 
 #include "tinyxml.h"
 
+namespace Actions {
+enum Actions {
+	reachCup        = 0,
+	addMilk         = 1,
+	addCoffee       = 2,
+	putbackCup      = 3,
+	putbackMilk     = 4,
+	putbackCoff     = 5,
+	wait            = 6
+};
+
+static const char* ActionNames[7] = {
+	"reachCup",
+	"addMilk",
+	"addCoffee",
+	"putbackCup",
+	"putbackMilk",
+	"putbackCoff",
+	"wait"
+};}
+
+namespace Obs{
+enum Obs {
+	grabCup			= 0,
+	grabMilk		= 1,
+	grabCoffee		= 2,
+	putbackCup		= 3,
+	putbackMilk		= 4,
+	putbackCoff		= 5,
+	done			= 6,
+	NEGATIVE        = 7
+};
+
+static const char* ObsNames[8] = {
+	"grabCup",
+	"grabMilk",
+	"grabCoffee",
+	"putbackCup",
+	"putbackMilk",
+	"putbackCoff",
+	"done",
+	"NEGATIVE"
+};}
+
 void writeRewardChangesToFile(string filename, vector<RewardChange> rewardChanges);
-string lookupAction(int);
-string lookupObservation(int);
+int askForObservation();
+void printPossibleObservations();
+void printRewardChangesInUse(vector<RewardChange> rewardChanges);
+void printLine();
