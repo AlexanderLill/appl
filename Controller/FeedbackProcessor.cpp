@@ -45,7 +45,7 @@ vector<RewardChange> FeedbackProcessor::calculateRewardChanges_simple(Feedback f
                                        oldReward, newReward,
                                        feedback.getID());
 
-        cout << "Created new RewardChange: " << rc.toString();
+        cout << "Created new RewardChange: " << rc.toString() << endl;
 
         // Put reward change in the list of reward changes
         rewardChanges.push_back(rc);
@@ -121,6 +121,8 @@ vector<RewardChange> FeedbackProcessor::calculateRewardChanges_enhanced(Feedback
             RewardChange rc = RewardChange(state, it - rewards.begin(),
                                            oldActionReward, newActionReward,
                                            feedback.getID());
+
+			cout << "Created new RewardChange: " << rc.toString() << endl;
 
             // Put reward change in the list of reward changes
             rewardChanges.push_back(rc);
