@@ -7,6 +7,9 @@
 #ifndef Controller_H
 #define Controller_H
 
+#include <vector>
+#include "MOMDP.h"
+
 // Some macros to adapt the Interface
 #define ActionDefine int const
 #define ObsDefine int const
@@ -14,8 +17,6 @@
 #define Problem SharedPointer<MOMDP>
 #define Policy SharedPointer<AlphaVectorPolicy>
 
-#include <vector>
-#include "MOMDP.h"
 #include "ControllerInterface.h"
 
 namespace momdp
