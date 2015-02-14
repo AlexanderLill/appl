@@ -38,6 +38,9 @@ int main(int argc, char **argv) {
     // Initialize the solver
     SARSOP* sarsopSolver = new SARSOP(problem, p);
 
+    // Switch on randomization
+    p->randomizationBP = true;
+
     // Initialize the solvers bounds
     BackupAlphaPlaneMOMDP* lbBackup = new BackupAlphaPlaneMOMDP();
     BackupBeliefValuePairMOMDP* ubBackup = new BackupBeliefValuePairMOMDP();
@@ -102,7 +105,7 @@ int main(int argc, char **argv) {
 			cout << "LAST ACTION  : " << Actions::ActionNames[action] << endl;
 
 			// Create feedback object
-			Feedback fb = Feedback(control.currBelief(), action, Feedback::NEGATIVE, 0.01);
+			Feedback fb = Feedback(control.currBelief(), action, Feedback::NEGATIVE, 0.05);
 			cout << "fb: " << fb.toString() << endl;
 
 			// Apply reward changes calculated from feedback to problem
