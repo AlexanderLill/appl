@@ -132,17 +132,6 @@ vector<RewardChange> FeedbackProcessor::calculateRewardChanges_enhanced(Feedback
     return rewardChanges;
 }
 
-void FeedbackProcessor::applyRewardChanges(vector<RewardChange> rewardChanges)
-{
-    // Loop var
-    vector<RewardChange>::iterator  vi;
-
-    // Iterate over all reward changes
-    for (vi = rewardChanges.begin(); vi != rewardChanges.end(); ++vi) {
-        applyRewardChange(*vi);
-    }
-}
-
 void FeedbackProcessor::applyRewardChange(RewardChange rewardChange)
 {
     // Change value in reward matrix
@@ -155,6 +144,17 @@ void FeedbackProcessor::applyRewardChange(RewardChange rewardChange)
 
     // Put reward change in list of all applied reward changes
     rewardChangesHistory.push_back(rewardChange);
+}
+
+void FeedbackProcessor::applyRewardChanges(vector<RewardChange> rewardChanges)
+{
+    // Loop var
+    vector<RewardChange>::iterator  vi;
+
+    // Iterate over all reward changes
+    for (vi = rewardChanges.begin(); vi != rewardChanges.end(); ++vi) {
+        applyRewardChange(*vi);
+    }
 }
 
 bool FeedbackProcessor::hasRewardChanges()

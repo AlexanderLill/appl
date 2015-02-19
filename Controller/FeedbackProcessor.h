@@ -20,8 +20,8 @@ public:
     FeedbackProcessor(Problem problem);
 
     vector<RewardChange> getRewardChangesForFeedback(Feedback feedback);
-    void applyRewardChanges(vector<RewardChange> rewardChanges);
     void applyRewardChange(RewardChange rewardChange);
+    void applyRewardChanges(vector<RewardChange> rewardChanges);
 
     bool hasRewardChanges();
     vector<RewardChange> getRewardChangesInUse();
