@@ -35,11 +35,14 @@ int main(int argc, char **argv) {
     printf("  loading time : %.2fs \n", pomdpLoadTime);
     GlobalResource::getInstance()->problem = problem;
 
-    // Initialize the solver
-    SARSOP* sarsopSolver = new SARSOP(problem, p);
-
     // Switch on randomization
     p->randomizationBP = true;
+
+    // Set calculation timeout
+    p->timeoutSeconds = 2;
+
+    // Initialize the solver
+    SARSOP* sarsopSolver = new SARSOP(problem, p);
 
     // Initialize the solvers bounds
     BackupAlphaPlaneMOMDP* lbBackup = new BackupAlphaPlaneMOMDP();
@@ -101,7 +104,7 @@ int main(int argc, char **argv) {
 
 		} else {
 
-			// NEGATIVE OBSERVATION
+			// NEGATIVE FEEDBACK
 			cout << "LAST ACTION  : " << Actions::ActionNames[action] << endl;
 
 			// Create feedback object
@@ -126,8 +129,8 @@ int main(int argc, char **argv) {
         // Print all reward changes
         printRewardChangesInUse(rewardChangesInUse);
 
-        // Apply all reward changes to the pomdpx file
-        writeRewardChangesToFile(p->problemName, rewardChangesInUse);
+        // Save improved model to file system
+        writeRewardChangesToFile(p->problemName, p->problemBasenameWithPath + "_improved.pomdpx", rewardChangesInUse);
     }
 
     return 0;
@@ -144,9 +147,9 @@ void printRewardChangesInUse(vector<RewardChange> rewardChanges) {
 	}
 }
 
-void writeRewardChangesToFile(string filename, vector<RewardChange> rewardChanges) {
+void writeRewardChangesToFile(string sourceFile, string destFile, vector<RewardChange> rewardChanges) {
 
-    TiXmlDocument doc(filename.c_str());
+    TiXmlDocument doc(sourceFile.c_str());
 
     TiXmlHandle hDoc(&doc); // the handler
     bool loadOkay = doc.LoadFile();
@@ -189,7 +192,7 @@ void writeRewardChangesToFile(string filename, vector<RewardChange> rewardChange
         }
     }
 
-    doc.SaveFile(filename.append("_new.pomdpx").c_str());
+    doc.SaveFile(destFile.c_str());
 }
 
 int askForObservation() {

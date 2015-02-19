@@ -46,7 +46,7 @@ int Feedback::getID()
 string Feedback::toString()
 {
     ostringstream ss;
-    ss << "Feedback #" << id
+    ss << "Feedback - ID: " << id
        << " - belief: " << belief->bvec->ToString()
        << " - action: " << action
        << " - type: " << type

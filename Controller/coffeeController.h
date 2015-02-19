@@ -96,7 +96,7 @@ static const char* ObsNames[8] = {
 	"NEGATIVE"
 };}
 
-void writeRewardChangesToFile(string filename, vector<RewardChange> rewardChanges);
+void writeRewardChangesToFile(string sourceFile, string destFile, vector<RewardChange> rewardChanges);
 int askForObservation();
 void printPossibleObservations();
 void printRewardChangesInUse(vector<RewardChange> rewardChanges);
