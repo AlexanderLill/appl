@@ -1,0 +1,529 @@
+discount:
+	0.95
+
+
+values:
+	reward
+
+
+states:
+	ST		#  0	Start
+	L0		#  1
+	L1		#  2
+	L2		#  3
+	L3		#  4
+	L4		#  5
+	R0		#  6
+	R1		#  7
+	R2		#  8
+	M1		#  9
+	M2		# 10
+	M3		# 11
+	M4		# 12
+	F1		# 13
+	F2		# 14
+	U0		# 15
+	DE		# 16	Destination
+	ER		# 17	Error
+
+
+actions:
+	reachCup		# 0
+	addMilk			# 1
+	addCoffee		# 2
+	putbackCup		# 3
+	putbackMilk		# 4
+	putbackCoff		# 5
+	wait			# 6
+
+
+observations:
+	grabCup			# 0
+	grabMilk		# 1
+	grabCoffee		# 2
+	putbackCup		# 3
+	putbackMilk		# 4
+	putbackCoff		# 5
+	done			# 6
+
+
+start:
+	ST
+
+
+########################################
+# State Transitions
+#
+#	Probability of ending in end-state B with start-state A and action Z
+#
+#	ACTION		START-STATE	END-STATE	PROBABILITY
+#
+
+T : reachCup	: ST		: ST		1.00
+T : addMilk		: ST		: ST		1.00
+T : addCoffee	: ST		: ST		1.00
+T : putbackCup	: ST		: ST		1.00
+T : putbackMilk	: ST		: ST		1.00
+T : putbackCoff	: ST		: ST		1.00
+T : wait		: ST		: L0		0.30
+T : wait		: ST		: R0		0.60
+T : wait		: ST		: ER		0.10
+
+T : reachCup	: L0		: ER		1.00
+T : addMilk		: L0		: L2		0.90
+T : addMilk		: L0		: ER		0.10
+T : addCoffee	: L0		: L1		0.90
+T : addCoffee	: L0		: ER		0.10
+T : putbackCup	: L0		: ER		1.00
+T : putbackMilk	: L0		: ER		1.00
+T : putbackCoff	: L0		: ER		1.00
+T : wait		: L0		: ER		1.00
+
+T : reachCup	: L1		: ER		1.00
+T : addMilk		: L1		: ER		1.00
+T : addCoffee	: L1		: ER		1.00
+T : putbackCup	: L1		: ER		1.00
+T : putbackMilk	: L1		: ER		1.00
+T : putbackCoff	: L1		: L3		0.45
+T : putbackCoff	: L1		: M1		0.45
+T : putbackCoff	: L1		: ER		0.10
+T : wait		: L1		: ER		1.00
+
+T : reachCup	: L2		: ER		1.00
+T : addMilk		: L2		: ER		1.00
+T : addCoffee	: L2		: ER		1.00
+T : putbackCup	: L2		: ER		1.00
+T : putbackMilk	: L2		: L4		0.45
+T : putbackMilk	: L2		: M2		0.45
+T : putbackMilk	: L2		: ER		0.10
+T : putbackCoff	: L2		: ER		1.00
+T : wait		: L2		: ER		1.00
+
+T : reachCup	: L3		: ER		1.00
+T : addMilk		: L3		: ER		1.00
+T : addCoffee	: L3		: ER		1.00
+T : putbackCup	: L3		: ER		1.00
+T : putbackMilk	: L3		: ER		1.00
+T : putbackCoff	: L3		: ER		1.00
+T : wait		: L3		: M1		0.45
+T : wait		: L3		: F1		0.45
+T : wait		: L3		: ER		0.10
+
+T : reachCup	: L4		: ER		1.00
+T : addMilk		: L4		: ER		1.00
+T : addCoffee	: L4		: ER		1.00
+T : putbackCup	: L4		: ER		1.00
+T : putbackMilk	: L4		: ER		1.00
+T : putbackCoff	: L4		: ER		1.00
+T : wait		: L4		: M2		0.45
+T : wait		: L4		: F2		0.45
+T : wait		: L4		: ER		0.10
+
+T : reachCup	: R0		: R1		0.45
+T : reachCup	: R0		: R2		0.45
+T : reachCup	: R0		: ER		0.10
+T : addMilk		: R0		: ER		1.00
+T : addCoffee	: R0		: ER		1.00
+T : putbackCup	: R0		: ER		1.00
+T : putbackMilk	: R0		: ER		1.00
+T : putbackCoff	: R0		: ER		1.00
+T : wait		: R0		: ER		1.00
+
+T : reachCup	: R1		: ER		1.00
+T : addMilk		: R1		: ER		1.00
+T : addCoffee	: R1		: ER		1.00
+T : putbackCup	: R1		: M1		0.45
+T : putbackCup	: R1		: F1		0.45
+T : putbackCup	: R1		: ER		0.10
+T : putbackMilk	: R1		: ER		1.00
+T : putbackCoff	: R1		: ER		1.00
+T : wait		: R1		: ER		1.00
+
+T : reachCup	: R2		: ER		1.00
+T : addMilk		: R2		: ER		1.00
+T : addCoffee	: R2		: ER		1.00
+T : putbackCup	: R2		: M2		0.45
+T : putbackCup	: R2		: F2		0.45
+T : putbackCup	: R2		: ER		0.10
+T : putbackMilk	: R2		: ER		1.00
+T : putbackCoff	: R2		: ER		1.00
+T : wait		: R2		: ER		1.00
+
+T : reachCup	: M1		: ER		1.00
+T : addMilk		: M1		: M3		0.90
+T : addMilk		: M1		: ER		0.10
+T : addCoffee	: M1		: ER		1.00
+T : putbackCup	: M1		: ER		1.00
+T : putbackMilk	: M1		: ER		1.00
+T : putbackCoff	: M1		: ER		1.00
+T : wait		: M1		: ER		1.00
+
+T : reachCup	: M2		: ER		1.00
+T : addMilk		: M2		: ER		1.00
+T : addCoffee	: M2		: M4		0.90
+T : addCoffee	: M2		: ER		0.10
+T : putbackCup	: M2		: ER		1.00
+T : putbackMilk	: M2		: ER		1.00
+T : putbackCoff	: M2		: ER		1.00
+T : wait		: M2		: ER		1.00
+
+T : reachCup	: M3		: ER		1.00
+T : addMilk		: M3		: ER		1.00
+T : addCoffee	: M3		: ER		1.00
+T : putbackCup	: M3		: ER		1.00
+T : putbackMilk	: M3		: DE		0.90
+T : putbackMilk	: M3		: ER		0.10
+T : putbackCoff	: M3		: ER		1.00
+T : wait		: M3		: ER		1.00
+
+T : reachCup	: M4		: ER		1.00
+T : addMilk		: M4		: ER		1.00
+T : addCoffee	: M4		: ER		1.00
+T : putbackCup	: M4		: ER		1.00
+T : putbackMilk	: M4		: ER		1.00
+T : putbackCoff	: M4		: DE		0.90
+T : putbackCoff	: M4		: ER		0.10
+T : wait		: M4		: ER		1.00
+
+T : reachCup	: F1		: U0		0.90
+T : reachCup	: F1		: ER		0.10
+T : addMilk		: F1		: ER		1.00
+T : addCoffee	: F1		: ER		1.00
+T : putbackCup	: F1		: ER		1.00
+T : putbackMilk	: F1		: ER		1.00
+T : putbackCoff	: F1		: ER		1.00
+T : wait		: F1		: ER		1.00
+
+T : reachCup	: F2		: U0		0.90
+T : reachCup	: F2		: ER		0.10
+T : addMilk		: F2		: ER		1.00
+T : addCoffee	: F2		: ER		1.00
+T : putbackCup	: F2		: ER		1.00
+T : putbackMilk	: F2		: ER		1.00
+T : putbackCoff	: F2		: ER		1.00
+T : wait		: F2		: ER		1.00
+
+T : reachCup	: U0		: ER		1.00
+T : addMilk		: U0		: ER		1.00
+T : addCoffee	: U0		: ER		1.00
+T : putbackCup	: U0		: DE		1.00 #obs_ALL
+T : putbackMilk	: U0		: ER		1.00
+T : putbackCoff	: U0		: ER		1.00
+T : wait		: U0		: ER		1.00
+
+T : reachCup	: DE		: ER		1.00
+T : addMilk		: DE		: ER		1.00
+T : addCoffee	: DE		: ER		1.00
+T : putbackCup	: DE		: ER		1.00
+T : putbackMilk	: DE		: ER		1.00
+T : putbackCoff	: DE		: ER		1.00
+T : wait		: DE		: ST		1.00
+
+T : reachCup	: ER		: ER		1.00
+T : addMilk		: ER		: ER		1.00
+T : addCoffee	: ER		: ER		1.00
+T : putbackCup	: ER		: ER		1.00
+T : putbackMilk	: ER		: ER		1.00
+T : putbackCoff	: ER		: ER		1.00
+T : wait		: ER		: ER		1.00
+
+
+########################################
+# Observation Probabilities
+#
+#	Probability of oberserving O after taking action A and ending in state S
+#
+#	ACTION		STATE	OBSERVATION		PROBABILITY
+#
+
+O : reachCup	: ST	uniform
+O : addMilk		: ST	uniform
+O : addCoffee	: ST	uniform
+O : putbackCup	: ST	uniform
+O : putbackMilk	: ST	uniform
+O : putbackCoff	: ST	uniform
+O : wait		: ST	uniform
+
+O : reachCup	: L0	uniform
+O : addMilk		: L0	uniform
+O : addCoffee	: L0	uniform
+O : putbackCup	: L0	uniform
+O : putbackMilk	: L0	uniform
+O : putbackCoff	: L0	uniform
+O : wait		: L0	: grabCup		0.88
+O : wait		: L0	: grabMilk		0.02
+O : wait		: L0	: grabCoffee	0.02
+O : wait		: L0	: putbackCup	0.02
+O : wait		: L0	: putbackMilk	0.02
+O : wait		: L0	: putbackCoff	0.02
+O : wait		: L0	: done			0.02
+
+O : reachCup	: L1	uniform
+O : addMilk		: L1	uniform
+O : addCoffee	: L1	: grabCup		0.02
+O : addCoffee	: L1	: grabMilk		0.02
+O : addCoffee	: L1	: grabCoffee	0.02
+O : addCoffee	: L1	: putbackCup	0.02
+O : addCoffee	: L1	: putbackMilk	0.02
+O : addCoffee	: L1	: putbackCoff	0.02
+O : addCoffee	: L1	: done			0.88
+O : putbackCup	: L1	uniform
+O : putbackMilk	: L1	uniform
+O : putbackCoff	: L1	uniform
+O : wait		: L1	uniform
+
+O : reachCup	: L2	uniform
+O : addMilk		: L2	: grabCup		0.02
+O : addMilk		: L2	: grabMilk		0.02
+O : addMilk		: L2	: grabCoffee	0.02
+O : addMilk		: L2	: putbackCup	0.02
+O : addMilk		: L2	: putbackMilk	0.02
+O : addMilk		: L2	: putbackCoff	0.02
+O : addMilk		: L2	: done			0.88
+O : addCoffee	: L2	uniform
+O : putbackCup	: L2	uniform
+O : putbackMilk	: L2	uniform
+O : putbackCoff	: L2	uniform
+O : wait		: L2	uniform
+
+O : reachCup	: L3	uniform
+O : addMilk		: L3	uniform
+O : addCoffee	: L3	uniform
+O : putbackCup	: L3	uniform
+O : putbackMilk	: L3	uniform
+O : putbackCoff	: L3	: grabCup		0.02
+O : putbackCoff	: L3	: grabMilk		0.02
+O : putbackCoff	: L3	: grabCoffee	0.02
+O : putbackCoff	: L3	: putbackCup	0.88
+O : putbackCoff	: L3	: putbackMilk	0.02
+O : putbackCoff	: L3	: putbackCoff	0.02
+O : putbackCoff	: L3	: done			0.02
+O : wait		: L3	uniform
+
+O : reachCup	: L4	uniform
+O : addMilk		: L4	uniform
+O : addCoffee	: L4	uniform
+O : putbackCup	: L4	uniform
+O : putbackMilk	: L4	: grabCup		0.02
+O : putbackMilk	: L4	: grabMilk		0.02
+O : putbackMilk	: L4	: grabCoffee	0.02
+O : putbackMilk	: L4	: putbackCup	0.88
+O : putbackMilk	: L4	: putbackMilk	0.02
+O : putbackMilk	: L4	: putbackCoff	0.02
+O : putbackMilk	: L4	: done			0.02
+O : putbackCoff	: L4	uniform
+O : wait		: L4	uniform
+
+O : reachCup	: R0	uniform
+O : addMilk		: R0	uniform
+O : addCoffee	: R0	uniform
+O : putbackCup	: R0	uniform
+O : putbackMilk	: R0	uniform
+O : putbackCoff	: R0	uniform
+O : wait		: R0	: grabCup		0.02
+O : wait		: R0	: grabMilk		0.45
+O : wait		: R0	: grabCoffee	0.45
+O : wait		: R0	: putbackCup	0.02
+O : wait		: R0	: putbackMilk	0.02
+O : wait		: R0	: putbackCoff	0.02
+O : wait		: R0	: done			0.02
+
+O : reachCup	: R1	: grabCup		0.02
+O : reachCup	: R1	: grabMilk		0.02
+O : reachCup	: R1	: grabCoffee	0.02
+O : reachCup	: R1	: putbackCup	0.02
+O : reachCup	: R1	: putbackMilk	0.02
+O : reachCup	: R1	: putbackCoff	0.88
+O : reachCup	: R1	: done			0.02
+O : addMilk		: R1	uniform
+O : addCoffee	: R1	uniform
+O : putbackCup	: R1	uniform
+O : putbackMilk	: R1	uniform
+O : putbackCoff	: R1	uniform
+O : wait		: R1	uniform
+
+O : reachCup	: R2	: grabCup		0.02
+O : reachCup	: R2	: grabMilk		0.02
+O : reachCup	: R2	: grabCoffee	0.02
+O : reachCup	: R2	: putbackCup	0.02
+O : reachCup	: R2	: putbackMilk	0.88
+O : reachCup	: R2	: putbackCoff	0.02
+O : reachCup	: R2	: done			0.02
+O : addMilk		: R2	uniform
+O : addCoffee	: R2	uniform
+O : putbackCup	: R2	uniform
+O : putbackMilk	: R2	uniform
+O : putbackCoff	: R2	uniform
+O : wait		: R2	uniform
+
+O : reachCup	: M1	uniform
+O : addMilk		: M1	uniform
+O : addCoffee	: M1	uniform
+O : putbackCup	: M1	: grabCup		0.88
+O : putbackCup	: M1	: grabMilk		0.02
+O : putbackCup	: M1	: grabCoffee	0.02
+O : putbackCup	: M1	: putbackCup	0.02
+O : putbackCup	: M1	: putbackMilk	0.02
+O : putbackCup	: M1	: putbackCoff	0.02
+O : putbackCup	: M1	: done			0.02
+O : putbackMilk	: M1	uniform
+O : putbackCoff	: M1	: grabCup		0.45
+O : putbackCoff	: M1	: grabMilk		0.02
+O : putbackCoff	: M1	: grabCoffee	0.02
+O : putbackCoff	: M1	: putbackCup	0.02
+O : putbackCoff	: M1	: putbackMilk	0.02
+O : putbackCoff	: M1	: putbackCoff	0.02
+O : putbackCoff	: M1	: done			0.45
+O : wait		: M1	: grabCup		0.88
+O : wait		: M1	: grabMilk		0.02
+O : wait		: M1	: grabCoffee	0.02
+O : wait		: M1	: putbackCup	0.02
+O : wait		: M1	: putbackMilk	0.02
+O : wait		: M1	: putbackCoff	0.02
+O : wait		: M1	: done			0.02
+
+O : reachCup	: M2	uniform
+O : addMilk		: M2	uniform
+O : addCoffee	: M2	uniform
+O : putbackCup	: M2	: grabCup		0.88
+O : putbackCup	: M2	: grabMilk		0.02
+O : putbackCup	: M2	: grabCoffee	0.02
+O : putbackCup	: M2	: putbackCup	0.02
+O : putbackCup	: M2	: putbackMilk	0.02
+O : putbackCup	: M2	: putbackCoff	0.02
+O : putbackCup	: M2	: done			0.02
+O : putbackMilk	: M2	: grabCup		0.45
+O : putbackMilk	: M2	: grabMilk		0.02
+O : putbackMilk	: M2	: grabCoffee	0.02
+O : putbackMilk	: M2	: putbackCup	0.02
+O : putbackMilk	: M2	: putbackMilk	0.02
+O : putbackMilk	: M2	: putbackCoff	0.02
+O : putbackMilk	: M2	: done			0.45
+O : putbackCoff	: M2	uniform
+O : wait		: M2	: grabCup		0.88
+O : wait		: M2	: grabMilk		0.02
+O : wait		: M2	: grabCoffee	0.02
+O : wait		: M2	: putbackCup	0.02
+O : wait		: M2	: putbackMilk	0.02
+O : wait		: M2	: putbackCoff	0.02
+O : wait		: M2	: done			0.02
+
+O : reachCup	: M3	uniform
+O : addMilk		: M3	: grabCup		0.02
+O : addMilk		: M3	: grabMilk		0.02
+O : addMilk		: M3	: grabCoffee	0.02
+O : addMilk		: M3	: putbackCup	0.02
+O : addMilk		: M3	: putbackMilk	0.02
+O : addMilk		: M3	: putbackCoff	0.02
+O : addMilk		: M3	: done			0.88
+O : addCoffee	: M3	uniform
+O : putbackCup	: M3	uniform
+O : putbackMilk	: M3	uniform
+O : putbackCoff	: M3	uniform
+O : wait		: M3	uniform
+
+O : reachCup	: M4	uniform
+O : addMilk		: M4	uniform
+O : addCoffee	: M4	: grabCup		0.02
+O : addCoffee	: M4	: grabMilk		0.02
+O : addCoffee	: M4	: grabCoffee	0.02
+O : addCoffee	: M4	: putbackCup	0.02
+O : addCoffee	: M4	: putbackMilk	0.02
+O : addCoffee	: M4	: putbackCoff	0.02
+O : addCoffee	: M4	: done			0.88
+O : putbackCup	: M4	uniform
+O : putbackMilk	: M4	uniform
+O : putbackCoff	: M4	uniform
+O : wait		: M4	uniform
+
+O : reachCup	: F1	uniform
+O : addMilk		: F1	uniform
+O : addCoffee	: F1	uniform
+O : putbackCup	: F1	: grabCup		0.02
+O : putbackCup	: F1	: grabMilk		0.88
+O : putbackCup	: F1	: grabCoffee	0.02
+O : putbackCup	: F1	: putbackCup	0.02
+O : putbackCup	: F1	: putbackMilk	0.02
+O : putbackCup	: F1	: putbackCoff	0.02
+O : putbackCup	: F1	: done			0.02
+O : putbackMilk	: F1	uniform
+O : putbackCoff	: F1	uniform
+O : wait		: F1	: grabCup		0.02
+O : wait		: F1	: grabMilk		0.88
+O : wait		: F1	: grabCoffee	0.02
+O : wait		: F1	: putbackCup	0.02
+O : wait		: F1	: putbackMilk	0.02
+O : wait		: F1	: putbackCoff	0.02
+O : wait		: F1	: done			0.02
+
+O : reachCup	: F2	uniform
+O : addMilk		: F2	uniform
+O : addCoffee	: F2	uniform
+O : putbackCup	: F2	: grabCup		0.02
+O : putbackCup	: F2	: grabMilk		0.02
+O : putbackCup	: F2	: grabCoffee	0.88
+O : putbackCup	: F2	: putbackCup	0.02
+O : putbackCup	: F2	: putbackMilk	0.02
+O : putbackCup	: F2	: putbackCoff	0.02
+O : putbackCup	: F2	: done			0.02
+O : putbackMilk	: F2	uniform
+O : putbackCoff	: F2	uniform
+O : wait		: F2	: grabCup		0.02
+O : wait		: F2	: grabMilk		0.02
+O : wait		: F2	: grabCoffee	0.88
+O : wait		: F2	: putbackCup	0.02
+O : wait		: F2	: putbackMilk	0.02
+O : wait		: F2	: putbackCoff	0.02
+O : wait		: F2	: done			0.02
+
+O : reachCup	: U0	: grabCup		0.02
+O : reachCup	: U0	: grabMilk		0.02
+O : reachCup	: U0	: grabCoffee	0.02
+O : reachCup	: U0	: putbackCup	0.02
+O : reachCup	: U0	: putbackMilk	0.45
+O : reachCup	: U0	: putbackCoff	0.45
+O : reachCup	: U0	: done			0.02
+O : addMilk		: U0	uniform
+O : addCoffee	: U0	uniform
+O : putbackCup	: U0	uniform
+O : putbackMilk	: U0	uniform
+O : putbackCoff	: U0	uniform
+O : wait		: U0	uniform
+
+O : reachCup	: DE	uniform
+O : addMilk		: DE	uniform
+O : addCoffee	: DE	uniform
+O : putbackCup	: DE	uniform
+O : putbackMilk	: DE	: grabCup		0.02
+O : putbackMilk	: DE	: grabMilk		0.02
+O : putbackMilk	: DE	: grabCoffee	0.02
+O : putbackMilk	: DE	: putbackCup	0.88
+O : putbackMilk	: DE	: putbackMilk	0.02
+O : putbackMilk	: DE	: putbackCoff	0.02
+O : putbackMilk	: DE	: done			0.02
+O : putbackCoff	: DE	: grabCup		0.02
+O : putbackCoff	: DE	: grabMilk		0.02
+O : putbackCoff	: DE	: grabCoffee	0.02
+O : putbackCoff	: DE	: putbackCup	0.88
+O : putbackCoff	: DE	: putbackMilk	0.02
+O : putbackCoff	: DE	: putbackCoff	0.02
+O : putbackCoff	: DE	: done			0.02
+O : wait		: DE	uniform
+
+O : reachCup	: ER	uniform
+O : addMilk		: ER	uniform
+O : addCoffee	: ER	uniform
+O : putbackCup	: ER	uniform
+O : putbackMilk	: ER	uniform
+O : putbackCoff	: ER	uniform
+O : wait		: ER	uniform
+
+
+########################################
+# Rewards
+#
+#	ACTION		START-STATE	END-STATE	OBSERVATION	REWARD
+#
+
+R : *			: *			: *			: *			100
+R : *			: *			: DE		: *			200
